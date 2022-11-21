@@ -35,42 +35,35 @@ const CnPagination = defineComponent({
       }
     }
   },
-  setup({
-    current = 1,
-    pageSize = 20,
-    total = 0,
-    pageSizeOptions = [10, 20, 50, 100],
-    size = "default",
-    layout = "total, prev, pager, next, sizes, jumper",
-    background,
-    ...props
-  }) {
-    const onCurrentChange = (current2) => {
-      props.onChange(current2, pageSize);
+  setup(props) {
+    const onCurrentChange = (current) => {
+      props.onChange(current, props.pageSize);
     };
-    const onSizeChange = (pageSize2) => {
-      props.onChange(current, pageSize2);
+    const onSizeChange = (pageSize) => {
+      props.onChange(props.current, pageSize);
     };
-    return () => h("el-pagination", {
-      "class": "cn-data-catalog-table-pagination",
-      "attrs": {
-        "small": size === "small",
-        "background": background,
-        "current-page": current,
-        "pageSize": pageSize,
-        "total": total,
-        "showSizeChanger": true,
-        "pageSizes": pageSizeOptions,
-        "how-quick-jumper": true,
-        "layout": layout
-      },
-      "on": {
-        "sizeChange": onSizeChange,
-        "currentChange": onCurrentChange,
-        "prevClick": onCurrentChange,
-        "nextClick": onCurrentChange
-      }
-    });
+    return () => {
+      return h("el-pagination", {
+        "class": "cn-data-catalog-table-pagination",
+        "attrs": {
+          "small": props.size === "small",
+          "background": props.background,
+          "current-page": props.current,
+          "pageSize": props.pageSize,
+          "total": props.total,
+          "showSizeChanger": true,
+          "pageSizes": props.pageSizeOptions,
+          "how-quick-jumper": true,
+          "layout": props.layout
+        },
+        "on": {
+          "size-change": onSizeChange,
+          "current-change": onCurrentChange,
+          "prev-click": onCurrentChange,
+          "next-click": onCurrentChange
+        }
+      });
+    };
   }
 });
 export {

@@ -5,6 +5,18 @@ const _sfc_main = {
     FormItem: () => import("./form-item.js")
   },
   props: {
+    labelSuffix: {
+      type: String,
+      default: void 0
+    },
+    hideRequiredAsterisk: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     columns: {
       type: Number,
       default: 1
@@ -100,13 +112,18 @@ const _sfc_main = {
       return this.formModel[key];
     },
     setFieldValue(key, value) {
-      this.formModel[key] = value;
+      this.$set(
+        this.formModel,
+        key,
+        value
+      );
     },
     setFieldsValue(fields) {
-      this.formModel = {
-        ...this.formModel,
-        ...fields
-      };
+      if (typeof fields === "object") {
+        Object.keys(fields).forEach((key) => {
+          this.setFieldValue(key, fields[key]);
+        });
+      }
     },
     resetFields() {
       this.$refs["formRef"].resetFields();
@@ -123,7 +140,7 @@ var _sfc_render = function render() {
       "cn-form-block-container": _vm.layout === "block",
       [`cn-form-grid-columns-${_vm.columns}`]: _vm.layout === "grid"
     }
-  ] }, [_c("el-form", { ref: "formRef", attrs: { "inline": _vm.layout === "inline", "model": _vm.formModel, "rules": _vm.rules, "size": _vm.size, "label-width": `${_vm.labelWidth}px` } }, [_vm._l(_vm.data, function({
+  ] }, [_c("el-form", { ref: "formRef", attrs: { "inline": _vm.layout === "inline", "model": _vm.formModel, "rules": _vm.rules, "size": _vm.size, "label-width": `${_vm.labelWidth}px`, "label-suffix": _vm.labelSuffix, "hide-required-asterisk": _vm.hideRequiredAsterisk, "disabled": _vm.disabled } }, [_vm._l(_vm.data, function({
     name,
     title,
     placeholder,

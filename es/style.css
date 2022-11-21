@@ -91801,6 +91801,16 @@ html .zoom-leave-active {
   text-align: center;
 }
 
+html a {
+  color: #1890ff;
+  cursor: pointer;
+  text-decoration-line: none;
+}
+
+html a:hover {
+  color: #5db1ff;
+}
+
 .cn-tags-container {
   display: flex;
 }
@@ -91935,6 +91945,10 @@ html .zoom-leave-active {
   margin: 0;
 }
 
+.cn-form-grid-container .el-form .el-form-item.cn-form-item-hidden {
+  display: none;
+}
+
 .cn-form-grid-container .el-form .el-form-item.is-error {
   margin-bottom: 12px;
 }
@@ -91978,6 +91992,7 @@ html .zoom-leave-active {
 
 .cn-table--container .cn-table-search-container:not(.cn-table-search-inline-container) {
   margin-bottom: 18px;
+  transition: all 0.3s;
 }
 
 .cn-table--container .cn-table-search-inline-container .cn-table-search-btn-container {
@@ -91989,6 +92004,7 @@ html .zoom-leave-active {
   vertical-align: top;
   line-height: 32px;
   text-align: right;
+  justify-content: flex-end;
 }
 
 .cn-table--container .cn-table-search-btn-container.cn-table-search-btn-block-container {
@@ -92002,10 +92018,14 @@ html .zoom-leave-active {
   height: min-content;
 }
 
+.cn-table--container .cn-table-search-btn-container .cn-table-search-operation {
+  margin-inline-start: 6px;
+}
+
 .cn-table--container .cn-table-head-container {
   display: flex;
   align-items: center;
-  padding-bottom: 6px;
+  padding-bottom: 12px;
 }
 
 .cn-table--container .cn-table-head-container .cn-table-head-title {
@@ -92028,6 +92048,44 @@ html .zoom-leave-active {
 
 .cn-table--container .cn-table-head-container .cn-table-head-setting i:not(:last-child) {
   margin-right: 8px;
+}
+
+.cn-table--container .cn-table-container th.el-table__cell {
+  background-color: #e8f4ff;
+}
+
+.cn-table--container .cn-table-alert-container {
+  color: #909399;
+  padding-block: 12px;
+  padding-inline: 24px;
+  background-color: #f4f4f5;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s;
+  border-radius: 4px;
+  margin-block-end: 12px;
+}
+
+.cn-table--container .cn-table-alert-container .cn-table-alert-info-content {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cn-table--container .cn-table-alert-container .cn-table-alert-info-content a {
+  margin-inline-start: 8px;
+}
+
+.cn-table--container .cn-table-alert-container .cn-table-alert-info-options {
+  padding-inline-start: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cn-table--container .cn-table-pagination-container {
+  margin-block-start: 12px;
+  text-align: right;
 }*[data-v-f93e9118],
 *[data-v-f93e9118]:before,
 *[data-v-f93e9118]:after {
