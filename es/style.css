@@ -91797,6 +91797,10 @@ html .zoom-leave-active {
   fill: #EB9E05;
 }
 
+.cn--text-center {
+  text-align: center;
+}
+
 .cn-tags-container {
   display: flex;
 }
@@ -91965,6 +91969,65 @@ html .zoom-leave-active {
 
 .cn-form-block-container .el-form .el-form-item .el-form-item__content {
   margin-left: 120px;
+}
+
+.cn-table--container {
+  background-color: #fff;
+  padding: 12px;
+}
+
+.cn-table--container .cn-table-search-container:not(.cn-table-search-inline-container) {
+  margin-bottom: 18px;
+}
+
+.cn-table--container .cn-table-search-inline-container .cn-table-search-btn-container {
+  margin-bottom: 18px;
+}
+
+.cn-table--container .cn-table-search-btn-container {
+  display: inline-flex;
+  vertical-align: top;
+  line-height: 32px;
+  text-align: right;
+}
+
+.cn-table--container .cn-table-search-btn-container.cn-table-search-btn-block-container {
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.cn-table--container .cn-table-search-btn-container .el-button {
+  height: min-content;
+}
+
+.cn-table--container .cn-table-head-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px;
+}
+
+.cn-table--container .cn-table-head-container .cn-table-head-title {
+  width: max-content;
+}
+
+.cn-table--container .cn-table-head-container .cn-table-head-operation {
+  flex: 1;
+  text-align: right;
+}
+
+.cn-table--container .cn-table-head-container .cn-table-head-setting {
+  margin-left: 12px;
+}
+
+.cn-table--container .cn-table-head-container .cn-table-head-setting i {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.cn-table--container .cn-table-head-container .cn-table-head-setting i:not(:last-child) {
+  margin-right: 8px;
 }*[data-v-f93e9118],
 *[data-v-f93e9118]:before,
 *[data-v-f93e9118]:after {

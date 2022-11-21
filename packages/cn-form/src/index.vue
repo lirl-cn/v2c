@@ -17,6 +17,9 @@
       :size="size"
       ref="formRef"
       :label-width="`${labelWidth}px`"
+      :label-suffix="labelSuffix"
+      :hide-required-asterisk="hideRequiredAsterisk"
+      :disabled="disabled"
     >
       <form-item
         v-for="{
@@ -59,6 +62,18 @@ export default {
     FormItem: () => import("./form-item.vue")
    },
   props: {
+    labelSuffix: {
+      type: String,
+      default: undefined
+    },
+    hideRequiredAsterisk: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     columns: {
       type: Number,
       default: 1
@@ -175,14 +190,19 @@ export default {
     },
     // 基于key设置单个值
     setFieldValue(key, value) {
-      this.formModel[key] = value;
+      this.$set(
+        this.formModel,
+        key,
+        value,
+      );
     },
     // 设置表单的值
     setFieldsValue(fields) {
-      this.formModel = {
-        ...this.formModel,
-        ...fields
-      };
+      if(typeof fields === 'object'){
+        Object.keys(fields).forEach(key => {
+          this.setFieldValue(key, fields[key])
+        })
+      }
     },
     // 重置表单
     resetFields() {

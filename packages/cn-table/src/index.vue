@@ -4,7 +4,7 @@
     <div :class="['cn-table-search-container', { 'cn-table-search-inline-container': __searchType === 'inline' }]"
       v-if="search">
       <cn-form ref="search-table-search-form" :data="ownSearchList" :layout="__searchType" :columns="__searchColumns">
-        <div :class="[
+        <div :style="(__searchType === 'grid' && isSearchOpen) ? {'grid-column': `span ${__searchBtnContainerSpan}`} : undefined" :class="[
           'cn-table-search-btn-container',
           { 'cn-table-search-btn-block-container': __searchType === 'block' }
         ]">
@@ -14,6 +14,10 @@
           <el-button v-if="__resetText !== false" class="cn-table-search-btn-reset" size="small" @click="_onReset">{{
               __resetText
           }}</el-button>
+          <template v-if="ownSearchList.length > __searchColumns - 1">
+            <a class="cn-table-search-operation" @click="toggleSearchPanel" v-if="isSearchOpen">收起 <i class='el-icon-arrow-up'/></a>
+            <a class="cn-table-search-operation" @click="toggleSearchPanel" v-else>展开 <i class='el-icon-arrow-down'/></a>
+          </template>
           <slot name="operationsBtnSuffix"></slot>
         </div>
         <template v-for="{ name } in ownSearchList" v-slot:[`${name}FormExtra`]>
@@ -23,7 +27,7 @@
     </div>
     <div v-if="true || $scopedSlots['headTitle'] || $scopedSlots['headOperation']" class="cn-table-head-container">
       <div class="cn-table-head-title">
-        <slot name="headTitle"></slot>
+        <slot name="headTitle">{{title}}</slot>
       </div>
       <div class="cn-table-head-operation">
         <slot name="headOperation"></slot>
@@ -35,13 +39,29 @@
     </div>
     <!-- 表格主体 -->
     <div class="cn-table-container">
+      <div v-if="selectedRows?.length" class="cn-table-alert-container">
+        <div class="cn-table-alert-info-content">
+          <slot name="alertInfoContent" v-bind:selectedRows="selectedRows">
+            已选
+            {{selectedRows?.length}}
+            项
+            <a @click="_clearSelectRows">取消选择</a>
+          </slot>
+        </div>
+        <div class="cn-table-alert-info-options">
+          <slot name="alertInfoOptions" v-bind:selectedRows="selectedRows">
+            <a @click="rowSelection?.onBatchDelete?.(selectedRows)">{{rowSelection?.batchDeleteText || $CN_V2C_TABLE_CONFIG?.rowSelection?.batchDeleteText || '批量删除'}}</a>
+            <a @click="rowSelection?.onBatchDownload?.(selectedRows)">{{rowSelection?.batchDownloadText || $CN_V2C_TABLE_CONFIG?.rowSelection?.batchDownloadText || '导出数据'}}</a>
+          </slot>
+        </div>
+      </div>
       <el-table v-loading="ownLoading" :data="dataSource || ownDataSource" :height="scroll ? scroll.y : undefined"
         :key="__pagination.current" :row-key="rowKey" @selection-change="selectionLineChangeHandle"
         select-on-indeterminate :class="tableClassName" size="small" :border="true" ref="cn-table-container">
         <!-- class="cn-table-bordered-small-container" -->
         <el-table-column v-if="rowSelection" type="selection" width="48">
         </el-table-column>
-        <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" class-name="text-center" width="46">
+        <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" class-name="cn--text-center" width="46">
         </el-table-column>
         <cn-column v-for="({
         title,
@@ -68,7 +88,7 @@
     </div>
     <!-- 表格分页器 -->
     <div class="cn-table-pagination-container" v-if="showPagination && (dataSource || ownDataSource).length !== 0">
-      <cn-el-pagination @change="handleTableChange" :current="__pagination.current" :page-size="__pagination.pageSize"
+      <cn-el-pagination :onChange="handleTableChange" :current="__pagination.current" :page-size="__pagination.pageSize"
         :pageSizeOptions="pageSizeOptions" :total="__pagination.total">
       </cn-el-pagination>
     </div>
@@ -81,8 +101,9 @@ import CnColumn from './column.vue';
 const DEFAULT_RESPONSE_DATA = {
   success: true,
   data: [],
-  page: { totalElements: 0 },
+  total: 0,
 }
+const HIDDEN_CLASS_NAME = 'cn-form-item-hidden';
 export default {
   name: 'cn-table',
   components: {
@@ -99,13 +120,17 @@ export default {
       type: String | false,
       default: "重置"
     },
+    title: {
+      type: String | false,
+      default: "demo表格示例"
+    },
     searchText: {
       type: String | false,
       default: "查询"
     },
     rowKey: {
       type: String,
-      default: undefined
+      default: 'id'
     },
     // 搜索类型： inline行内显示，gird分列显示默认为3，block全部独占一行 默认为gird
     searchType: {
@@ -131,7 +156,7 @@ export default {
       type: undefined | Boolean | Function,
       default: undefined
     },
-    // 请求方法，优先级大于action ，返回参数必须为，并包含所写参数 {data: [], page: {totalElements: number}, success: boolean}
+    // 请求方法，优先级大于action ，返回参数必须为，并包含所写参数 {data: [], total: number, success: boolean}
     request: Function,
     // 请求方式，默认为post request 为空 action有值时触发
     method: {
@@ -211,7 +236,7 @@ export default {
       type: Function,
       default: undefined
     },
-    // 在请求结束之后表格数据赋值之前对response数据进行转换的方法，需要返回一个对象并必须包含这些参数 {data: any[], page: {totalElements: number}, success: boolean}
+    // 在请求结束之后表格数据赋值之前对response数据进行转换的方法，需要返回一个对象并必须包含这些参数 {data: any[], total: number, success: boolean}
     formatResponse: {
       type: Function,
       default: undefined
@@ -230,6 +255,10 @@ export default {
       type: Object,
       default: undefined
     },
+    emptyText: {
+      type: String,
+      default: '-'
+    },
     autoCalcWidth: {
       type: Boolean | Number,
       default: false,
@@ -239,7 +268,7 @@ export default {
     return {
       searchList: [],
       tableColumns: [],
-      _pagination: {
+      ownPagination: {
         defaultCurrent: 1,
         current: 1,
         pageSize: this.defaultPageSize,
@@ -256,6 +285,7 @@ export default {
       // selectedRowKeys: [],
       selectedRows: [],
       isFullScreen: false,
+      isSearchOpen: true,
     };
   },
   methods: {
@@ -268,6 +298,9 @@ export default {
     showSlot(dataIndex) {
       // console.log(this.$scopedSlots, dataIndex)
       return Boolean(this.$scopedSlots[dataIndex])
+    },
+    _clearSelectRows(){
+      this.$refs['cn-table-container'].clearSelection();
     },
     selectionLineChangeHandle(selectedRows) {
       // this.$set(this, 'selectedRowKeys', selectedRowKeys);
@@ -317,8 +350,9 @@ export default {
       this.$refs["search-table-search-form"] &&
         this.$refs["search-table-search-form"].resetFields();
       this.searchData = {};
+      this._cacheSearchValues = {};
       this.fetchDataSource(
-        this.__pagination.defaultCurrent - 1,
+        this.__pagination.defaultCurrent,
         this.__pagination.pageSize,
         {}
       );
@@ -326,7 +360,7 @@ export default {
     },
     async reload() {
       this.fetchDataSource(
-        this.__pagination.current - 1,
+        this.__pagination.current,
         this.__pagination.pageSize,
         {}
       );
@@ -335,9 +369,19 @@ export default {
       this.$refs["search-table-search-form"].setFieldsValue(fields);
     },
     async getSearchParams() {
-      const values = await this.$refs[
+      let values = await this.$refs[
         "search-table-search-form"
       ].getFieldsValue();
+      if(!this.isSearchOpen){
+        const showItems = this.searchList.filter(item => !item.formItemProps?.class || item.formItemProps?.class?.indexOf(HIDDEN_CLASS_NAME) === -1).map(item => item.name);
+        values = {
+          ...this._cacheSearchValues,
+          ...showItems.reduce((pre, cur) => {
+            pre[cur] = values[cur];
+            return pre;
+          }, {}),
+        }
+      }
       const valueNames = Object.keys(values);
       // console.log(values)
       let params = {};
@@ -359,27 +403,27 @@ export default {
     // 查询
     async onSearch() {
       const params = this.search ? await this.getSearchParams() : {};
-      //console.log(params)
+      // console.log(params)
       this.searchData = params;
       this.fetchDataSource(
-        this.__pagination.defaultCurrent - 1,
+        this.__pagination.defaultCurrent,
         this.__pagination.pageSize,
         params
       );
     },
     // 表格分页改变
     handleTableChange(current, pageSize) {
-      this.fetchDataSource(current - 1, pageSize);
+      this.fetchDataSource(current, pageSize);
     },
     // 表格数据请求
-    async fetchDataSource(page, size, data, options) {
+    async fetchDataSource(current, pageSize, data, options) {
       this.ownLoading = true;
       let params = {
         ...(await this.data),
         ...this.searchData,
         ...data,
-        page,
-        size
+        current,
+        pageSize
       };
       // 请求之前是否需要转下数据
       params = this.beforeSearchSubmit
@@ -392,16 +436,16 @@ export default {
           : response;
         this.ownLoading = false;
         this.$set(this, "ownDataSource", response.data);
-        this._pagination = {
+        this.ownPagination = {
           ...this.__pagination,
-          current: page + 1,
-          pageSize: size,
-          total: response.page ? response.page.totalElements || 0 : 0
+          current,
+          pageSize,
+          total: response.total || 0
         };
       } else {
         let response;
         try {
-          response = await this.$CN_V2C_TABLE_CONFIG.request(this.action, {
+          response = await (this.$CN_V2C_TABLE_CONFIG.request)(this.action, {
             method: this.method,
             [this.method.toLocaleUpperCase() === "POST"
               ? "data"
@@ -415,23 +459,23 @@ export default {
           response = this.onFetchDataError ? this.onFetchDataError(error) || DEFAULT_RESPONSE_DATA : this.formatResponse
             ? this.formatResponse(error, 'error') || DEFAULT_RESPONSE_DATA
             : DEFAULT_RESPONSE_DATA;
-          page = 0;
+          current = 1;
         }
         this.ownLoading = false;
         if (response.success) {
           this.$set(this, "ownDataSource", response.data);
-          this._pagination = {
+          this.ownPagination = {
             ...this.__pagination,
-            current: page + 1,
-            pageSize: size,
-            total: response.page ? response.page.totalElements || 0 : 0
+            current,
+            pageSize,
+            total: response.total || 0
           };
         } else {
           this.$set(this, "ownDataSource", []);
-          this._pagination = {
+          this.ownPagination = {
             ...this.__pagination,
             current: 1,
-            pageSize: size,
+            pageSize,
             total: 0
           };
         }
@@ -439,7 +483,7 @@ export default {
     },
     deepRenderText(record, keys) {
       if (!record[keys[0]]) {
-        return "-";
+        return this.emptyText;
       }
       if (keys.length === 1) {
         return record[keys[0]];
@@ -461,15 +505,66 @@ export default {
           text:
             current.text !== undefined && current.text !== null
               ? current.text
-              : "-",
+              : this.emptyText,
           status: current.status
         };
       } else {
-        return current !== undefined && current !== null ? current : "-";
+        return current !== undefined && current !== null ? current : this.emptyText;
       }
     },
-    formatGetStaticValue(key, oldKey) {
-      return this.$CN_V2C_TABLE_CONFIG?.search?.[key] || this.search?.[key] || this[oldKey || key]
+    async toggleSearchPanel(){
+      const values = await this.$refs[
+        "search-table-search-form"
+      ].getFieldsValue();
+      // 当前状态为展开
+      if(this.isSearchOpen){
+        // 缓存的搜索参数
+        this._cacheSearchValues = values;
+        this.searchList = this.searchList.map((item, index) => {
+          if(index < this.__searchColumns - 1){
+            return item
+          }else{
+            return {
+              ...item,
+              formItemProps: {
+                ...item.formItemProps,
+                class: item.formItemProps?.class ? `${item.formItemProps.class} ${HIDDEN_CLASS_NAME}` : HIDDEN_CLASS_NAME,
+              }
+            }
+          }
+        })
+        this.isSearchOpen = !this.isSearchOpen;
+        this.$nextTick(() => {
+          const showItems = this.searchList.filter(item => !item.formItemProps?.class || item.formItemProps?.class?.indexOf(HIDDEN_CLASS_NAME) === -1).map(item => item.name);
+          this.$refs["search-table-search-form"].setFieldsValue({
+            ...showItems.reduce((pre, cur) => {
+              pre[cur] = values[cur];
+              return pre;
+            }, {}),
+          })
+        })
+      }else{
+        // 当前状态为收起
+        // 取出显示的字段
+        const showItems = this.searchList.filter(item => !item.formItemProps?.class || item.formItemProps?.class?.indexOf(HIDDEN_CLASS_NAME) === -1).map(item => item.name);
+        this.searchList = this.searchList.map(item => ({
+          ...item,
+          formItemProps: {
+            ...item.formItemProps,
+            class: item.formItemProps?.class?.replace(HIDDEN_CLASS_NAME, '').trim(),
+          }
+        }))
+        this.isSearchOpen = !this.isSearchOpen;
+        this.$nextTick(() => {
+          this.$refs["search-table-search-form"].setFieldsValue({
+            ...this._cacheSearchValues,
+            ...showItems.reduce((pre, cur) => {
+              pre[cur] = values[cur];
+              return pre;
+            }, {}),
+          })
+        })
+      }
     },
     toggleFullScreen() {
       // requestFullscreen()
@@ -481,7 +576,10 @@ export default {
           document.exitFullscreen()
         }
       })
-    }
+    },
+    formatGetStaticValue(key, oldKey) {
+      return this.$CN_V2C_TABLE_CONFIG?.search?.[key] || this.search?.[key] || this[oldKey || key]
+    },
   },
   mounted() {
     !this.dataSource && this.onloadAutoRequest && this.onSearch();
@@ -492,9 +590,9 @@ export default {
   computed: {
     __pagination() {
       return typeof this.pagination === 'object' ? {
-        ...this._pagination,
+        ...this.ownPagination,
         ...this.pagination,
-      } : { ...this._pagination };
+      } : { ...this.ownPagination };
     },
     __searchDateRangeExtraPlacement() {
       return this.formatGetStaticValue('dateRangeExtraPlacement', 'searchDateRangeExtraPlacement')
@@ -513,6 +611,10 @@ export default {
     },
     __searchColumns() {
       return this.formatGetStaticValue('columns', 'searchColumns')
+    },
+    __searchBtnContainerSpan(){
+      const i = this.ownSearchList.length % this.__searchColumns;
+      return this.__searchColumns - i;
     },
     ownSearchList() {
       return [...this.searchList];
@@ -583,7 +685,7 @@ export default {
                 type,
                 options,
                 title: item.searchTitle || item.title,
-                style: item.searchStyle
+                style: item.searchStyle,
               };
             })
           : [];

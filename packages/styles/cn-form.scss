@@ -61,6 +61,9 @@
 
     .el-form-item {
       margin: 0;
+      &.cn-form-item-hidden {
+        display: none;
+      }
       &.is-error {
         margin-bottom: 12px;
         .el-form-item__error{

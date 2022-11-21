@@ -6,7 +6,9 @@ $--color-danger: #FA5555 !default;
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: 'element-ui/lib/theme-chalk/fonts';
+
 @import "element-ui/packages/theme-chalk/src/index.scss";
+@import "./common.scss";
 @import "./cn-tags.scss";
 @import "./cn-badge.scss";
 @import "./cn-form.scss";

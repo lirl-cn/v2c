@@ -36,39 +36,32 @@ export default defineComponent({
       default: () => {}
     },
   },
-  setup({
-    current = 1,
-    pageSize = 20,
-    total = 0,
-    pageSizeOptions = [10, 20, 50, 100],
-    size = "default",
-    layout = "total, prev, pager, next, sizes, jumper",
-    background,
-    ...props
-  }) {
+  setup(props) {
     const onCurrentChange = (current: number) => {
-      props.onChange(current, pageSize);
+      props.onChange(current, props.pageSize);
     };
     const onSizeChange = (pageSize: number) => {
-      props.onChange(current, pageSize);
+      props.onChange(props.current, pageSize);
     };
-    return () => (
-      <el-pagination
-        class="cn-data-catalog-table-pagination"
-        small={size === "small"}
-        background={background}
-        current-page={current}
-        pageSize={pageSize}
-        total={total}
-        showSizeChanger={true}
-        pageSizes={pageSizeOptions}
-        how-quick-jumper
-        layout={layout}
-        onSizeChange={onSizeChange}
-        onCurrentChange={onCurrentChange}
-        onPrevClick={onCurrentChange}
-        onNextClick={onCurrentChange}
-      />
-    );
+    return () => {
+      return (
+        <el-pagination
+          class="cn-data-catalog-table-pagination"
+          small={props.size === "small"}
+          background={props.background}
+          current-page={props.current}
+          pageSize={props.pageSize}
+          total={props.total}
+          showSizeChanger={true}
+          pageSizes={props.pageSizeOptions}
+          how-quick-jumper
+          layout={props.layout}
+          on-size-change={onSizeChange}
+          on-current-change={onCurrentChange}
+          on-prev-click={onCurrentChange}
+          on-next-click={onCurrentChange}
+        />
+      )
+    }
   },
 });

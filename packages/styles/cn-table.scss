@@ -4,6 +4,7 @@
   
   .cn-table-search-container:not(.cn-table-search-inline-container){
     margin-bottom: 18px;
+    transition: all 0.3s;
   }
   .cn-table-search-inline-container{
     .cn-table-search-btn-container {
@@ -15,6 +16,7 @@
     vertical-align: top;
     line-height: 32px;
     text-align: right;
+    justify-content: flex-end;
     &.cn-table-search-btn-block-container {
       text-align: right;
       display: flex;
@@ -24,11 +26,14 @@
     .el-button {
       height: min-content;
     }
+    .cn-table-search-operation{
+      margin-inline-start: 6px;
+    }
   }
   .cn-table-head-container{
     display: flex;
     align-items: center;
-    padding-bottom: 6px;
+    padding-bottom: 12px;
     .cn-table-head-title{
       width: max-content;
     }
@@ -46,5 +51,41 @@
         }
       }
     }
+  }
+  .cn-table-container{
+    th.el-table__cell{
+      background-color: $--color-primary-light-9;
+    }
+  }
+  .cn-table-alert-container{
+    color: $--color-info;
+    // font-size: 12px;
+    padding-block: 12px;
+    padding-inline: 24px;
+    background-color: $--color-info-lighter;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    border-radius: $--border-radius-base;
+    margin-block-end: 12px;
+    .cn-table-alert-info-content{
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      a{
+        margin-inline-start: 8px;
+      }
+    }
+    .cn-table-alert-info-options{
+      padding-inline-start: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
+  .cn-table-pagination-container{
+    margin-block-start: 12px;
+    text-align: right;
   }
 }

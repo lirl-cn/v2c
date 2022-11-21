@@ -1,5 +1,6 @@
 import { defineComponent, reactive, ref } from 'vue'
 import './home.scss'
+import request from 'umi-request';
 export default defineComponent({
   setup() {
     const formRef = ref()
@@ -219,20 +220,40 @@ export default defineComponent({
       {
         title: '姓名',
         dataIndex: 'name',
+        valueType: 'select',
+        valueOptions: [
+          {
+            label: '海洋',
+            value: '海洋',
+          },
+          {
+            label: '大陆',
+            value: '大陆',
+          },
+        ],
       },
       {
         title: '年龄',
-        dataIndex: 'age',
+        dataIndex: 'id',
       },
       {
         title: '性别',
-        dataIndex: 'sex',
+        dataIndex: 'jump',
       },
       {
         title: '描述',
-        dataIndex: 'dec',
+        dataIndex: 'description',
       },
     ]
+    const fetchData = async(data) => {
+      console.log(data)
+      const response = await request('/open/the/portal/api/system/chronicle/events/select/all', {method: 'POST', data});
+      return {
+        success: true,
+        data: response.data,
+        total: response.page.totalElements,
+      }
+    }
     return () => (<div class='container'>
       <h1>Home</h1>
       <h2>2222</h2>
@@ -269,10 +290,18 @@ export default defineComponent({
       <el-button onClick={onSubmit} type='success'>click me</el-button>
       <el-divider></el-divider>
       <cn-table 
+        request={fetchData}
         columns={tableColumns}
         scopedSlots={{
-          headTitle: () => 'demo表格示例',
-          headOperation: () => <el-button>新增</el-button>
+          headOperation: () => <el-button size='small' type='warning'>新增</el-button>
+        }}
+        rowSelection={{
+          onBatchDelete: (rows) => {
+            console.log('onBatchDelete', rows)
+          },
+          onBatchDownload: (rows) => {
+            console.log('onBatchDownload', rows)
+          },
         }}
       ></cn-table>
     </div>

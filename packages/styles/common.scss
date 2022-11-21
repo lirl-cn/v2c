@@ -1,0 +1,13 @@
+.cn--text-center{
+  text-align: center;
+}
+html{
+  a{
+    color: $--color-primary;
+    cursor: pointer;
+    text-decoration-line: none;
+    &:hover{
+      color: $--color-primary-light-3;
+    }
+  }
+}
