@@ -1,0 +1,23 @@
+.cn-tags-container {
+  display: flex;
+  .cn-tags-item {
+    padding: 0px 12px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: PingFangSC-Medium;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    cursor: pointer;
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+    &.cn-tags-item-active {
+      color: $--color-primary;
+      border-color: $--color-primary;
+      background-color: $--color-primary-light-9;
+    }
+  }
+}

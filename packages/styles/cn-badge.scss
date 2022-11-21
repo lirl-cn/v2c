@@ -1,0 +1,44 @@
+$all-color-types: (
+  default: $--color-info,
+  error: $--color-danger,
+  primary: $--color-primary,
+  processing: $--color-primary,
+  warning: $--color-warning,
+  success: $--color-success,
+);
+.cn-badge-container{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #000000d9;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  line-height: inherit;
+  vertical-align: baseline;
+  .cn-badge-status-dot{
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+  .ant-badge-status-text{
+    margin-left: 2px;
+    color: #000000d9;
+    font-size: 14px;
+  }
+  @each $name, $color in $all-color-types {
+    .cn-badge-status-#{$name} {
+      // color: $color;
+      background-color: $color;
+      // background-color: lighten($color, 45%);
+    }
+  }
+}
