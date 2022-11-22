@@ -316,6 +316,7 @@ export default defineComponent({
         scopedSlots={{
           headOperation: () => <el-button size='small' type='warning'>新增</el-button>
         }}
+        searchType='grid'
         rowSelection={{
           onBatchDelete: (rows:any) => {
             console.log('onBatchDelete', rows)
