@@ -59,10 +59,8 @@
         :key="__pagination.current" :row-key="rowKey" @selection-change="selectionLineChangeHandle"
         select-on-indeterminate :class="tableClassName" size="small" :border="true" ref="cn-table-container">
         <!-- class="cn-table-bordered-small-container" -->
-        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="48">
-        </el-table-column>
-        <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" class-name="cn--text-center" width="46">
-        </el-table-column>
+        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="48"></el-table-column>
+        <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" label="序号" class-name="cn--text-center" width="46"></el-table-column>
         <cn-column v-for="({
         title,
         dataIndex,

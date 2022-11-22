@@ -92,10 +92,10 @@ export default defineComponent({
           },
           {
             label: 'eeeee3',
-            value: 444423,
+            value: 4444232,
           },
           {
-            label: 'eeeee3',
+            label: 'eeeee33',
             value: 444423,
           },
         ]
@@ -262,7 +262,7 @@ export default defineComponent({
         // hideInSearch: true,
       },
     ]
-    const fetchData = async(data) => {
+    const fetchData = async(data:any) => {
       console.log(data)
       if(data.current === 1){
         return {
@@ -300,32 +300,27 @@ export default defineComponent({
           scopedSlots={{
             customCustomFormComponent: ({onChange, value}:any) => {
               return <el-input value={value} onInput={onChange}></el-input>
+            },
+            customFormExtra: () => {
+              return 'customFormExtra'
             }
           }}
         ></cn-form>
       </div>
       <el-button onClick={onSubmit} type='success'>提交表单</el-button>
-      <el-divider></el-divider>
-      <el-checkbox-group value={checkList.value}>
-        <el-checkbox label="复选框 A"></el-checkbox>
-        <el-checkbox label="复选框 B"></el-checkbox>
-        <el-checkbox label="复选框 C"></el-checkbox>
-        <el-checkbox label="禁用" disabled></el-checkbox>
-        <el-checkbox label="选中且禁用" disabled></el-checkbox>
-      </el-checkbox-group>
-      <el-input value={text.value} onInput={t => text.value = t }></el-input>
       <el-divider>cn-table 生成表格</el-divider>
       <cn-table 
         request={fetchData}
         columns={tableColumns}
+        showIndex
         scopedSlots={{
           headOperation: () => <el-button size='small' type='warning'>新增</el-button>
         }}
         rowSelection={{
-          onBatchDelete: (rows) => {
+          onBatchDelete: (rows:any) => {
             console.log('onBatchDelete', rows)
           },
-          onBatchDownload: (rows) => {
+          onBatchDownload: (rows:any) => {
             console.log('onBatchDownload', rows)
           },
         }}
