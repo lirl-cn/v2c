@@ -88,6 +88,8 @@ import { ElSpinner } from './spinner'
 import { ElDescriptions } from './descriptions'
 import { ElDescriptionsItem } from './descriptions-item'
 import { ElResult } from './result'
+export { CnTable } from './cn-table'
+export { CnForm } from './cn-form'
 
 export interface InstallationOptions {
   locale: any,

@@ -79,7 +79,7 @@
     </el-date-picker>
     <!-- 月份选择器 -->
     <el-date-picker
-      v-if="type === 'date-month'"
+      v-if="type === 'date-month' || type === 'month'"
       v-model="formModel[name]"
       format="yyyy-MM"
       value-format="yyyy-MM-dd HH:mm:ss"
@@ -91,7 +91,7 @@
     </el-date-picker>
     <!-- 年份选择器 -->
     <el-date-picker
-      v-if="type === 'date-year'"
+      v-if="type === 'date-year' || type === 'year'"
       v-model="formModel[name]"
       format="yyyy"
       value-format="yyyy-MM-dd HH:mm:ss"
@@ -271,6 +271,14 @@
         v-bind:onChange="(val) => formModel[name] = val"
       ></slot>
     </template>
+    <!-- 默认输入框 -->
+    <el-input
+      v-else
+      v-model="formModel[name]"
+      :placeholder="placeholder || '请输入'"
+      v-bind="fieldItemProps"
+      @change="onChange"
+    ></el-input>
     <slot :name="`${name}FormExtra`"></slot>
   </el-form-item>
 </template>

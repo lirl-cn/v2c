@@ -32,9 +32,9 @@
       <div class="cn-table-head-operation">
         <slot name="headOperation"></slot>
       </div>
-      <div class="cn-table-head-setting">
-        <i class="el-icon-help" title="全屏切换" @click="toggleFullScreen"></i>
-        <i class="el-icon-refresh" title="刷新" @click="reload"></i>
+      <div v-if="setting !== false" class="cn-table-head-setting">
+        <i v-if="setting.indexOf('fullScreen') !== -1" class="el-icon-help" title="全屏切换" @click="toggleFullScreen"></i>
+        <i v-if="setting.indexOf('reload') !== -1" class="el-icon-refresh" title="刷新" @click="reload"></i>
       </div>
     </div>
     <!-- 表格主体 -->
@@ -59,7 +59,7 @@
         :key="__pagination.current" :row-key="rowKey" @selection-change="selectionLineChangeHandle"
         select-on-indeterminate :class="tableClassName" size="small" :border="true" ref="cn-table-container">
         <!-- class="cn-table-bordered-small-container" -->
-        <el-table-column v-if="rowSelection" type="selection" width="48">
+        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="48">
         </el-table-column>
         <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" class-name="cn--text-center" width="46">
         </el-table-column>
@@ -87,9 +87,9 @@
       </el-table>
     </div>
     <!-- 表格分页器 -->
-    <div class="cn-table-pagination-container" v-if="showPagination && (dataSource || ownDataSource).length !== 0">
+    <div class="cn-table-pagination-container" v-if="pagination !== false && (dataSource || ownDataSource).length !== 0">
       <cn-el-pagination :onChange="handleTableChange" :current="__pagination.current" :page-size="__pagination.pageSize"
-        :pageSizeOptions="pageSizeOptions" :total="__pagination.total">
+        :pageSizeOptions="__pagination?.pageSizeOptions" :total="__pagination.total">
       </cn-el-pagination>
     </div>
   </div>
@@ -115,6 +115,7 @@ export default {
     tableClassName: String,
     setting: {
       type: [Array, Boolean],
+      default: () => ['reload', 'fullScreen']
     },
     resetText: {
       type: String | false,
@@ -462,7 +463,7 @@ export default {
           current = 1;
         }
         this.ownLoading = false;
-        if (response.success) {
+        if (response.success !== false) {
           this.$set(this, "ownDataSource", response.data);
           this.ownPagination = {
             ...this.__pagination,
@@ -591,8 +592,9 @@ export default {
     __pagination() {
       return typeof this.pagination === 'object' ? {
         ...this.ownPagination,
+        pageSizeOptions: this.pageSizeOptions,
         ...this.pagination,
-      } : { ...this.ownPagination };
+      } : { pageSizeOptions: this.pageSizeOptions, ...this.ownPagination };
     },
     __searchDateRangeExtraPlacement() {
       return this.formatGetStaticValue('dateRangeExtraPlacement', 'searchDateRangeExtraPlacement')
@@ -625,7 +627,7 @@ export default {
         onReset: this._onReset,
         getSearchParams: this.getSearchParams,
         setSearchFieldsValue: this.setSearchFieldsValue,
-        reload: this.reload,
+        onReload: this.reload,
         getSelectedRows: () => {
           return {
             // selectedRowKeys: this.selectedRowKeys,

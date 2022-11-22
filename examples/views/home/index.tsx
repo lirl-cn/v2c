@@ -1,6 +1,5 @@
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import './home.scss'
-import request from 'umi-request';
 export default defineComponent({
   setup() {
     const formRef = ref()
@@ -82,6 +81,22 @@ export default defineComponent({
           {
             label: 'eeeee',
             value: 4444,
+          },
+          {
+            label: 'eeeee1',
+            value: 44441,
+          },
+          {
+            label: 'eeeee2',
+            value: 44442,
+          },
+          {
+            label: 'eeeee3',
+            value: 444423,
+          },
+          {
+            label: 'eeeee3',
+            value: 444423,
           },
         ]
       },
@@ -239,19 +254,28 @@ export default defineComponent({
       {
         title: '性别',
         dataIndex: 'jump',
+        // hideInSearch: true,
       },
       {
         title: '描述',
         dataIndex: 'description',
+        // hideInSearch: true,
       },
     ]
     const fetchData = async(data) => {
       console.log(data)
-      const response = await request('/open/the/portal/api/system/chronicle/events/select/all', {method: 'POST', data});
-      return {
-        success: true,
-        data: response.data,
-        total: response.page.totalElements,
+      if(data.current === 1){
+        return {
+          success: true,
+          data: Array(20).fill({}).map((item, index) => ({...item, name: index + '姓名', id: index})),
+          total: 37
+        }
+      }else{
+        return {
+          success: true,
+          data: Array(17).fill({}).map((item, index) => ({...item, name: index + '姓名', id: index + data.pageSize})),
+          total: 37
+        }
       }
     }
     return () => (<div class='container'>
@@ -267,10 +291,11 @@ export default defineComponent({
       <div>
         <cn-badge ></cn-badge>
       </div>
+      <el-divider>cn-form 生成表单</el-divider>
       <div>
         <cn-form
           ref={formRef}
-          columns={3}
+          columns={2}
           data={formDataSource}
           scopedSlots={{
             customCustomFormComponent: ({onChange, value}:any) => {
@@ -279,6 +304,8 @@ export default defineComponent({
           }}
         ></cn-form>
       </div>
+      <el-button onClick={onSubmit} type='success'>提交表单</el-button>
+      <el-divider></el-divider>
       <el-checkbox-group value={checkList.value}>
         <el-checkbox label="复选框 A"></el-checkbox>
         <el-checkbox label="复选框 B"></el-checkbox>
@@ -287,8 +314,7 @@ export default defineComponent({
         <el-checkbox label="选中且禁用" disabled></el-checkbox>
       </el-checkbox-group>
       <el-input value={text.value} onInput={t => text.value = t }></el-input>
-      <el-button onClick={onSubmit} type='success'>click me</el-button>
-      <el-divider></el-divider>
+      <el-divider>cn-table 生成表格</el-divider>
       <cn-table 
         request={fetchData}
         columns={tableColumns}

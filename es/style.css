@@ -92054,6 +92054,10 @@ html a:hover {
   background-color: #e8f4ff;
 }
 
+.cn-table--container .cn-table-container .cn--text-center {
+  text-align: center;
+}
+
 .cn-table--container .cn-table-alert-container {
   color: #909399;
   padding-block: 12px;
