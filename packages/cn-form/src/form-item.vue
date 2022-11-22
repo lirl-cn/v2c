@@ -271,14 +271,6 @@
         v-bind:onChange="(val) => formModel[name] = val"
       ></slot>
     </template>
-    <!-- 默认输入框 -->
-    <el-input
-      v-else
-      v-model="formModel[name]"
-      :placeholder="placeholder || '请输入'"
-      v-bind="fieldItemProps"
-      @change="onChange"
-    ></el-input>
     <slot :name="`${name}FormExtra`"></slot>
   </el-form-item>
 </template>

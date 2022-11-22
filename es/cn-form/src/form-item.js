@@ -109,9 +109,7 @@ var _sfc_render = function render() {
     _vm.$set(_vm.formModel, _vm.name, $$v);
   }, expression: "formModel[name]" } }, "el-input-number", _vm.fieldItemProps, false)) : _vm._e(), _vm.type === "upload" ? _c("el-upload", _vm._b({ on: { "change": _vm.onChange }, model: { value: _vm.formModel[_vm.name], callback: function($$v) {
     _vm.$set(_vm.formModel, _vm.name, $$v);
-  }, expression: "formModel[name]" } }, "el-upload", _vm.fieldItemProps, false), [_c("el-button", { attrs: { "size": "small", "type": "primary" } }, [_vm._v("\u70B9\u51FB\u4E0A\u4F20")])], 1) : _vm._e(), _vm.type === "custom" ? [_vm._t(`${_vm.name}CustomFormComponent`, null, { "fieldItemProps": _vm.fieldItemProps, "formModel": _vm.formModel, "name": _vm.name, "value": _vm.formModel[_vm.name], "onChange": (val) => _vm.formModel[_vm.name] = val })] : _c("el-input", _vm._b({ attrs: { "placeholder": _vm.placeholder || "\u8BF7\u8F93\u5165" }, on: { "change": _vm.onChange }, model: { value: _vm.formModel[_vm.name], callback: function($$v) {
-    _vm.$set(_vm.formModel, _vm.name, $$v);
-  }, expression: "formModel[name]" } }, "el-input", _vm.fieldItemProps, false)), _vm._t(`${_vm.name}FormExtra`)], 2);
+  }, expression: "formModel[name]" } }, "el-upload", _vm.fieldItemProps, false), [_c("el-button", { attrs: { "size": "small", "type": "primary" } }, [_vm._v("\u70B9\u51FB\u4E0A\u4F20")])], 1) : _vm._e(), _vm.type === "custom" ? [_vm._t(`${_vm.name}CustomFormComponent`, null, { "fieldItemProps": _vm.fieldItemProps, "formModel": _vm.formModel, "name": _vm.name, "value": _vm.formModel[_vm.name], "onChange": (val) => _vm.formModel[_vm.name] = val })] : _vm._e(), _vm._t(`${_vm.name}FormExtra`)], 2);
 };
 var _sfc_staticRenderFns = [];
 var __component__ = /* @__PURE__ */ normalizeComponent(
