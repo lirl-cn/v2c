@@ -1,5 +1,5 @@
+import type { HTMLAttributes } from 'vue/types/jsx'
 import { ElementUIComponent } from './component'
-import type { StyleValue, HTMLAttributes } from 'vue/types/jsx'
 
 export declare type FormItemType = 'switch' | 'slider' | 'datetime' | 'datetimerange' | 'date' | 'dates' | 'week' | 'month' | 'year' | 'daterange' | 'monthrange' | 'tags-checkbox' | 'tags-radio' | 'select' | 'radio' | 'checkbox' | 'cascader' | 'transfer' | 'color' | 'rate' | 'input' | 'textarea' | 'number' | 'upload' | 'custom'
 
@@ -15,6 +15,7 @@ export declare type FormDataType = {
 }
 
 export declare class CnForm extends ElementUIComponent {
+  labelWidth?: number
   labelSuffix?: string
   hideRequiredAsterisk?: boolean
   disabled?: boolean
