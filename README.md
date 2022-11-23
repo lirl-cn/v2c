@@ -10,15 +10,15 @@
 
 ##### 属性
 
-| 参数                 | 说明                                                                              | 类型             | 默认值   |
-| -------------------- | --------------------------------------------------------------------------------- | ---------------- | -------- | -------- | -------- |
-| data                 | 表单数据源                                                                        | `FormDataType[]` | -        |
-| layout               | 表单布局                                                                          | `'grid'          | 'inline' | 'block'` | `'grid'` |
-| columns              | 表单布局为`'grid'`时生效，列数                                                    | `number`         | `3`      |
-| disabled             | 是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效 | `boolean`        | -        |
-| hideRequiredAsterisk | 是否隐藏必填字段的标签旁边的红色星号                                              | `boolean`        | `false`  |
-| labelSuffix          | 表单域标签的后缀                                                                  | `string`         | -        |
-| labelWidth           | 表单域标签的宽度                                                                  | `number`         | `120`    |
+| 参数                 | 说明                                                                              | 类型                                | 默认值   |
+| -------------------- | --------------------------------------------------------------------------------- | ----------------------------------- | -------- |
+| data                 | 表单数据源                                                                        | `FormDataType[]`                    | -        |
+| layout               | 表单布局                                                                          | `'grid'` \| `'inline'` \| `'block'` | `'grid'` |
+| columns              | 表单布局为`'grid'`时生效，列数                                                    | `number`                            | `3`      |
+| disabled             | 是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效 | `boolean`                           | -        |
+| hideRequiredAsterisk | 是否隐藏必填字段的标签旁边的红色星号                                              | `boolean`                           | `false`  |
+| labelSuffix          | 表单域标签的后缀                                                                  | `string`                            | -        |
+| labelWidth           | 表单域标签的宽度                                                                  | `number`                            | `120`    |
 
 ##### FormDataType
 
