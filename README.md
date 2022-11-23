@@ -224,7 +224,7 @@ Vue.use(CnV2C, {
 ##### 如需修改主题色或其他定制样式，需要项目自身用了 scss
 
 ```diff patch
-// miain.ts
+# miain.ts
 - import '@lirl-cn/v2c/styles.css'; // 去除原样式
 + import '@/styles/element-variables.scss'; // 引入自己定义的样式文件
 ```
