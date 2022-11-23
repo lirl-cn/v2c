@@ -1,8 +1,10 @@
 # v2c
+
 ## 简述
+
 基于 vue2 与 element UI 低仿 antd-pro-table  
 如果之前你用过 react 及 antd-pro-table，那么这个 vue 组件对你来说会很简单  
-v2c内置了所有了 element-ui 组件，使用时仅需移除原 element-ui 即可  
+v2c 内置了所有了 element-ui 组件，使用时仅需移除原 element-ui 即可
 
 ## 核心组件
 
@@ -221,13 +223,13 @@ Vue.use(CnV2C, {
 
 ##### 如需修改主题色或其他定制样式，需要项目自身用了 scss
 
-```git
+```diff patch
 // miain.ts
 - import '@lirl-cn/v2c/styles.css'; // 去除原样式
 + import '@/styles/element-variables.scss'; // 引入自己定义的样式文件
 ```
 
-```less
+```scss
 // @/styles/element-variables.scss
 
 /* 改变主题色变量 */
