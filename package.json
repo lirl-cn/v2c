@@ -43,5 +43,14 @@
     "type": "git",
     "url": "https://github.com/lirl-cn/v2c"
   },
+  "keywords": [
+    "vue",
+    "vue2",
+    "components",
+    "element ui",
+    "cn-form",
+    "cn-table",
+    "pro-table"
+  ],
   "license": "MIT"
 }
