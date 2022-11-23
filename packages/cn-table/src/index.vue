@@ -93,8 +93,8 @@
   </div>
 </template>
 <script>
-import CnElPagination from '../../cn-pagination'
-import CnForm from '../../cn-form'
+import CnForm from '../../cn-form';
+import CnElPagination from '../../cn-pagination';
 import CnColumn from './column.vue';
 const DEFAULT_RESPONSE_DATA = {
   success: true,

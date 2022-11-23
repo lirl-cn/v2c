@@ -1,8 +1,8 @@
+import type { PropType } from "vue";
 import { defineComponent } from "vue";
-import type { PropType } from 'vue'
 
 export default defineComponent({
-  name: 'cn-pagination',
+  name: "cn-pagination",
   props: {
     current: {
       type: Number,
@@ -18,14 +18,14 @@ export default defineComponent({
     },
     size: {
       type: String as PropType<"small" | "default">,
-      default: 'default',
+      default: "default",
     },
     layout: {
       type: String,
-      default: 'total, prev, pager, next, sizes, jumper',
+      default: "total, prev, pager, next, sizes, jumper",
     },
     background: {
-      type: Boolean
+      type: Boolean,
     },
     pageSizeOptions: {
       type: Array as PropType<number[]>,
@@ -33,7 +33,7 @@ export default defineComponent({
     },
     onChange: {
       type: Function as PropType<(current: number, pageSize: number) => void>,
-      default: () => {}
+      default: () => {},
     },
   },
   setup(props) {
@@ -61,7 +61,7 @@ export default defineComponent({
           on-prev-click={onCurrentChange}
           on-next-click={onCurrentChange}
         />
-      )
-    }
+      );
+    };
   },
 });

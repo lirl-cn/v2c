@@ -1,5 +1,5 @@
-import { ElementUIComponent } from './component'
-import type { StyleValue, HTMLAttributes } from 'vue/types/jsx'
+import type { HTMLAttributes, StyleValue } from 'vue/types/jsx';
+import { ElementUIComponent } from './component';
 
 export declare type ParamsType = {
   current: number;
@@ -37,7 +37,7 @@ export declare type ColumnType = {
   status?: StatusType
   valueType?: ''
   valueEnum?: ValueEnumType
-  valueOptions?: { label?: string, value?: string, [k:string]: any}[]
+  valueOptions?: { label?: string, value?: string, [k: string]: any }[]
   formItemProps?: HTMLAttributes & any // object 绑定给el-form-item的attrs
   fieldItemProps?: HTMLAttributes & any  // object 绑定给 表单组件 的attrs
   hideInTable?: boolean // 在表格中隐藏
@@ -91,8 +91,8 @@ export declare class CnTable extends ElementUIComponent {
   search?: false | SearchType
   data?: any
   actionRef?: (node: ActionRefType) => void
-  beforeSearchSubmit?<T = ParamsType>(params: ParamsType):T
-  formatResponse?<T = any>(response: T):ResponseDataType
+  beforeSearchSubmit?<T = ParamsType>(params: ParamsType): T
+  formatResponse?<T = any>(response: T): ResponseDataType
   catchFetchDataError?: (error: Error) => ResponseDataType | void
   watchReset?: () => void
   loading?: boolean
