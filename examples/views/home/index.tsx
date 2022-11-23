@@ -244,18 +244,22 @@ export default defineComponent({
         ],
       },
       {
+        title: "民族",
+        dataIndex: "ids",
+        hideInTable: true, // 在表格中隐藏
+      },
+      {
         title: "年龄",
         dataIndex: "id",
       },
       {
         title: "性别",
         dataIndex: "jump",
-        // hideInSearch: true,
       },
       {
         title: "描述",
         dataIndex: "description",
-        // hideInSearch: true,
+        hideInSearch: true, // 在搜索条件中隐藏
       },
     ];
     const fetchData = async (data: any) => {
