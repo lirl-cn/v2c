@@ -10,15 +10,15 @@
 
 ##### 属性
 
-| 参数                 | 说明                                                                              | 类型                         | 默认值   |
-| -------------------- | --------------------------------------------------------------------------------- | ---------------------------- | -------- |
-| data                 | 表单数据源                                                                        | `FormDataType[]`             | -        |
-| layout               | 表单布局                                                                          | `'grid'                      | 'inline' | 'block'` | `'grid'` |
-| columns              | 表单布局为`'grid'`时生效，列数                                                    | `(value: ValueType) => void` | -        |
-| disabled             | 是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效 | `boolean`                    | -        |
-| hideRequiredAsterisk | 是否隐藏必填字段的标签旁边的红色星号                                              | `boolean`                    | `false`  |
-| labelSuffix          | 表单域标签的后缀                                                                  | `string`                     | -        |
-| labelWidth           | 表单域标签的宽度                                                                  | `number`                     | `120`    |
+| 参数                 | 说明                                                                              | 类型             | 默认值   |
+| -------------------- | --------------------------------------------------------------------------------- | ---------------- | -------- | -------- | -------- |
+| data                 | 表单数据源                                                                        | `FormDataType[]` | -        |
+| layout               | 表单布局                                                                          | `'grid'          | 'inline' | 'block'` | `'grid'` |
+| columns              | 表单布局为`'grid'`时生效，列数                                                    | `number`         | `3`      |
+| disabled             | 是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效 | `boolean`        | -        |
+| hideRequiredAsterisk | 是否隐藏必填字段的标签旁边的红色星号                                              | `boolean`        | `false`  |
+| labelSuffix          | 表单域标签的后缀                                                                  | `string`         | -        |
+| labelWidth           | 表单域标签的宽度                                                                  | `number`         | `120`    |
 
 ##### FormDataType
 
@@ -219,6 +219,8 @@ Vue.use(CnV2C, {
 ```
 
 ### cn-form
+
+![表格生成](/images/cn-form.jpg)
 
 ```tsx
 import { defineComponent, ref } from "vue";
@@ -459,6 +461,7 @@ export default defineComponent({
     return () => {
       return (
         <div>
+          <el-divider>cn-form 生成表单</el-divider>
           <cn-form
             ref={formRef} // 获取form表单
             columns={3} // 3列显示
@@ -484,6 +487,8 @@ export default defineComponent({
 ```
 
 ### cn-table
+
+![表格生成](/images/cn-table.jpg)
 
 ```tsx
 import { defineComponent, ref } from "vue";
@@ -560,29 +565,32 @@ export default defineComponent({
     };
     return () => {
       return (
-        <cn-table
-          request={fetchData}
-          columns={tableColumns}
-          showIndex
-          scopedSlots={{
-            // 插槽
-            headOperation: () => (
-              // 表格操作
-              <el-button size="small" type="warning">
-                新增
-              </el-button>
-            ),
-          }}
-          searchType="grid" // 搜索默认
-          rowSelection={{
-            onBatchDelete: (rows: any) => {
-              console.log("onBatchDelete", rows);
-            },
-            onBatchDownload: (rows: any) => {
-              console.log("onBatchDownload", rows);
-            },
-          }}
-        ></cn-table>
+        <div>
+          <el-divider>cn-table 生成表格</el-divider>
+          <cn-table
+            request={fetchData}
+            columns={tableColumns}
+            showIndex
+            scopedSlots={{
+              // 插槽
+              headOperation: () => (
+                // 表格操作
+                <el-button size="small" type="warning">
+                  新增
+                </el-button>
+              ),
+            }}
+            searchType="grid" // 搜索默认
+            rowSelection={{
+              onBatchDelete: (rows: any) => {
+                console.log("onBatchDelete", rows);
+              },
+              onBatchDownload: (rows: any) => {
+                console.log("onBatchDownload", rows);
+              },
+            }}
+          ></cn-table>
+        </div>
       );
     };
   },
