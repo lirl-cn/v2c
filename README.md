@@ -1,7 +1,5 @@
 # v2c
 
-## 简述
-
 基于 vue2 与 element UI 低仿 antd-pro-table  
 如果之前你用过 react 及 antd-pro-table，那么这个 vue 组件对你来说会很简单  
 v2c 内置了所有了 element-ui 组件，使用时仅需移除原 element-ui 即可
