@@ -240,7 +240,7 @@ export default {
       type: Function,
       default: undefined
     },
-    onFetchDataError: {
+    catchFetchDataError: {
       type: Function,
       default: undefined
     },
@@ -364,6 +364,20 @@ export default {
         {}
       );
     },
+    async preData() {
+      this.fetchDataSource(
+        this.__pagination.current > 1 ? this.__pagination.current - 1 : 1,
+        this.__pagination.pageSize,
+        {}
+      );
+    },
+    async jump(current) {
+      this.fetchDataSource(
+        current,
+        this.__pagination.pageSize,
+        {}
+      );
+    },
     setSearchFieldsValue(fields) {
       this.$refs["search-table-search-form"].setFieldsValue(fields);
     },
@@ -455,9 +469,8 @@ export default {
             ? this.formatResponse(response)
             : response;
         } catch (error) {
-          response = this.onFetchDataError ? this.onFetchDataError(error) || DEFAULT_RESPONSE_DATA : this.formatResponse
-            ? this.formatResponse(error, 'error') || DEFAULT_RESPONSE_DATA
-            : DEFAULT_RESPONSE_DATA;
+          this.catchFetchDataError?.(error)
+          response = (await this.formatResponse?.(error, 'error')) || DEFAULT_RESPONSE_DATA
           current = 1;
         }
         this.ownLoading = false;
@@ -626,6 +639,8 @@ export default {
         getSearchParams: this.getSearchParams,
         setSearchFieldsValue: this.setSearchFieldsValue,
         onReload: this.reload,
+        gotoPre: this.preData,
+        gotoJump: this.jump,
         getSelectedRows: () => {
           return {
             // selectedRowKeys: this.selectedRowKeys,

@@ -83,7 +83,7 @@ export declare class CnTable extends ElementUIComponent {
   searchColumns?: number
   scroll?: { y?: string | number };
   action?: string;  // 若在main.js中传人了request方式，内部会将action地址传入方法中获取数据，当前组件request权重高
-  request?: (params: ParamsType) => ResponseDataType  // 获取数据的方法
+  request?: (params: ParamsType) => ResponseDataType | Promise<ResponseDataType>  // 获取数据的方法
   onloadAutoRequest?: boolean // 是否自动加载
   showIndex?: boolean | ((params: { index: number, current: number, pageSize: number, text: string | number }) => string) // 显示序号
   method?: 'GET' | 'POST';  // action存在时有效，获取数据时调用方式
@@ -92,8 +92,8 @@ export declare class CnTable extends ElementUIComponent {
   data?: any  // 调用接口额外的参数
   actionRef?: (node: ActionRefType) => void // 获取表格的方法
   beforeSearchSubmit?<T = ParamsType>(params: ParamsType): T  // 获取数据前调用
-  formatResponse?<T = any>(response: T): ResponseDataType // 拿到数据后格式化调用
-  catchFetchDataError?: (error: Error) => ResponseDataType | void // 监听action方式的报错
+  formatResponse?<T = any>(response: T): ResponseDataType | Promise<ResponseDataType> // 拿到数据后格式化调用
+  catchFetchDataError?: (error: Error) => void // 监听action方式的报错
   watchReset?: () => void // 监听重置方法的调用
   loading?: boolean // 是否加载中
   autoCalcWidth?: false | number  // 自动计算宽度
