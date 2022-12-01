@@ -42,7 +42,6 @@ const defaultTableConfig = {
   request: fetch,
 }
 const install = function (Vue: VueConstructor, config: configType = {}) {
-  console.log(config, MessageBox)
   Vue.use(ElementUI, locale)
   components.forEach(component => {
     Vue.component(component.name, component);
@@ -55,7 +54,7 @@ const install = function (Vue: VueConstructor, config: configType = {}) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
-console.log(MessageBox)
+
 export {
   Loading,
   Pagination,
