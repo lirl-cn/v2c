@@ -1,16 +1,16 @@
 import ElementUI from "./node_modules/element-ui/lib/element-ui.common.js";
 import _default from "./node_modules/element-ui/lib/locale/lang/zh-CN.js";
 import "./styles/index.js";
-import "./cn-tags/index.js";
-import CnPagination from "./cn-pagination/src/index.js";
 import "./cn-badge/index.js";
 import "./cn-form/index.js";
+import CnPagination from "./cn-pagination/src/index.js";
 import "./cn-table/index.js";
-import { e as elementUi_common } from "./_virtual/element-ui.common.js";
+import "./cn-tags/index.js";
 import CnTags from "./cn-tags/src/index.js";
 import { default as default2 } from "./cn-tags/src/index.js";
 import CnBadge from "./cn-badge/src/index.js";
 import CnTable from "./cn-table/src/index.js";
+import { e as elementUi_common } from "./_virtual/element-ui.common.js";
 import CnForm from "./cn-form/src/index.js";
 const components = [
   CnTags,
@@ -23,7 +23,6 @@ const defaultTableConfig = {
   request: fetch
 };
 const install = function(Vue, config = {}) {
-  console.log(config, elementUi_common.exports.MessageBox);
   Vue.use(ElementUI, _default);
   components.forEach((component) => {
     Vue.component(component.name, component);
@@ -36,7 +35,6 @@ const install = function(Vue, config = {}) {
 if (typeof window !== "undefined" && window.Vue) {
   install(window.Vue);
 }
-console.log(elementUi_common.exports.MessageBox);
 const Alert = elementUi_common.exports.Alert;
 const Aside = elementUi_common.exports.Aside;
 const Autocomplete = elementUi_common.exports.Autocomplete;

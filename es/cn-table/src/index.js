@@ -1,5 +1,5 @@
-import "../../cn-pagination/index.js";
 import "../../cn-form/index.js";
+import "../../cn-pagination/index.js";
 import CnColumn from "./column.js";
 import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
 import CnPagination from "../../cn-pagination/src/index.js";
@@ -118,7 +118,7 @@ const _sfc_main = {
       type: Function,
       default: void 0
     },
-    onFetchDataError: {
+    catchFetchDataError: {
       type: Function,
       default: void 0
     },
@@ -232,6 +232,20 @@ const _sfc_main = {
         {}
       );
     },
+    async preData() {
+      this.fetchDataSource(
+        this.__pagination.current > 1 ? this.__pagination.current - 1 : 1,
+        this.__pagination.pageSize,
+        {}
+      );
+    },
+    async jump(current) {
+      this.fetchDataSource(
+        current,
+        this.__pagination.pageSize,
+        {}
+      );
+    },
     setSearchFieldsValue(fields) {
       this.$refs["search-table-search-form"].setFieldsValue(fields);
     },
@@ -275,6 +289,7 @@ const _sfc_main = {
       this.fetchDataSource(current, pageSize);
     },
     async fetchDataSource(current, pageSize, data, options) {
+      var _a, _b;
       this.ownLoading = true;
       let params = {
         ...await this.data,
@@ -305,7 +320,8 @@ const _sfc_main = {
           });
           response = this.formatResponse ? this.formatResponse(response) : response;
         } catch (error) {
-          response = this.onFetchDataError ? this.onFetchDataError(error) || DEFAULT_RESPONSE_DATA : this.formatResponse ? this.formatResponse(error, "error") || DEFAULT_RESPONSE_DATA : DEFAULT_RESPONSE_DATA;
+          (_a = this.catchFetchDataError) == null ? void 0 : _a.call(this, error);
+          response = await ((_b = this.formatResponse) == null ? void 0 : _b.call(this, error, "error")) || DEFAULT_RESPONSE_DATA;
           current = 1;
         }
         this.ownLoading = false;
@@ -473,6 +489,8 @@ const _sfc_main = {
         getSearchParams: this.getSearchParams,
         setSearchFieldsValue: this.setSearchFieldsValue,
         onReload: this.reload,
+        gotoPre: this.preData,
+        gotoJump: this.jump,
         getSelectedRows: () => {
           return {
             selectedRows: this.selectedRows

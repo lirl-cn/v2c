@@ -1,12 +1,8 @@
 /** @type {import('vite').UserConfig} */
 import vue from '@vitejs/plugin-vue2'
 import vueJsx from '@vitejs/plugin-vue2-jsx'
-import defaultConfig from './config/defaultConfig'
-import legacy from '@vitejs/plugin-legacy'
-import Components from 'unplugin-vue-components/vite'
-import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import { splitVendorChunkPlugin } from 'vite'
-import { resolve } from 'path'
+import defaultConfig from './config/defaultConfig'
 // import antdvFix from 'vite-plugin-antdv-fix' // 解决antd-vue date引入moment.js 方式会导致页面出错的问题
 
 export default {
