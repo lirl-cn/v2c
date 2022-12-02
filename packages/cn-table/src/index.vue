@@ -14,11 +14,11 @@
           <el-button v-if="__resetText !== false" class="cn-table-search-btn-reset" size="small" @click="_onReset">{{
               __resetText
           }}</el-button>
+          <slot name="operationsBtnSuffix"></slot>
           <template v-if="__searchType === 'grid' && ownSearchList.length > __searchColumns - 1">
             <a class="cn-table-search-operation" @click="toggleSearchPanel" v-if="isSearchOpen">收起 <i class='el-icon-arrow-up'/></a>
             <a class="cn-table-search-operation" @click="toggleSearchPanel" v-else>展开 <i class='el-icon-arrow-down'/></a>
           </template>
-          <slot name="operationsBtnSuffix"></slot>
         </div>
         <template v-for="{ name } in ownSearchList" v-slot:[`${name}FormExtra`]>
           <slot :name="`${name}FormExtra`"></slot>
