@@ -1,4 +1,3 @@
-export * from './element-ui'
 
-import * as ElementUI from './element-ui'
+import * as ElementUI from './cn-v2c-ui'
 export default ElementUI

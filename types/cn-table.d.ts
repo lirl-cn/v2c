@@ -1,6 +1,6 @@
 import type { HTMLAttributes, StyleValue } from 'vue/types/jsx';
 import type { FormItemType } from './cn-form';
-import { ElementUIComponent } from './component';
+import { CnUIComponent } from './component';
 
 export declare type ParamsType = {
   current: number;  // 当前页
@@ -73,7 +73,7 @@ export declare type RowSelectionType = {
 
 type SettingType = 'reload' | 'fullScreen'
 
-export declare class CnTable extends ElementUIComponent {
+export declare class CnTable extends CnUIComponent {
   columns: ColumnType[] // 表格列数据
   title?: string // 表格标题
   resetText?: string;
