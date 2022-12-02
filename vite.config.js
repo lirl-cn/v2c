@@ -66,7 +66,7 @@ export default {
     //cssCodeSplit: true,
     rollupOptions: {
       //忽略打包vue文件
-      external: ['vue'],
+      external: ['vue', 'element-ui'],
       input: ['packages/index.ts'],
       output: [
         {
