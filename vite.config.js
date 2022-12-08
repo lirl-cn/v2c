@@ -57,7 +57,7 @@ export default {
   },
   hmr: true,
   build: {
-    target: 'modules',
+    target: 'es2015',
     //打包文件目录
     outDir: "es",
     //压缩
