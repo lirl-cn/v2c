@@ -343,7 +343,7 @@ export default defineComponent({
             .map((item, index) => ({
               ...item,
               name: index + "姓名",
-              id: index + data.pageSize,
+              id: index + data.size,
             })),
           total: 37,
         };

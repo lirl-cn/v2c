@@ -10,7 +10,14 @@ import '@/styles/global.scss';
 Vue.config.productionTip = false
 Vue.use(baseUi, {
   table: {
-    request
+    request,
+    current: {
+      key: 'page',
+      format: (current: number) => current - 1
+    },
+    pageSize: {
+      key: 'size',
+    },
   }
 })
 new Vue({

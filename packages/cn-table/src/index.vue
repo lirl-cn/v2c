@@ -434,8 +434,8 @@ export default {
         ...(await this.data),
         ...this.searchData,
         ...data,
-        current,
-        pageSize
+        [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG.current.format ? this.$CN_V2C_TABLE_CONFIG.current.format(current) : current,
+        [this.$CN_V2C_TABLE_CONFIG.pageSize.key]: this.$CN_V2C_TABLE_CONFIG.pageSize.format ? this.$CN_V2C_TABLE_CONFIG.pageSize.format(pageSize) : pageSize
       };
       // 请求之前是否需要转下数据
       params = this.beforeSearchSubmit

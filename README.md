@@ -21,8 +21,16 @@ import request from "@/utils/request"; // 你自己的request方法 返回格式
 import "@lirl-cn/v2c/styles.css"; // 引入样式
 Vue.use(CnV2C, {
   table: {
-    // 挂载全局一些公共方法，可以避免每个页面使用时配置
+    // 挂载全局一些公共方法，可以避免每个页面使用时配置，全部非必传
     request, // 当定义了request后，cn-table可以直接仅传action字段，内部会调用该方法去获取数据
+    current: {
+      key: "page", // 项目里列表接口当前页参数名, 默认是current
+      format: (current: number) => current - 1, // 是否要进行格式化，默认从1开始
+    },
+    pageSize: {
+      key: "size", // 项目里列表接口页数参数名, 默认是pageSize
+      // format: (pageSize: number) => pageSize - 1, // 同current，非必传
+    },
   },
 });
 ```
@@ -168,7 +176,7 @@ type ColumnType = {
   valueEnum?: ValueEnumType; // 枚举
   valueOptions?: { label?: string; value?: string; [k: string]: any }[]; // 选择性组件数据源
   fetchOptions?():
-    ValueEnumType
+    | ValueEnumType
     | { label?: string; value?: string; [k: string]: any }[]
     | Promise<{ label?: string; value?: string; [k: string]: any }[]>
     | Promise<ValueEnumType>; // 方法的方式获取valueEnum ｜ valueOptions
@@ -244,6 +252,7 @@ class CnTable extends ElementUIComponent {
 }
 ```
 
+## 示例
 ### cn-form
 
 ![表格生成](/images/cn-form.jpg)

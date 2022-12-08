@@ -5,6 +5,14 @@ export { CnTable } from './cn-table'
 
 export type InstallationTableOptions = {
   request?: (params?: { [k: string]: any }) => Promise<{ success?: boolean, data: any[], total: number }>
+  current?: {
+    key?: string
+    format?(current: number): number
+  },
+  pageSize?: {
+    key?: string
+    format?(pageSize: number): number
+  },
 }
 
 export interface InstallationOptions {

@@ -19,16 +19,32 @@ const components = [
 type configType = {
   table?: {
     request?: (params?: { [k: string]: any }) => Promise<{ success?: boolean, data: any[], total: number }>
+    current?: {
+      key?: string
+      format?(current: number): number
+    },
+    pageSize?: {
+      key?: string
+      format?(pageSize: number): number
+    },
   }
 }
 const defaultTableConfig = {
   request: fetch,
+  current: {
+    key: 'current',
+    // format: (current:number) => current,
+  },
+  pageSize: {
+    key: 'pageSize',
+  },
 }
 const install = function (Vue: VueConstructor, config: configType = {}) {
   Vue.use(ElementUI, locale);
   components.forEach(component => {
     Vue.component(component.name, component);
   });
+
   Vue.prototype.$CN_V2C_TABLE_CONFIG = {
     ...defaultTableConfig,
     ...config.table,

@@ -23,7 +23,13 @@ const components = [
   CnTable
 ];
 const defaultTableConfig = {
-  request: fetch
+  request: fetch,
+  current: {
+    key: "current"
+  },
+  pageSize: {
+    key: "pageSize"
+  }
 };
 const install = function(Vue, config = {}) {
   Vue.use(ElementUI, _default);
