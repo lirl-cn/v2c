@@ -396,15 +396,14 @@ export default {
         }
       }
       const valueNames = Object.keys(values);
-      // console.log(values)
       let params = {};
       valueNames.length &&
         valueNames.forEach(name => {
           const value = this.formatValue(name, values[name]);
           if (
             // todo 后期要不要改为判断 value 是否为对象
-            this.searchTypesMap[name].type === "date-range" ||
-            this.searchTypesMap[name].type === "date-month-range"
+            this.searchTypesMap[name]?.type === "date-range" ||
+            this.searchTypesMap[name]?.type === "date-month-range"
           ) {
             params = { ...params, ...value };
           } else {
@@ -662,22 +661,35 @@ export default {
       }
     },
     columns: {
-      handler(val) {
+      async handler(val) {
         const searchTypesMap = {};
         // format 搜索项 默认operate为操作列，不参与搜索
         let searchList = this.search
-          ? val
+          ? await Promise.all(val
             .filter(
               ({ hideInSearch, dataIndex }) =>
                 dataIndex !== "operate" && !hideInSearch
             )
-            .map(item => {
+            .map(async item => {
               const type =
                 item.valueType ||
-                (item.valueOptions || item.valueEnum ? "select" : "input");
+                (item.valueOptions || item.fetchOptions || item.valueEnum ? "select" : "input");
               const name =
                 item.searchName || item.name || item.dataIndex || item.key;
               let options = undefined;
+              if(item.fetchOptions && typeof item.fetchOptions === 'function') {
+                let responseOpt;
+                try {
+                  responseOpt = await item.fetchOptions?.()
+                } catch (error) {
+                  console.error(item.dataIndex, '在fetchOptions时发生错误', error);
+                }
+                if(Array.isArray(responseOpt)){
+                  item.valueOptions = responseOpt;
+                }else if(typeof responseOpt === 'object'){
+                  item.valueEnum = responseOpt;
+                }
+              }
               if (item.valueEnum) {
                 options = Object.keys(item.valueEnum).map(key => ({
                   label: item.valueEnum[key].text,
@@ -702,11 +714,10 @@ export default {
                 title: item.searchTitle || item.title,
                 style: item.searchStyle,
               };
-            })
+            }))
           : [];
         // this.searchTypesMap = searchTypesMap;
         // this.searchList = searchList;
-
         this.$set(this, "searchTypesMap", searchTypesMap);
         this.$set(this, "searchList", searchList);
         this.$set(

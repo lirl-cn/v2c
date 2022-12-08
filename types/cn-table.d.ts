@@ -39,6 +39,7 @@ export declare type ColumnType = {
   valueType?: FormItemType // 搜索框类型
   valueEnum?: ValueEnumType // 枚举
   valueOptions?: { label?: string, value?: string, [k: string]: any }[] // 选择性组件数据源
+  fetchOptions?: () => ValueEnumType | { label?: string, value?: string, [k: string]: any }[] | Promise<{ label?: string, value?: string, [k: string]: any }[]> | Promise<ValueEnumType> // 方法的方式获取valueEnum ｜ valueOptions
   formItemProps?: HTMLAttributes & any // object 绑定给el-form-item的attrs
   fieldItemProps?: HTMLAttributes & any  // object 绑定给 表单组件 的attrs
   hideInTable?: boolean // 在表格中隐藏

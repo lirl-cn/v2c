@@ -285,16 +285,22 @@ export default defineComponent({
         title: "姓名",
         dataIndex: "name",
         valueType: "select",
-        valueOptions: [
-          {
-            label: "海洋",
-            value: "海洋",
-          },
-          {
-            label: "大陆",
-            value: "大陆",
-          },
-        ],
+        fetchOptions: () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve([
+                {
+                  label: "海洋",
+                  value: "海洋",
+                },
+                {
+                  label: "大陆",
+                  value: "大陆",
+                },
+              ])
+            }, 1000)
+          })
+        }
       },
       {
         title: "民族",
