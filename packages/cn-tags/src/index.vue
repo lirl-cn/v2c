@@ -43,7 +43,7 @@ export default {
       default: undefined
     },
     value: {
-      type: [Array, String],
+      type: [Array, String, Number],
       default: undefined
     },
     options: {

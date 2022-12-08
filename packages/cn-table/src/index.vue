@@ -318,8 +318,7 @@ export default {
       }
       switch (this.searchTypesMap[name].type) {
         // todo 预留格式转换
-        case "date-range":
-        case "date-month-range": {
+        case "date-range":{
           const rangeExtraPlacement =
             this.searchTypesMap[name].rangeExtraPlacement ||
             this.__searchDateRangeExtraPlacement;
@@ -340,6 +339,7 @@ export default {
           }
           return params;
         }
+        // case "date-month-range": 
         default: {
           return value;
         }

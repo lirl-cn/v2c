@@ -25,6 +25,44 @@ export default defineComponent({
         name: "input",
       },
       {
+        title: "tags-checkbox",
+        type: "tags-checkbox",
+        name: "tags-checkbox",
+        options: [
+          {
+            label: "2222",
+            value: 2222,
+          },
+          {
+            label: "3333",
+            value: 3333,
+          },
+          {
+            label: "4444",
+            value: 4444,
+          },
+        ],
+      },
+      {
+        title: "tags-radio",
+        type: "tags-radio",
+        name: "tags-radio",
+        options: [
+          {
+            label: "2222",
+            value: 2222,
+          },
+          {
+            label: "3333",
+            value: 3333,
+          },
+          {
+            label: "4444",
+            value: 4444,
+          },
+        ],
+      },
+      {
         title: "select",
         type: "select",
         name: "select",
@@ -42,7 +80,7 @@ export default defineComponent({
             value: 4444,
           },
         ],
-        rules: [{ required: true, message: "请输入邮箱地址" }],
+        // rules: [{ required: true, message: "请输入邮箱地址" }],
       },
       {
         title: "radio",
@@ -104,6 +142,16 @@ export default defineComponent({
         name: "date",
       },
       {
+        title: "week",
+        type: "week",
+        name: "week",
+      },
+      {
+        title: "year",
+        type: "year",
+        name: "year",
+      },
+      {
         title: "dates",
         type: "dates",
         name: "dates",
@@ -117,6 +165,11 @@ export default defineComponent({
         title: "color",
         type: "color",
         name: "color",
+      },
+      {
+        title: "daterange",
+        type: "daterange",
+        name: "dateange",
       },
       {
         title: "datetimerange",

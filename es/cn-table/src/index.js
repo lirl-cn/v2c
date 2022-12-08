@@ -191,8 +191,7 @@ const _sfc_main = {
         return void 0;
       }
       switch (this.searchTypesMap[name].type) {
-        case "date-range":
-        case "date-month-range": {
+        case "date-range": {
           const rangeExtraPlacement = this.searchTypesMap[name].rangeExtraPlacement || this.__searchDateRangeExtraPlacement;
           const v = value || [];
           const params = {};
