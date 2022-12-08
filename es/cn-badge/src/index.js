@@ -1,4 +1,4 @@
-import { defineComponent, h } from "vue";
+import { defineComponent, h } from "../../node_modules/vue/dist/vue.runtime.esm.js";
 const CnBadge = defineComponent({
   name: "cn-badge",
   props: {
