@@ -25,7 +25,7 @@
         </template>
       </cn-form>
     </div>
-    <div v-if="true || $scopedSlots['headTitle'] || $scopedSlots['headOperation']" class="cn-table-head-container">
+    <div v-if="setting !== false || $scopedSlots['headTitle'] || $scopedSlots['headOperation']" class="cn-table-head-container">
       <div class="cn-table-head-title">
         <slot name="headTitle">{{title}}</slot>
       </div>
