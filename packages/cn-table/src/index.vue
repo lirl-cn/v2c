@@ -25,16 +25,16 @@
         </template>
       </cn-form>
     </div>
-    <div v-if="setting !== false || $scopedSlots['headTitle'] || $scopedSlots['headOperation']" class="cn-table-head-container">
+    <div v-if="__setting !== false || $scopedSlots['headTitle'] || $scopedSlots['headOperation']" class="cn-table-head-container">
       <div class="cn-table-head-title">
         <slot name="headTitle">{{title}}</slot>
       </div>
       <div class="cn-table-head-operation">
         <slot name="headOperation"></slot>
       </div>
-      <div v-if="setting !== false" class="cn-table-head-setting">
-        <i v-if="setting.indexOf('fullScreen') !== -1" class="el-icon-help" title="全屏切换" @click="toggleFullScreen"></i>
-        <i v-if="setting.indexOf('reload') !== -1" class="el-icon-refresh" title="刷新" @click="reload"></i>
+      <div v-if="__setting !== false" class="cn-table-head-setting">
+        <i v-if="__setting.indexOf('fullScreen') !== -1" class="el-icon-help" title="全屏切换" @click="toggleFullScreen"></i>
+        <i v-if="__setting.indexOf('reload') !== -1" class="el-icon-refresh" title="刷新" @click="reload"></i>
       </div>
     </div>
     <!-- 表格主体 -->
@@ -599,6 +599,9 @@ export default {
     }
   },
   computed: {
+    __setting(){
+      return this.$CN_V2C_TABLE_CONFIG?.setting || this.setting
+    },
     __pagination() {
       return typeof this.pagination === 'object' ? {
         ...this.ownPagination,
