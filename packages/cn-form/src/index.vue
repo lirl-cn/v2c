@@ -30,9 +30,11 @@
           clearable,
           options,
           formItemProps,
+          hide,
           fieldItemProps
         } in data"
         :key="name"
+        :hide="hide"
         :name="name"
         :title="title"
         :clearable="clearable"
@@ -146,7 +148,6 @@ export default {
       return new Promise(async (resolve, reject) => {
         const valid = await this.$refs["formRef"].validate();
         if (valid) {
-          console.log(valid)
           resolve({...this.formModel});
         } else {
           reject();

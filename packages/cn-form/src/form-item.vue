@@ -1,5 +1,5 @@
 <template>
-  <el-form-item v-bind="formItemProps" :label="title" :prop="name">
+  <el-form-item v-if="!hide" v-bind="formItemProps" :label="title" :prop="name">
     <!-- 开关 -->
     <el-switch
       v-if="type === 'switch'"
@@ -258,6 +258,10 @@
     >
       <el-button size="small" type="primary">点击上传</el-button>
     </el-upload>
+    <!-- 仅显示文字 -->
+    <template v-if="type === 'text'">
+      <span>{{formModel[name]}}</span>
+    </template>
     <!-- 自定义form组件 -->
     <template
       v-if="type === 'custom'"
@@ -305,6 +309,10 @@ export default {
     options: {
       type: Array,
       default: undefined
+    },
+    hide: {
+      type: Boolean,
+      default: false,
     },
     clearable: Boolean,
     formItemProps: {

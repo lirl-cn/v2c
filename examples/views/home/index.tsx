@@ -1,280 +1,272 @@
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import "./home.scss";
 export default defineComponent({
   setup() {
     const formRef = ref();
     const value = ref();
-    const options = [
-      {
-        label: "2222",
-        value: 2222,
-      },
-      {
-        label: "3333",
-        value: 3333,
-      },
-      {
-        label: "4444",
-        value: 4444,
-      },
-    ];
-    const formDataSource = [
-      {
-        title: "input",
-        type: "input",
-        name: "input",
-      },
-      {
-        title: "tags-checkbox",
-        type: "tags-checkbox",
-        name: "tags-checkbox",
-        options: [
-          {
-            label: "2222",
-            value: 2222,
-          },
-          {
-            label: "3333",
-            value: 3333,
-          },
-          {
-            label: "4444",
-            value: 4444,
-          },
-        ],
-      },
-      {
-        title: "tags-radio",
-        type: "tags-radio",
-        name: "tags-radio",
-        options: [
-          {
-            label: "2222",
-            value: 2222,
-          },
-          {
-            label: "3333",
-            value: 3333,
-          },
-          {
-            label: "4444",
-            value: 4444,
-          },
-        ],
-      },
-      {
-        title: "select",
-        type: "select",
-        name: "select",
-        options: [
-          {
-            label: "2222",
-            value: 2222,
-          },
-          {
-            label: "3333",
-            value: 3333,
-          },
-          {
-            label: "4444",
-            value: 4444,
-          },
-        ],
-        // rules: [{ required: true, message: "请输入邮箱地址" }],
-      },
-      {
-        title: "radio",
-        type: "radio",
-        name: "radio",
-        options: [
-          {
-            label: "2222",
-            value: 2222,
-          },
-          {
-            label: "3333",
-            value: 3333,
-          },
-          {
-            label: "4444",
-            value: 4444,
-          },
-        ],
-      },
-      {
-        title: "checkbox",
-        type: "checkbox",
-        name: "checkbox",
-        options: [
-          {
-            label: "qqqqq",
-            value: 2222,
-          },
-          {
-            label: "wwwww",
-            value: 3333,
-          },
-          {
-            label: "eeeee",
-            value: 4444,
-          },
-          {
-            label: "eeeee1",
-            value: 44441,
-          },
-          {
-            label: "eeeee2",
-            value: 44442,
-          },
-          {
-            label: "eeeee3",
-            value: 4444232,
-          },
-          {
-            label: "eeeee33",
-            value: 444423,
-          },
-        ],
-      },
-      {
-        title: "date",
-        type: "date",
-        name: "date",
-      },
-      {
-        title: "week",
-        type: "week",
-        name: "week",
-      },
-      {
-        title: "year",
-        type: "year",
-        name: "year",
-      },
-      {
-        title: "dates",
-        type: "dates",
-        name: "dates",
-      },
-      {
-        title: "rate",
-        type: "rate",
-        name: "rate",
-      },
-      {
-        title: "color",
-        type: "color",
-        name: "color",
-      },
-      {
-        title: "daterange",
-        type: "daterange",
-        name: "dateange",
-      },
-      {
-        title: "datetimerange",
-        type: "datetimerange",
-        name: "datetimerange",
-      },
-      {
-        title: "datetime",
-        type: "datetime",
-        name: "datetime",
-      },
-      {
-        title: "monthrange",
-        type: "monthrange",
-        name: "monthrange",
-      },
-      {
-        title: "date-month",
-        type: "date-month",
-        name: "date-month",
-      },
-      {
-        title: "number",
-        type: "number",
-        name: "number",
-        fieldItemProps: {
-          step: 2,
-          "step-strictly": true,
+    let options = ref<any[]>([]);
+    onMounted(() => {
+      options.value = [
+        {
+          label: "2222",
+          value: 2222,
         },
-      },
-      {
-        title: "switch",
-        type: "switch",
-        name: "switch",
-      },
-      {
-        title: "slider",
-        type: "slider",
-        name: "slider",
-        fieldItemProps: {
-          range: true,
+        {
+          label: "3333",
+          value: 3333,
         },
-      },
-      {
-        title: "cascader",
-        type: "cascader",
-        name: "cascader",
-        options: [
-          {
-            label: "qqqqq",
-            value: 2222,
-          },
-          {
-            label: "wwwww",
-            value: 3333,
-          },
-          {
-            label: "eeeee",
-            value: 4444,
-          },
-        ],
-      },
-      {
-        title: "transfer",
-        type: "transfer",
-        name: "transfer",
-        options: [
-          {
-            label: "qqqqq",
-            key: 2222,
-          },
-          {
-            label: "wwwww",
-            key: 3333,
-          },
-          {
-            label: "eeeee",
-            key: 4444,
-          },
-        ],
-        formItemProps: {
-          style: { "grid-column": "span 2" },
+        {
+          label: "4444",
+          value: 4444,
         },
-      },
-      {
-        title: "textarea",
-        type: "textarea",
-        name: "textarea",
-      },
-      {
-        title: "custom",
-        type: "custom",
-        name: "custom",
-        initialValue: "2222",
-        rules: [{ required: true, message: "请输入邮箱地址" }],
-      },
-      {
-        title: "upload",
-        type: "upload",
-        name: "upload",
-        fieldItemProps: {
-          action: "",
+      ];
+    });
+    const formDataSource = computed(() => {
+      return [
+        {
+          title: "input",
+          type: "input",
+          name: "input",
         },
-      },
-    ];
+        {
+          title: "tags-checkbox",
+          type: "tags-checkbox",
+          name: "tags-checkbox",
+          options: options.value,
+        },
+        {
+          title: "tags-radio",
+          type: "tags-radio",
+          name: "tags-radio",
+          options: [
+            {
+              label: "2222",
+              value: 2222,
+            },
+            {
+              label: "3333",
+              value: 3333,
+            },
+            {
+              label: "4444",
+              value: 4444,
+            },
+          ],
+        },
+        {
+          title: "select",
+          type: "select",
+          name: "select",
+          options: [
+            {
+              label: "2222",
+              value: 2222,
+            },
+            {
+              label: "3333",
+              value: 3333,
+            },
+            {
+              label: "4444",
+              value: 4444,
+            },
+          ],
+          rules: [{ required: true, message: "请输入邮箱地址" }],
+        },
+        {
+          title: "radio",
+          type: "radio",
+          name: "radio",
+          options: [
+            {
+              label: "2222",
+              value: 2222,
+            },
+            {
+              label: "3333",
+              value: 3333,
+            },
+            {
+              label: "4444",
+              value: 4444,
+            },
+          ],
+        },
+        {
+          title: "checkbox",
+          type: "checkbox",
+          name: "checkbox",
+          options: [
+            {
+              label: "qqqqq",
+              value: 2222,
+            },
+            {
+              label: "wwwww",
+              value: 3333,
+            },
+            {
+              label: "eeeee",
+              value: 4444,
+            },
+            {
+              label: "eeeee1",
+              value: 44441,
+            },
+            {
+              label: "eeeee2",
+              value: 44442,
+            },
+            {
+              label: "eeeee3",
+              value: 4444232,
+            },
+            {
+              label: "eeeee33",
+              value: 444423,
+            },
+          ],
+        },
+        {
+          title: "date",
+          type: "date",
+          name: "date",
+        },
+        {
+          title: "week",
+          type: "week",
+          name: "week",
+        },
+        {
+          title: "year",
+          type: "year",
+          name: "year",
+        },
+        {
+          title: "dates",
+          type: "dates",
+          name: "dates",
+        },
+        {
+          title: "rate",
+          type: "rate",
+          name: "rate",
+        },
+        {
+          title: "color",
+          type: "color",
+          name: "color",
+        },
+        {
+          title: "daterange",
+          type: "daterange",
+          name: "dateange",
+        },
+        {
+          title: "datetimerange",
+          type: "datetimerange",
+          name: "datetimerange",
+        },
+        {
+          title: "datetime",
+          type: "datetime",
+          name: "datetime",
+        },
+        {
+          title: "monthrange",
+          type: "monthrange",
+          name: "monthrange",
+        },
+        {
+          title: "date-month",
+          type: "date-month",
+          name: "date-month",
+        },
+        {
+          title: "number",
+          type: "number",
+          name: "number",
+          fieldItemProps: {
+            step: 2,
+            "step-strictly": true,
+          },
+        },
+        {
+          title: "switch",
+          type: "switch",
+          name: "switch",
+        },
+        {
+          title: "slider",
+          type: "slider",
+          name: "slider",
+          fieldItemProps: {
+            range: true,
+          },
+        },
+        {
+          title: "cascader",
+          type: "cascader",
+          name: "cascader",
+          options: [
+            {
+              label: "qqqqq",
+              value: 2222,
+            },
+            {
+              label: "wwwww",
+              value: 3333,
+            },
+            {
+              label: "eeeee",
+              value: 4444,
+            },
+          ],
+        },
+        {
+          title: "transfer",
+          type: "transfer",
+          name: "transfer",
+          options: [
+            {
+              label: "qqqqq",
+              key: 2222,
+            },
+            {
+              label: "wwwww",
+              key: 3333,
+            },
+            {
+              label: "eeeee",
+              key: 4444,
+            },
+          ],
+          formItemProps: {
+            style: { "grid-column": "span 2" },
+          },
+        },
+        {
+          title: "textarea",
+          type: "textarea",
+          name: "textarea",
+        },
+        {
+          title: "custom",
+          type: "custom",
+          name: "custom",
+          initialValue: "2222",
+          rules: [{ required: true, message: "请输入邮箱地址" }],
+        },
+        {
+          title: "upload",
+          type: "upload",
+          name: "upload",
+          fieldItemProps: {
+            action: "",
+          },
+        },
+      ];
+    });
     const checkList = ref([]);
     const onSubmit = async () => {
       console.log(await formRef.value.validateFields());
@@ -297,10 +289,10 @@ export default defineComponent({
                   label: "大陆",
                   value: "大陆",
                 },
-              ])
-            }, 1000)
-          })
-        }
+              ]);
+            }, 1000);
+          });
+        },
       },
       {
         title: "民族",
@@ -349,6 +341,7 @@ export default defineComponent({
         };
       }
     };
+    console.log(formDataSource);
     return () => (
       <div class="container">
         <h1>Home</h1>
@@ -358,7 +351,7 @@ export default defineComponent({
         <cn-tags
           value={value.value}
           onChange={(text: any) => (value.value = text)}
-          options={options}
+          options={options.value}
         ></cn-tags>
         <cn-pagination total={70} current={2}></cn-pagination>
         <div>
@@ -369,7 +362,7 @@ export default defineComponent({
           <cn-form
             ref={formRef}
             columns={3}
-            data={formDataSource}
+            data={formDataSource.value}
             scopedSlots={{
               customCustomFormComponent: ({ onChange, value }: any) => {
                 return <el-input value={value} onInput={onChange}></el-input>;

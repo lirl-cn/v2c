@@ -109,7 +109,6 @@ const _sfc_main = {
         return new Promise((resolve, reject) => __async(this, null, function* () {
           const valid = yield this.$refs["formRef"].validate();
           if (valid) {
-            console.log(valid);
             resolve(__spreadValues({}, this.formModel));
           } else {
             reject();
@@ -188,9 +187,10 @@ var _sfc_render = function render() {
     clearable,
     options,
     formItemProps,
+    hide,
     fieldItemProps
   }) {
-    return _c("form-item", { key: name, attrs: { "name": name, "title": title, "clearable": clearable, "placeholder": placeholder, "type": type, "options": options, "fieldItemProps": fieldItemProps, "formItemProps": formItemProps, "formModel": _vm.formModel }, scopedSlots: _vm._u([{ key: `${name}FormExtra`, fn: function() {
+    return _c("form-item", { key: name, attrs: { "hide": hide, "name": name, "title": title, "clearable": clearable, "placeholder": placeholder, "type": type, "options": options, "fieldItemProps": fieldItemProps, "formItemProps": formItemProps, "formModel": _vm.formModel }, scopedSlots: _vm._u([{ key: `${name}FormExtra`, fn: function() {
       return [_vm._t(`${name}FormExtra`)];
     }, proxy: true }, { key: `${name}CustomFormComponent`, fn: function({ fieldItemProps: fieldItemProps2, formModel, onChange, name: name2, value }) {
       return [_vm._t(`${name2}CustomFormComponent`, null, { "fieldItemProps": fieldItemProps2, "formModel": formModel, "onChange": onChange, "name": name2, "value": value })];
