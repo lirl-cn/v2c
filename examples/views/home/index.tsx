@@ -58,10 +58,10 @@ export default defineComponent({
           type: "select",
           name: "select",
           options: [
-            {
-              label: "2222",
-              value: 2222,
-            },
+            // {
+            //   label: "2222",
+            //   value: 2222,
+            // },
             {
               label: "3333",
               value: 3333,
@@ -258,6 +258,11 @@ export default defineComponent({
           rules: [{ required: true, message: "请输入邮箱地址" }],
         },
         {
+          title: "cc",
+          type: "custom",
+          name: "cc",
+        },
+        {
           title: "upload",
           type: "upload",
           name: "upload",
@@ -341,6 +346,18 @@ export default defineComponent({
         };
       }
     };
+    const propertySearch = (_, cb) => {
+      cb([
+        { value: 1, description: 1 },
+        { value: 2, description: 2 },
+        { value: 3, description: 3 },
+        { value: 4, description: 4 },
+        { value: 5, description: 5 },
+      ]);
+    };
+    const handleSelect = (item, cb) => {
+      // cb(item.value);
+    };
     console.log(formDataSource);
     return () => (
       <div class="container">
@@ -364,6 +381,27 @@ export default defineComponent({
             columns={3}
             data={formDataSource.value}
             scopedSlots={{
+              ccCustomFormComponent: ({ value, onChange }: any) => {
+                return (
+                  <el-autocomplete
+                    popper-class="property-key-autocomplete"
+                    value={value}
+                    fetch-suggestions={propertySearch}
+                    placeholder="请输入内容"
+                    onChange={onChange}
+                    onInput={onChange}
+                    onSelect={(item) => handleSelect(item, onChange)}
+                    scopedSlots={{
+                      suffix: () => (
+                        <i
+                          class="el-icon-close el-input__icon"
+                          onClick={() => onChange(undefined)}
+                        ></i>
+                      ),
+                    }}
+                  ></el-autocomplete>
+                );
+              },
               customCustomFormComponent: ({ onChange, value }: any) => {
                 return <el-input value={value} onInput={onChange}></el-input>;
               },

@@ -20,6 +20,7 @@
       :label-suffix="labelSuffix"
       :hide-required-asterisk="hideRequiredAsterisk"
       :disabled="disabled"
+      :validate-on-rule-change="false"
     >
       <form-item
         v-for="{
