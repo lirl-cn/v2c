@@ -8,7 +8,7 @@ const _sfc_main = defineComponent({
     },
     status: {
       type: String,
-      default: "primary"
+      default: void 0
     }
   }
 });

@@ -15,7 +15,7 @@ export default defineComponent({
     },
     status: {
       type: String as PropType<'success' | 'error' | 'default' | 'processing' | 'warning' | 'primary'>,
-      default: 'primary',
+      default: undefined,
     }
   },
 })
