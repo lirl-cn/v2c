@@ -33,8 +33,8 @@
         <slot name="headOperation"></slot>
       </div>
       <div v-if="__setting !== false" class="cn-table-head-setting">
-        <i v-if="__setting.indexOf('fullScreen') !== -1" class="el-icon-help" title="全屏切换" @click="toggleFullScreen"></i>
-        <i v-if="__setting.indexOf('reload') !== -1" class="el-icon-refresh" title="刷新" @click="reload"></i>
+        <i v-if="Array.isArray(__setting) && __setting.indexOf('fullScreen') !== -1" class="el-icon-help" title="全屏切换" @click="toggleFullScreen"></i>
+        <i v-if="Array.isArray(__setting) && __setting.indexOf('reload') !== -1" class="el-icon-refresh" title="刷新" @click="reload"></i>
       </div>
     </div>
     <!-- 表格主体 -->
@@ -600,7 +600,7 @@ export default {
   },
   computed: {
     __setting(){
-      return this.$CN_V2C_TABLE_CONFIG?.setting || this.setting
+      return this.$CN_V2C_TABLE_CONFIG?.setting ?? this.setting
     },
     __pagination() {
       return typeof this.pagination === 'object' ? {
