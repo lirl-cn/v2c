@@ -68,7 +68,7 @@ const _sfc_main = {
     },
     title: {
       type: String | false,
-      default: "demo\u8868\u683C\u793A\u4F8B"
+      default: ""
     },
     searchText: {
       type: String | false,

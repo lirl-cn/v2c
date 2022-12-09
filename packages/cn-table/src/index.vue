@@ -121,7 +121,7 @@ export default {
     },
     title: {
       type: String | false,
-      default: "demo表格示例"
+      default: ""
     },
     searchText: {
       type: String | false,
