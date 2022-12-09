@@ -1,71 +1,22 @@
-import { defineComponent, h } from "../../node_modules/vue/dist/vue.runtime.esm.js";
-const CnPagination = defineComponent({
-  name: "cn-pagination",
-  props: {
-    current: {
-      type: Number,
-      default: 1
-    },
-    pageSize: {
-      type: Number,
-      default: 20
-    },
-    total: {
-      type: Number,
-      default: 0
-    },
-    size: {
-      type: String,
-      default: "default"
-    },
-    layout: {
-      type: String,
-      default: "total, prev, pager, next, sizes, jumper"
-    },
-    background: {
-      type: Boolean
-    },
-    pageSizeOptions: {
-      type: Array,
-      default: () => [10, 20, 50, 100]
-    },
-    onChange: {
-      type: Function,
-      default: () => {
-      }
-    }
-  },
-  setup(props) {
-    const onCurrentChange = (current) => {
-      props.onChange(current, props.pageSize);
-    };
-    const onSizeChange = (pageSize) => {
-      props.onChange(props.current, pageSize);
-    };
-    return () => {
-      return h("el-pagination", {
-        "class": "cn-data-catalog-table-pagination",
-        "attrs": {
-          "small": props.size === "small",
-          "background": props.background,
-          "current-page": props.current,
-          "pageSize": props.pageSize,
-          "total": props.total,
-          "showSizeChanger": true,
-          "pageSizes": props.pageSizeOptions,
-          "how-quick-jumper": true,
-          "layout": props.layout
-        },
-        "on": {
-          "size-change": onSizeChange,
-          "current-change": onCurrentChange,
-          "prev-click": onCurrentChange,
-          "next-click": onCurrentChange
-        }
-      });
-    };
-  }
-});
+import _sfc_main from "./index.vue_vue_type_script_lang.js";
+import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
+var _sfc_render = function render() {
+  var _vm = this, _c = _vm._self._c;
+  _vm._self._setupProxy;
+  return _c("el-pagination", { staticClass: "cn-data-catalog-table-pagination", attrs: { "small": _vm.size === "small", "background": _vm.background, "current-page": _vm.current, "pageSize": _vm.pageSize, "total": _vm.total, "showSizeChanger": "", "pageSizes": _vm.pageSizeOptions, "how-quick-jumper": "", "layout": _vm.layout }, on: { "size-change": _vm.onSizeChange, "current-change": _vm.onCurrentChange, "prev-click": _vm.onCurrentChange, "next-click": _vm.onCurrentChange } });
+};
+var _sfc_staticRenderFns = [];
+var __component__ = /* @__PURE__ */ normalizeComponent(
+  _sfc_main,
+  _sfc_render,
+  _sfc_staticRenderFns,
+  false,
+  null,
+  null,
+  null,
+  null
+);
+const CnPagination = __component__.exports;
 export {
   CnPagination as default
 };

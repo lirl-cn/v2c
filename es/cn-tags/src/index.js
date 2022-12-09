@@ -1,4 +1,3 @@
-import "./index.vue_vue_type_style_index_0_scoped_037f3313_lang.js";
 import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
 const _sfc_main = {
   name: "CnTags",
@@ -74,7 +73,7 @@ var __component__ = /* @__PURE__ */ normalizeComponent(
   _sfc_staticRenderFns,
   false,
   null,
-  "037f3313",
+  null,
   null,
   null
 );

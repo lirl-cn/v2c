@@ -5,7 +5,7 @@ import './styles/index.scss';
 
 import CnBadge from './cn-badge';
 import CnForm from './cn-form';
-import CnPagination from './cn-pagination/src';
+import CnPagination from './cn-pagination/src/index.vue';
 import CnTable from './cn-table';
 import CnTags from "./cn-tags";
 

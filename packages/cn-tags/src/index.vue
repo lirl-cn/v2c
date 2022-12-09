@@ -80,7 +80,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-$primary-color: #1890ff;
-
-</style>
