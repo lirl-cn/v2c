@@ -18,7 +18,7 @@ yarn add @lirl-cn/v2c
 ```ts
 import CnV2C from "@lirl-cn/v2c";
 import request from "@/utils/request"; // 你自己的request方法 返回格式为{data: any[], total: number, success?: boolean}
-import "@lirl-cn/v2c/styles.css"; // 引入样式
+import "@lirl-cn/v2c/es/styles.css"; // 引入样式
 Vue.use(CnV2C, {
   table: {
     // 挂载全局一些公共方法，可以避免每个页面使用时配置，全部非必传
@@ -39,7 +39,7 @@ Vue.use(CnV2C, {
 
 ```diff patch
 # miain.ts
-- import '@lirl-cn/v2c/styles.css'; // 去除原样式
+- import '@lirl-cn/v2c/es/styles.css'; // 去除原样式
 + import '@/styles/element-variables.scss'; // 引入自己定义的样式文件
 ```
 
@@ -253,6 +253,7 @@ class CnTable extends ElementUIComponent {
 ```
 
 ## 示例
+
 ### cn-form
 
 ![表格生成](/images/cn-form.jpg)
