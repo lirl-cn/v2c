@@ -272,7 +272,7 @@
         v-bind:formModel="formModel"
         v-bind:name="name"
         v-bind:value="formModel[name]"
-        v-bind:onChange="(val) => formModel[name] = val"
+        v-bind:onChange="(val) => $nextTick(() => formModel[name] = val)"
       ></slot>
     </template>
     <slot :name="`${name}FormExtra`"></slot>
