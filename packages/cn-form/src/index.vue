@@ -45,6 +45,7 @@
         :fieldItemProps="fieldItemProps"
         :formItemProps="formItemProps"
         :formModel="formModel"
+        :customChangeFormModel="setFieldValue"
       >
         <template v-slot:[`${name}FormExtra`]>
           <slot :name="`${name}FormExtra`"></slot>
@@ -128,12 +129,13 @@ export default {
   watch: {
     data: {
       handler(val) {
+        const initialValues = this.getFieldsValue();
         const rules = val.reduce((pre, cur) => {
           // 初始化默认值
           this.$set(
             this.formModel,
             cur.name || cur.dataIndex || cur.key,
-            cur.initialValue || (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
+            initialValues[cur.name] || cur.initialValue || (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
           );
           pre[cur.name || cur.dataIndex || cur.key] = cur.rules;
           return pre;
