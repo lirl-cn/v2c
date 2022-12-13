@@ -18,13 +18,14 @@
     "allowJs": true,
     "typeRoots": [
 
-      "./types",
+      "./node_modules/vue/types",
       
-      "./node_modules/vue/types"
+      "./types/packages"
       
     ],
     "paths": {
       "@/*": ["./examples/*"],
+      "#/*": ["./packages/*"],
       "@@/*": ["./*"],
       "~/*": ["./node_modules/*"]
     },

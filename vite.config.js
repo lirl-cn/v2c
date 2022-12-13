@@ -1,9 +1,8 @@
 /** @type {import('vite').UserConfig} */
-import vue from '@vitejs/plugin-vue2'
-import vueJsx from '@vitejs/plugin-vue2-jsx'
-import { splitVendorChunkPlugin } from 'vite'
-import defaultConfig from './config/defaultConfig'
-// import antdvFix from 'vite-plugin-antdv-fix' // 解决antd-vue date引入moment.js 方式会导致页面出错的问题
+import vue from '@vitejs/plugin-vue2';
+import vueJsx from '@vitejs/plugin-vue2-jsx';
+import dts from 'vite-plugin-dts';
+import defaultConfig from './config/defaultConfig';
 
 export default {
   plugins: [
@@ -17,10 +16,14 @@ export default {
     // legacy({
     //   targets: ['defaults', 'not IE 11']
     // }),
-    splitVendorChunkPlugin(),
+    // splitVendorChunkPlugin(),
     // Components({
     //   resolvers: [],
     // }),
+    //因为这个插件默认打包到es下，我们想让lib目录下也生成声明文件需要再配置一个
+    dts({
+      outputDir: 'types'
+    })
   ],
   server: {
     proxy: {
@@ -38,6 +41,7 @@ export default {
     alias: {
       '@@/': __dirname + '/',
       '@/': __dirname + '/examples/',
+      '#/': __dirname + '/packages/',
       '~/': __dirname + '/node_modules/',
     },
     extensions: ['.js', '.mjs', '.ts', '.jsx', '.tsx', '.vue', '.json'],
@@ -91,7 +95,7 @@ export default {
       ]
     },
     lib: {
-      entry: './index.ts',
+      entry: './packages/index.ts',
       formats: ['es', 'cjs']
     }
   }

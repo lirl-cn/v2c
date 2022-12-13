@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 // import baseUi, { MessageBox } from '../es'
 import request from 'umi-request';
-import baseUi from '../es';
+import baseUi from '../packages';
 // import '../es/style.css'
 import '@/styles/element-variables.scss';
 import '@/styles/global.scss';

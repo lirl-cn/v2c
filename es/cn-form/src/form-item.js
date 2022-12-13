@@ -1,67 +1,5 @@
-import "../../index.js";
+import _sfc_main from "./form-item.vue_vue_type_script_lang.js";
 import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
-import "../../cn-tags/index.js";
-import CnTags from "../../cn-tags/src/index.js";
-const _sfc_main = {
-  components: { CnTags },
-  props: {
-    title: {
-      type: String
-    },
-    separator: {
-      type: String
-    },
-    placeholder: {
-      type: String
-    },
-    startPlaceholder: {
-      type: String
-    },
-    endPlaceholder: {
-      type: String,
-      default: "\u7ED3\u675F\u65E5\u671F"
-    },
-    type: {
-      type: String,
-      default: "input"
-    },
-    name: {
-      type: String
-    },
-    options: {
-      type: Array,
-      default: void 0
-    },
-    hide: {
-      type: Boolean,
-      default: false
-    },
-    clearable: Boolean,
-    formItemProps: {
-      type: Object,
-      default: void 0
-    },
-    fieldItemProps: {
-      type: Object,
-      default: () => ({})
-    },
-    formModel: {
-      type: Object,
-      default: () => ({})
-    },
-    customChangeFormModel: {
-      type: Function,
-      default: () => {
-      }
-    }
-  },
-  computed: {
-    onChange() {
-      return this.fieldItemProps.onChange ? this.fieldItemProps.onChange : () => {
-      };
-    }
-  }
-};
 var _sfc_render = function render() {
   var _vm = this, _c = _vm._self._c;
   return !_vm.hide ? _c("el-form-item", _vm._b({ attrs: { "label": _vm.title, "prop": _vm.name } }, "el-form-item", _vm.formItemProps, false), [_vm.type === "switch" ? _c("el-switch", _vm._b({ model: { value: _vm.formModel[_vm.name], callback: function($$v) {
@@ -118,7 +56,7 @@ var _sfc_render = function render() {
     _vm.$set(_vm.formModel, _vm.name, $$v);
   }, expression: "formModel[name]" } }, "el-input-number", _vm.fieldItemProps, false)) : _vm._e(), _vm.type === "upload" ? _c("el-upload", _vm._b({ on: { "change": _vm.onChange }, model: { value: _vm.formModel[_vm.name], callback: function($$v) {
     _vm.$set(_vm.formModel, _vm.name, $$v);
-  }, expression: "formModel[name]" } }, "el-upload", _vm.fieldItemProps, false), [_c("el-button", { attrs: { "size": "small", "type": "primary" } }, [_vm._v("\u70B9\u51FB\u4E0A\u4F20")])], 1) : _vm._e(), _vm.type === "text" ? [_c("span", [_vm._v(_vm._s(_vm.formModel[_vm.name]))])] : _vm._e(), _vm.type === "custom" ? [_vm._t(`${_vm.name}CustomFormComponent`, null, { "fieldItemProps": _vm.fieldItemProps, "formModel": _vm.formModel, "name": _vm.name, "value": _vm.formModel[_vm.name], "onChange": (val) => _vm.customChangeFormModel(_vm.name, val) })] : _vm._e(), _vm._t(`${_vm.name}FormExtra`)], 2) : _vm._e();
+  }, expression: "formModel[name]" } }, "el-upload", _vm.fieldItemProps, false), [_c("el-button", { attrs: { "size": "small", "type": "primary" } }, [_vm._v("\u70B9\u51FB\u4E0A\u4F20")])], 1) : _vm._e(), _vm.type === "text" ? [_c("span", [_vm._v(_vm._s(_vm.formModel[_vm.name]))])] : _vm._e(), _vm.type === "custom" ? [_vm._t(`${_vm.name}CustomFormComponent`, null, { "fieldItemProps": _vm.fieldItemProps, "formModel": _vm.formModel, "value": _vm.formModel[_vm.name], "onChange": (val) => _vm.customChangeFormModel(_vm.name, val) })] : _vm._e(), _vm._t(`${_vm.name}FormExtra`)], 2) : _vm._e();
 };
 var _sfc_staticRenderFns = [];
 var __component__ = /* @__PURE__ */ normalizeComponent(

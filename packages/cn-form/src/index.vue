@@ -50,16 +50,28 @@
         <template v-slot:[`${name}FormExtra`]>
           <slot :name="`${name}FormExtra`"></slot>
         </template>
-        <template v-slot:[`${name}CustomFormComponent`]="{fieldItemProps, formModel, onChange, name, value}">
-          <slot :name="`${name}CustomFormComponent`" v-bind:fieldItemProps="fieldItemProps" v-bind:formModel="formModel" v-bind:onChange="onChange" v-bind:name="name" v-bind:value="value"></slot>
+        <template v-slot:[`${name}CustomFormComponent`]="{fieldItemProps, formModel, onChange, value}">
+          <slot :name="`${name}CustomFormComponent`" v-bind:fieldItemProps="fieldItemProps" v-bind:formModel="formModel" v-bind:onChange="onChange" v-bind:value="value"></slot>
         </template>
       </form-item>
       <slot name="default"></slot>
     </el-form>
   </div>
 </template>
-<script>
-// import FormItem from "./form-item.vue";
+<script lang="ts">
+import { FormItemType, OptionsType } from '#/common';
+import type { PropType } from 'vue';
+export type DataType = {
+  name: string,
+  title: string,
+  type: FormItemType,
+  hide?: boolean
+  clearable?: boolean,
+  options?: OptionsType
+  placeholder?: string,
+  formItemProps?: {[k:string]: any}
+  fieldItemProps?: {[k:string]: any}
+}
 export default {
   name: 'cn-form',
   components: { 
@@ -82,6 +94,10 @@ export default {
       type: Number,
       default: 1
     },
+    actionRef: {
+      type: Function,
+      default: undefined
+    },
     // 搜索类型： inline行内显示，gird分列显示默认为3，block全部独占一行 默认为gird
     layout: {
       type: String,
@@ -101,12 +117,12 @@ export default {
      *  */
 
     data: {
-      type: Array,
+      type: Array as PropType<DataType[]>,
       default: () => []
     },
     // 初始值
     initialValues: {
-      type: Object,
+      type: Object as PropType<{[k:string]: any}>,
       default: () => ({})
     },
     // 大小
@@ -124,13 +140,17 @@ export default {
       needDefaultValueArrayTypes: ['date-months', 'checkbox'],
       formModel: {},
       rules: {}
+    } as {
+      formModel: {[k:string]: any}
+      needDefaultValueArrayTypes: string[]
+      rules: {[k:string]: any}
     };
   },
   watch: {
     data: {
       handler(val) {
-        const initialValues = this.getFieldsValue();
-        const rules = val.reduce((pre, cur) => {
+        const initialValues:any = this.getFieldsValue();
+        const rules = val.reduce((pre:any, cur:any) => {
           // 初始化默认值
           this.$set(
             this.formModel,
@@ -144,12 +164,31 @@ export default {
       },
       immediate: true,
       deep: true
+    },
+    actionRef: {
+      handler(val){
+        val && val(this.ownActionRef)
+      },
+      immediate: true,
+      deep: true
+    },
+  },
+  computed: {
+    ownActionRef(){
+      return {
+        validateFields: this.validateFields,
+        getFieldsValue: this.getFieldsValue,
+        getFieldValue: this.getFieldValue,
+        setFieldValue: this.setFieldValue,
+        setFieldsValue: this.setFieldsValue,
+        resetFields: this.resetFields,
+      }
     }
   },
   methods: {
     async _validate() {
       return new Promise(async (resolve, reject) => {
-        const valid = await this.$refs["formRef"].validate();
+        const valid = await (this.$refs["formRef"] as any).validate();
         if (valid) {
           resolve({...this.formModel});
         } else {
@@ -157,14 +196,14 @@ export default {
         }
       });
     },
-    async _validateField(fields = undefined) {
+    async _validateField(fields:string[] = []) {
       return new Promise((resolve, reject) => {
-        this.$refs["formRef"].validateField(fields, valid => {
+        (this.$refs["formRef"] as any).validateField(fields, (valid:boolean) => {
           if (!valid) {
             if (typeof fields === "string") {
               resolve(this.formModel[fields]);
             } else {
-              const results = fields.reduce((pre, cur) => {
+              const results = fields.reduce((pre:any, cur:string) => {
                 pre[cur] = this.formModel[cur];
                 return pre;
               }, {});
@@ -177,7 +216,7 @@ export default {
       });
     },
     // 检验并获取所有值
-    validateFields(fields) {
+    validateFields(fields:string[]) {
       if (fields) {
         return this._validateField(fields);
       } else {
@@ -189,11 +228,11 @@ export default {
       return {...this.formModel};
     },
     // 基于key获取单个值
-    getFieldValue(key) {
+    getFieldValue(key: string) {
       return this.formModel[key];
     },
     // 基于key设置单个值
-    setFieldValue(key, value) {
+    setFieldValue(key:string, value:any) {
       this.$set(
         this.formModel,
         key,
@@ -201,7 +240,7 @@ export default {
       );
     },
     // 设置表单的值
-    setFieldsValue(fields) {
+    setFieldsValue(fields: {[k:string]: any}) {
       if(typeof fields === 'object'){
         Object.keys(fields).forEach(key => {
           this.setFieldValue(key, fields[key])
@@ -210,7 +249,7 @@ export default {
     },
     // 重置表单
     resetFields() {
-      this.$refs["formRef"].resetFields();
+      (this.$refs["formRef"] as any).resetFields();
     }
   }
 };

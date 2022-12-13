@@ -92,10 +92,94 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
+import type { DataType as FormItemPropType } from '#/cn-form/src/index.vue';
+import { FormItemType, OptionsType } from '#/common';
+import type { PropType } from 'vue';
+import type { HTMLAttributes, StyleValue } from 'vue/types/jsx';
+import { VNode } from 'vue/types/umd';
 import CnForm from '../../cn-form';
 import CnElPagination from '../../cn-pagination';
 import CnColumn from './column.vue';
+export type ParamsType = {
+  page: number;
+  size: number;
+  [k:string]: any;
+}
+export type ResponseDataType = {
+  success?: boolean,
+  data: any[]
+  total: number;
+}
+
+type StatusType = 'success' | 'error' | 'default' | 'processing' | 'warning';
+type ValueEnumType = {
+  [k:string]: {
+    text: string
+    status: StatusType
+  }
+}
+type SearchType = {
+  type?: 'inline' | 'gird' | 'block' // 搜索排列样式
+  columns?: number // 几列
+  resetText?: string | false  // 重置文案
+  searchText?: string | false // 搜索文案
+  rangeExtra?: [string, string] // 区间选择额外增加的字段
+  rangeExtraPlacement?: "start" | "end"  // 区间选择额外增加字段的位置
+}
+type ColumnType = {
+  dataIndex: string // 表单唯一值，该列基于哪个字段显示，支持a.b.c但不建议
+  title: string // 单元格名称文案
+  searchTitle?: string  // 搜索框显示的文案。若为空默认显示title
+  searchStyle?: StyleValue  // 搜索框样式
+  name?: string // 
+  key?: string
+  searchName?: string // 搜索时传参名称，若为空默认显示dataIndex
+  status?: StatusType // 状态
+  valueType?: FormItemType // 搜索框类型
+  valueEnum?: ValueEnumType // 枚举
+  valueOptions?: OptionsType // 选择性组件数据源
+  fetchOptions?: () => ValueEnumType | OptionsType | Promise<OptionsType> | Promise<ValueEnumType> // 方法的方式获取valueEnum ｜ valueOptions
+  formItemProps?: HTMLAttributes & any // object 绑定给el-form-item的attrs
+  fieldItemProps?: HTMLAttributes & any  // object 绑定给 表单组件 的attrs
+  hideInTable?: boolean // 在表格中隐藏
+  hideInSearch?: boolean // 在搜索中隐藏
+  ellipsis?: boolean // 超出隐藏
+  width?: number // 宽度
+  scopedSlots?: { customRender?: string, [k: string]: any }
+  children?: ColumnType[],
+  className?: string,
+  render?: () => string | VNode,
+  minWidth?: number | string,
+  fixed: 'left' | 'right',
+  rangeExtra?: [string, string] // 区间选择额外增加的字段
+  rangeExtraPlacement?: "start" | "end"  // 区间选择额外增加字段的位置
+}
+type PaginationType = {
+  defaultPageSize?: number
+  pageSizeOptions?: number[]
+  current?: number
+  pageSize?: number
+}
+type SelectedRowsResponse = {
+  selectedRows: any[]
+}
+export type RowSelectionType = {
+  batchDeleteText?: string  // 批量删除文案
+  batchDownloadText?: string  // 批量导出文案
+  onBatchDelete?: (selectedRows: SelectedRowsResponse['selectedRows']) => void  // 批量删除调用的方法
+  onBatchDownload?: (selectedRows: SelectedRowsResponse['selectedRows']) => void  // 批量导出调用的方法
+  onChange?: (selectedRows: SelectedRowsResponse['selectedRows']) => void // 当选择行变化时调用
+}
+type ActionRefType = {
+  onSearch: () => void  // 搜索
+  onReset: () => void // 重置
+  onReload: () => void  // 重新加载
+  getSearchParams<T = ParamsType>(): T | Promise<T>  // 获取所以搜索参数
+  setSearchFieldsValue<T = any>(fieldsValue: T): void // 设置搜索参数
+  getSelectedRows: () => SelectedRowsResponse // 获取选择的数据
+}
+type SettingKeyType = 'reload' | 'fullScreen';
 const DEFAULT_RESPONSE_DATA = {
   success: true,
   data: [],
@@ -112,37 +196,36 @@ export default {
   props: {
     tableClassName: String,
     setting: {
-      type: [Array, Boolean],
+      type: [Array, Boolean] as PropType<false | SettingKeyType[]>,
       default: () => ['reload', 'fullScreen']
     },
     resetText: {
-      type: String | false,
+      type: [String, Boolean] as PropType<string | false>,
       default: "重置"
     },
-    title: {
-      type: String | false,
-      default: ""
-    },
     searchText: {
-      type: String | false,
+      type: [String, Boolean] as PropType<string | false>,
       default: "查询"
+    },
+    title: {
+      type: [String, Boolean] as PropType<string | false>,
+      default: ""
     },
     rowKey: {
       type: String,
-      default: 'id'
+      default: undefined
     },
     // 搜索类型： inline行内显示，gird分列显示默认为3，block全部独占一行 默认为gird
     searchType: {
-      type: String, // inline | grid | block
-      default: "grid"
+      type: String as PropType<'gird' | 'block' | 'inline'>,
+      default: "gird"
     },
     searchColumns: {
       type: Number,
       default: 3
     },
     scroll: {
-      type: Object | false,
-      default: () => { }
+      type: Object as PropType<{ y?: string |number }>,
     },
     // 请求地址
     action: String,
@@ -152,15 +235,15 @@ export default {
       default: true
     },
     showIndex: {
-      type: undefined | Boolean | Function,
+      type: [Boolean , Function] as PropType<boolean | ((params: {index: number, current: number, pageSize: number, text: string | number}) => string)>,
       default: undefined
     },
     // 请求方法，优先级大于action ，返回参数必须为，并包含所写参数 {data: [], total: number, success: boolean}
-    request: Function,
+    request: Function as PropType<(params: ParamsType) => ResponseDataType>,
     // 请求方式，默认为post request 为空 action有值时触发
     method: {
-      type: "GET" | "POST",
-      default: "POST"
+      type: String as PropType<"GET" | "POST">,
+      default: undefined
     },
     /**
      * 表格显示列
@@ -181,17 +264,18 @@ export default {
      * }[]
      *  */
 
-    columns: {
-      type: Array,
+     columns: {
+      type: Array as PropType<ColumnType[]>,
       default: () => []
     },
     dataSource: {
-      type: Array,
+      type: Array as PropType<any[]>,
       default: undefined
     },
+    // 是否显示分页
     pagination: {
-      type: [Boolean, Object], // defaultPageSize pageSizeOptions
-      default: undefined
+      type: [Boolean, Object] as PropType<false | PaginationType>,
+      default: undefined,
     },
     // 是否显示分页
     showPagination: {
@@ -208,8 +292,8 @@ export default {
     },
     // 是否显示搜索条件
     search: {
-      type: [Boolean, Object],
-      default: () => ({})
+      type: [Boolean, Object] as PropType<false | SearchType>,
+      default: true
     },
     searchDateRangeExtra: {
       // search时range
@@ -217,41 +301,40 @@ export default {
       default: () => ["StartTime", "EndTime"]
     },
     searchDateRangeExtraPlacement: {
-      type: "start" | "end",
+      type: String as PropType<"start" | "end">,
       default: "end"
     },
     // 请求时额外的参数
     data: {
-      type: Object | Promise,
+      type: [Object , Promise],
       default: () => ({})
     },
     // actionRef可以获取用于控制表格的一些方法
     actionRef: {
-      type: Function,
+      type: Function as PropType<(node: ActionRefType) => void>, // 获取表格的方法
       default: undefined
     },
     // 在请求之前对请求数据进行转换的方法，需要返回一个对象用于请求接口的参数
     beforeSearchSubmit: {
-      type: Function,
+      type: Function as PropType<<T = ParamsType>(params: ParamsType) => T >,
       default: undefined
     },
     // 在请求结束之后表格数据赋值之前对response数据进行转换的方法，需要返回一个对象并必须包含这些参数 {data: any[], total: number, success: boolean}
     formatResponse: {
-      type: Function,
+      type: Function as PropType<<T = any>(response: T) => ResponseDataType | Promise<ResponseDataType>>, // 拿到数据后格式化调用
       default: undefined
     },
     catchFetchDataError: {
-      type: Function,
+      type: Function as PropType<(error: Error) => void>, // 监听action方式的报错
       default: undefined
     },
     watchReset: {
-      type: Function,
+      type: Function as PropType<() => void>, // 监听重置方法的调用
       default: undefined
     },
     loading: Boolean,
-    defaultExpandAllRows: Boolean,
     rowSelection: {
-      type: Object,
+      type: Object as PropType<RowSelectionType>,
       default: undefined
     },
     emptyText: {
@@ -259,28 +342,29 @@ export default {
       default: '-'
     },
     autoCalcWidth: {
-      type: Boolean | Number,
+      type: [Boolean , Number],
       default: false,
     }
   },
   data() {
     return {
-      searchList: [],
-      tableColumns: [],
+      searchList: [] as FormItemPropType[],
+      tableColumns: [] as ColumnType[],
       ownPagination: {
         defaultCurrent: 1,
         current: 1,
         pageSize: this.defaultPageSize,
         total: 0,
-        showTotal: total => `共 ${total} 条`,
+        showTotal: (total: number) => `共 ${total} 条`,
         pageSizeOptions: this.pageSizeOptions,
         showQuickJumper: true,
         showSizeChanger: true
       },
-      searchTypesMap: {},
+      searchTypesMap: {} as {[k: string]: any},
       ownDataSource: [],
       ownLoading: false,
       searchData: {},
+      _cacheSearchValues: {} as {[k: string]: any},
       // selectedRowKeys: [],
       selectedRows: [],
       isFullScreen: false,
@@ -288,20 +372,20 @@ export default {
     };
   },
   methods: {
-    calcIndex(index) {
+    calcIndex(index: number) {
       if (typeof this.showIndex === 'function') {
         return this.showIndex({ index, current: this.__pagination.current, pageSize: this.__pagination.pageSize, text: (this.__pagination.current - 1) * this.__pagination.pageSize + (index + 1) })
       }
       return (this.__pagination.current - 1) * this.__pagination.pageSize + (index + 1)
     },
-    showSlot(dataIndex) {
+    showSlot(dataIndex: any) {
       // console.log(this.$scopedSlots, dataIndex)
       return Boolean(this.$scopedSlots[dataIndex])
     },
     _clearSelectRows(){
-      this.$refs['cn-table-container'].clearSelection();
+      (this.$refs['cn-table-container'] as any).clearSelection();
     },
-    selectionLineChangeHandle(selectedRows) {
+    selectionLineChangeHandle(selectedRows: any[]) {
       // this.$set(this, 'selectedRowKeys', selectedRowKeys);
       this.$set(this, "selectedRows", selectedRows);
       if (this.rowSelection) {
@@ -312,7 +396,7 @@ export default {
       }
     },
     // value 格式化
-    formatValue(name, value) {
+    formatValue(name: string, value: any) {
       if (value === undefined || value === null || value === "") {
         return undefined;
       }
@@ -323,7 +407,7 @@ export default {
             this.searchTypesMap[name].rangeExtraPlacement ||
             this.__searchDateRangeExtraPlacement;
           const v = value || [];
-          const params = {};
+          const params:{[k: string]: any} = {};
           const start = v[0] ? v[0].split(" ")[0] + " 00:00:00" : undefined;
           const end = v[1] ? v[1].split(" ")[0] + " 23:59:59" : undefined;
           if (rangeExtraPlacement === "start") {
@@ -347,7 +431,7 @@ export default {
     },
     async _onReset() {
       this.$refs["search-table-search-form"] &&
-        this.$refs["search-table-search-form"].resetFields();
+        (this.$refs["search-table-search-form"] as any).resetFields();
       this.searchData = {};
       this._cacheSearchValues = {};
       this.fetchDataSource(
@@ -365,28 +449,24 @@ export default {
       );
     },
     async preData() {
-      this.fetchDataSource(
-        this.__pagination.current > 1 ? this.__pagination.current - 1 : 1,
-        this.__pagination.pageSize,
-        {}
-      );
+      this.jump(this.__pagination.current > 1 ? this.__pagination.current - 1 : 1)
     },
-    async jump(current) {
+    async jump(current: number) {
       this.fetchDataSource(
         current,
         this.__pagination.pageSize,
         {}
       );
     },
-    setSearchFieldsValue(fields) {
-      this.$refs["search-table-search-form"].setFieldsValue(fields);
+    setSearchFieldsValue(fields: any) {
+      (this.$refs["search-table-search-form"] as any).setFieldsValue(fields);
     },
-    async getSearchParams() {
-      let values = await this.$refs[
+    async getSearchParams<T=ParamsType>():Promise<T> {
+      let values = await (this.$refs[
         "search-table-search-form"
-      ].getFieldsValue();
+      ] as any).getFieldsValue();
       if(!this.isSearchOpen){
-        const showItems = this.searchList.filter(item => !item.formItemProps?.class || item.formItemProps?.class?.indexOf(HIDDEN_CLASS_NAME) === -1).map(item => item.name);
+        const showItems = this.searchList.filter((item: any) => !item.formItemProps?.class || item.formItemProps?.class?.indexOf(HIDDEN_CLASS_NAME) === -1).map((item:any) => item.name);
         values = {
           ...this._cacheSearchValues,
           ...showItems.reduce((pre, cur) => {
@@ -396,7 +476,7 @@ export default {
         }
       }
       const valueNames = Object.keys(values);
-      let params = {};
+      let params:any = {};
       valueNames.length &&
         valueNames.forEach(name => {
           const value = this.formatValue(name, values[name]);
@@ -424,14 +504,14 @@ export default {
       );
     },
     // 表格分页改变
-    handleTableChange(current, pageSize) {
+    handleTableChange(current:number, pageSize: number) {
       this.fetchDataSource(current, pageSize);
     },
     // 表格数据请求
-    async fetchDataSource(current, pageSize, data, options) {
+    async fetchDataSource(current:number, pageSize: number, data?: any, options?: any) {
       this.ownLoading = true;
       let params = {
-        ...(await this.data),
+        ...(await this.data as any),
         ...this.searchData,
         ...data,
         [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG.current.format ? this.$CN_V2C_TABLE_CONFIG.current.format(current) : current,
@@ -442,7 +522,7 @@ export default {
         ? this.beforeSearchSubmit(params)
         : params;
       if (this.request) {
-        let response = await this.request(params);
+        let response:any = await this.request(params);
         response = this.formatResponse
           ? this.formatResponse(response)
           : response;
@@ -455,21 +535,21 @@ export default {
           total: response.total || 0
         };
       } else {
-        let response;
+        let response: ResponseDataType;
         try {
-          response = await (this.$CN_V2C_TABLE_CONFIG.request)(this.action, {
-            method: this.method,
-            [this.method.toLocaleUpperCase() === "POST"
+          response = await (this.$CN_V2C_TABLE_CONFIG.request)(this.action || '/', {
+            method: this.__method,
+            [this.__method.toLocaleUpperCase() === "POST"
               ? "data"
               : "params"]: params,
             ...options
           });
           response = this.formatResponse
-            ? this.formatResponse(response)
+            ? await this.formatResponse(response)
             : response;
-        } catch (error) {
+        } catch (error: Error) {
           this.catchFetchDataError?.(error)
-          response = (await this.formatResponse?.(error, 'error')) || DEFAULT_RESPONSE_DATA
+          response = DEFAULT_RESPONSE_DATA
           current = 1;
         }
         this.ownLoading = false;
@@ -492,7 +572,7 @@ export default {
         }
       }
     },
-    deepRenderText(record, keys) {
+    deepRenderText(record:any, keys: string[]):string {
       if (!record[keys[0]]) {
         return this.emptyText;
       }
@@ -501,7 +581,7 @@ export default {
       }
       return this.deepRenderText(record[keys[0]], keys.slice(1));
     },
-    renderText(record, dataIndex, valueEnum) {
+    renderText(record:any, dataIndex: string, valueEnum: ValueEnumType) {
       const keys = dataIndex.split(".");
       let current;
       if (keys.length === 1) {
@@ -524,9 +604,9 @@ export default {
       }
     },
     async toggleSearchPanel(){
-      const values = await this.$refs[
+      const values = await (this.$refs[
         "search-table-search-form"
-      ].getFieldsValue();
+      ] as any).getFieldsValue();
       // 当前状态为展开
       if(this.isSearchOpen){
         // 缓存的搜索参数
@@ -547,8 +627,8 @@ export default {
         this.isSearchOpen = !this.isSearchOpen;
         this.$nextTick(() => {
           const showItems = this.searchList.filter(item => !item.formItemProps?.class || item.formItemProps?.class?.indexOf(HIDDEN_CLASS_NAME) === -1).map(item => item.name);
-          this.$refs["search-table-search-form"].setFieldsValue({
-            ...showItems.reduce((pre, cur) => {
+          (this.$refs["search-table-search-form"] as any).setFieldsValue({
+            ...showItems.reduce((pre: any, cur: string) => {
               pre[cur] = values[cur];
               return pre;
             }, {}),
@@ -567,9 +647,9 @@ export default {
         }))
         this.isSearchOpen = !this.isSearchOpen;
         this.$nextTick(() => {
-          this.$refs["search-table-search-form"].setFieldsValue({
+          (this.$refs["search-table-search-form"] as any).setFieldsValue({
             ...this._cacheSearchValues,
-            ...showItems.reduce((pre, cur) => {
+            ...showItems.reduce((pre: any, cur: string) => {
               pre[cur] = values[cur];
               return pre;
             }, {}),
@@ -582,14 +662,14 @@ export default {
       this.isFullScreen = !this.isFullScreen;
       this.$nextTick(() => {
         if (this.isFullScreen) {
-          this.$refs['cn-table--container'].requestFullscreen()
+          (this.$refs['cn-table--container'] as any).requestFullscreen()
         } else {
           document.exitFullscreen()
         }
       })
     },
-    formatGetStaticValue(key, oldKey) {
-      return this.$CN_V2C_TABLE_CONFIG?.search?.[key] || this.search?.[key] || this[oldKey || key]
+    formatGetStaticValue(key: string, oldKey?: string) {
+      return this.$CN_V2C_TABLE_CONFIG?.search?.[key] ?? (this.search === false ? false : (this.search as any)?.[key]) ?? this[oldKey || key]
     },
   },
   mounted() {
@@ -599,6 +679,9 @@ export default {
     }
   },
   computed: {
+    __method(){
+      return this.method || this.$CN_V2C_TABLE_CONFIG.method;
+    },
     __setting(){
       return this.$CN_V2C_TABLE_CONFIG?.setting ?? this.setting
     },
@@ -607,7 +690,7 @@ export default {
         ...this.ownPagination,
         pageSizeOptions: this.pageSizeOptions,
         ...this.pagination,
-      } : { pageSizeOptions: this.pageSizeOptions, ...this.ownPagination };
+      } : { ...this.ownPagination, pageSizeOptions: this.pageSizeOptions };
     },
     __searchDateRangeExtraPlacement() {
       return this.formatGetStaticValue('dateRangeExtraPlacement', 'searchDateRangeExtraPlacement')
@@ -632,17 +715,17 @@ export default {
       return this.__searchColumns - i;
     },
     ownSearchList() {
-      return [...this.searchList];
+      return [...this.searchList] as FormItemPropType[];
     },
-    ownActionRef() {
+    ownActionRef():ActionRefType {
       return {
         onSearch: this.onSearch,
         onReset: this._onReset,
         getSearchParams: this.getSearchParams,
         setSearchFieldsValue: this.setSearchFieldsValue,
         onReload: this.reload,
-        gotoPre: this.preData,
-        gotoJump: this.jump,
+        // gotoPre: this.preData,
+        // gotoJump: this.jump,
         getSelectedRows: () => {
           return {
             // selectedRowKeys: this.selectedRowKeys,
@@ -664,8 +747,8 @@ export default {
       }
     },
     columns: {
-      async handler(val) {
-        const searchTypesMap = {};
+      async handler(val: ColumnType[]) {
+        const searchTypesMap: {[k: string | undefined]: any} = {};
         // format 搜索项 默认operate为操作列，不参与搜索
         let searchList = this.search
           ? await Promise.all(val
@@ -679,7 +762,7 @@ export default {
                 (item.valueOptions || item.fetchOptions || item.valueEnum ? "select" : "input");
               const name =
                 item.searchName || item.name || item.dataIndex || item.key;
-              let options = undefined;
+              let options:OptionsType = [];
               if(item.fetchOptions && typeof item.fetchOptions === 'function') {
                 let responseOpt;
                 try {
@@ -694,20 +777,20 @@ export default {
                 }
               }
               if (item.valueEnum) {
-                options = Object.keys(item.valueEnum).map(key => ({
-                  label: item.valueEnum[key].text,
+                options = (Object.keys(item.valueEnum).map(key => ({
+                  label: item.valueEnum?.[key].text,
                   value: key
-                }));
+                })) as OptionsType);
               }
               if (item.valueOptions) {
-                options = item.valueOptions;
+                options = item.valueOptions as OptionsType;
               }
-              searchTypesMap[name] = {
+              searchTypesMap[name as string] = {
                 type,
-                format: item.format,
+                // format: item.format,
                 rangeExtra: item.rangeExtra,
                 rangeExtraPlacement: item.rangeExtraPlacement,
-                options
+                options,
               };
               return {
                 ...item,
@@ -735,7 +818,7 @@ export default {
         );
         if (this.$refs["cn-table-container"]) {
           this.$nextTick(() => {
-            this.$refs['cn-table-container'].doLayout()
+            (this.$refs['cn-table-container'] as any).doLayout()
           })
         }
       },

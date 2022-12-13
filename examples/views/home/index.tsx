@@ -320,7 +320,7 @@ export default defineComponent({
     ];
     const fetchData = async (data: any) => {
       console.log(data);
-      if (data.current === 1) {
+      if (data.page === 0) {
         return {
           success: true,
           data: Array(20)
@@ -346,18 +346,6 @@ export default defineComponent({
         };
       }
     };
-    const propertySearch = (_, cb) => {
-      cb([
-        { value: 1, description: 1 },
-        { value: 2, description: 2 },
-        { value: 3, description: 3 },
-        { value: 4, description: 4 },
-        { value: 5, description: 5 },
-      ]);
-    };
-    const handleSelect = (item, cb) => {
-      // cb(item.value);
-    };
     console.log(formDataSource);
     return () => (
       <div class="container">
@@ -382,25 +370,7 @@ export default defineComponent({
             data={formDataSource.value}
             scopedSlots={{
               ccCustomFormComponent: ({ value, onChange }: any) => {
-                return (
-                  <el-autocomplete
-                    popper-class="property-key-autocomplete"
-                    value={value}
-                    fetch-suggestions={propertySearch}
-                    placeholder="请输入内容"
-                    onChange={onChange}
-                    onInput={onChange}
-                    onSelect={(item) => handleSelect(item, onChange)}
-                    scopedSlots={{
-                      suffix: () => (
-                        <i
-                          class="el-icon-close el-input__icon"
-                          onClick={() => onChange(undefined)}
-                        ></i>
-                      ),
-                    }}
-                  ></el-autocomplete>
-                );
+                return <el-input value={value} onInput={onChange}></el-input>;
               },
               customCustomFormComponent: ({ onChange, value }: any) => {
                 return <el-input value={value} onInput={onChange}></el-input>;

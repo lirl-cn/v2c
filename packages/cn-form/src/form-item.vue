@@ -270,7 +270,6 @@
         :name="`${name}CustomFormComponent`" 
         v-bind:fieldItemProps="fieldItemProps"
         v-bind:formModel="formModel"
-        v-bind:name="name"
         v-bind:value="formModel[name]"
         v-bind:onChange="(val) => customChangeFormModel(name, val)"
       ></slot>
@@ -278,49 +277,53 @@
     <slot :name="`${name}FormExtra`"></slot>
   </el-form-item>
 </template>
-<script>
+<script lang="ts">
+import { FormItemType, OptionsType } from '#/common';
+import type { PropType } from 'vue';
 import { CnTags } from '../../';
+
 export default {
   components: { CnTags },
   props: {
     title: {
-      type: String
+      type: String,
     },
     separator: {
-      type: String
+      type: String,
     },
     placeholder: {
-      type: String
+      type: String,
     },
     startPlaceholder: {
-      type: String
+      type: String,
     },
     endPlaceholder: {
       type: String,
       default: '结束日期'
     },
     type: {
-      type: String,
+      type: String as PropType<FormItemType>,
       default: "input"
     },
     name: {
-      type: String
+      type: String as PropType<string>,
+      required: true
     },
     options: {
-      type: Array,
+      type: Array as PropType<OptionsType>,
       default: undefined
     },
     hide: {
       type: Boolean,
-      default: false,
+      default: false
     },
     clearable: Boolean,
     formItemProps: {
-      type: Object,
+      type: Object as PropType<{[k:string]: any}>,
       default: undefined
     },
     fieldItemProps: {
-      type: Object,
+      type: Object as PropType<{[k:string]: any, onChange?: (value: any) => void}>,
       default: () => ({})
     },
     formModel: {
@@ -330,12 +333,12 @@ export default {
     customChangeFormModel: {
       type: Function,
       default: () => {}
-    },
+    }
   },
   computed: {
     onChange(){
       return this.fieldItemProps.onChange ? this.fieldItemProps.onChange : () => {}
     }
-  },
+  }
 };
 </script>
