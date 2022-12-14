@@ -293,10 +293,10 @@ declare const _sfc_main: {
                     type: StringConstructor;
                 };
                 width: {
-                    type: number;
+                    type: (StringConstructor | NumberConstructor)[];
                 };
                 minWidth: {
-                    type: number;
+                    type: (StringConstructor | NumberConstructor)[];
                 };
                 valueEnum: {
                     type: ObjectConstructor;
@@ -311,7 +311,7 @@ declare const _sfc_main: {
                     type: FunctionConstructor;
                 };
                 autoCalcWidth: {
-                    type: number;
+                    type: (NumberConstructor | BooleanConstructor)[];
                     default: boolean;
                 };
             };

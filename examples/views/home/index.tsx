@@ -395,6 +395,10 @@ export default defineComponent({
                 新增
               </el-button>
             ),
+            jump: ({text, record, index}) => {
+              console.log(index)
+              return index
+            },
           }}
           searchType="grid"
           rowSelection={{

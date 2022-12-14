@@ -78,8 +78,8 @@
         index) in tableColumns" :key="title + dataIndex + index" :width="width" :minWidth="minWidth"
           :className="className" :ellipsis="ellipsis" :fixed="fixed" :title="title" :dataIndex="dataIndex"
           :status="status" :valueEnum="valueEnum" :children="children" :rend="render" :autoCalcWidth="autoCalcWidth">
-          <template v-if="showSlot(scopedSlots.customRender || dataIndex)" v-slot:[dataIndex]="{ text, record }">
-            <slot :name="scopedSlots.customRender || dataIndex" v-bind:record="record" v-bind:text="text"></slot>
+          <template v-if="showSlot(scopedSlots.customRender || dataIndex)" v-slot:[dataIndex]="{ text, record, index: ind }">
+            <slot :name="scopedSlots.customRender || dataIndex" v-bind:record="record" v-bind:text="text" v-bind:index="ind"></slot>
           </template>
         </cn-column>
       </el-table>

@@ -25,11 +25,11 @@ declare namespace _sfc_main {
             export { type_4 as type };
         }
         namespace width {
-            const type_5: number;
+            const type_5: (StringConstructor | NumberConstructor)[];
             export { type_5 as type };
         }
         namespace minWidth {
-            const type_6: number;
+            const type_6: (StringConstructor | NumberConstructor)[];
             export { type_6 as type };
         }
         namespace valueEnum {
@@ -49,7 +49,7 @@ declare namespace _sfc_main {
             export { type_10 as type };
         }
         namespace autoCalcWidth {
-            const type_11: number;
+            const type_11: (NumberConstructor | BooleanConstructor)[];
             export { type_11 as type };
             const _default: boolean;
             export { _default as default };

@@ -30,11 +30,12 @@
     :fixed="fixed"
     :class-name="className"
   >
-    <template slot-scope="{ row }">
+    <template slot-scope="{ row, $index }">
       <slot
         :name="dataIndex"
         v-bind:record="row"
         v-bind:text="renderText(row, dataIndex)"
+        v-bind:index="$index"
       >
         <cn-badge
           v-if="status || valueEnum"
@@ -79,10 +80,10 @@ export default {
       type: String
     },
     width: {
-      type: String | Number
+      type: [String, Number]
     },
     minWidth: {
-      type: String | Number
+      type: [String, Number]
     },
     valueEnum: {
       type: Object
@@ -97,9 +98,9 @@ export default {
       type: Function
     },
     autoCalcWidth: {
-      type: Boolean | Number,
+      type: [Boolean,  Number],
       default: false,
-    }
+    },
   },
   watch: {
     // autoCalcWidth: {
