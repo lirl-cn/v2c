@@ -353,7 +353,7 @@ declare const _sfc_main: {
             default: number;
         };
         scroll: {
-            type: PropType<{
+            type: PropType<false | {
                 y?: string | number | undefined;
             }>;
         };

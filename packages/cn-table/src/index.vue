@@ -225,7 +225,7 @@ export default {
       default: 3
     },
     scroll: {
-      type: Object as PropType<{ y?: string |number }>,
+      type: [Object, false] as PropType<{ y?: string |number } | false>,
     },
     // 请求地址
     action: String,

@@ -86,7 +86,7 @@ const _sfc_main = {
       default: 3
     },
     scroll: {
-      type: Object
+      type: [Object, false]
     },
     action: String,
     onloadAutoRequest: {
