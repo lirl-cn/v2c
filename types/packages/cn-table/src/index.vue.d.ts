@@ -22,6 +22,7 @@ declare type ValueEnumType = {
 };
 declare type SearchType = {
     type?: 'inline' | 'gird' | 'block';
+    labelWidth?: number | string;
     columns?: number;
     resetText?: string | false;
     searchText?: string | false;
@@ -525,9 +526,10 @@ declare const _sfc_main: {
         __resetText(): any;
         __searchText(): any;
         __searchType(): any;
+        __searchLabelWidth(): any;
         __searchColumns(): any;
         __searchBtnContainerSpan(): number;
-        ownSearchList(): any;
+        ownSearchList(): FormItemPropType[];
         ownActionRef(): ActionRefType;
     };
     watch: {

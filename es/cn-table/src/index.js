@@ -3,7 +3,7 @@ import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
 var _sfc_render = function render() {
   var _a, _b;
   var _vm = this, _c = _vm._self._c;
-  return _c("div", { ref: "cn-table--container", staticClass: "cn-table--container" }, [_vm.search ? _c("div", { class: ["cn-table-search-container", { "cn-table-search-inline-container": _vm.__searchType === "inline" }] }, [_c("cn-form", { ref: "search-table-search-form", attrs: { "data": _vm.ownSearchList, "layout": _vm.__searchType, "columns": _vm.__searchColumns }, scopedSlots: _vm._u([_vm._l(_vm.ownSearchList, function({ name }) {
+  return _c("div", { ref: "cn-table--container", staticClass: "cn-table--container" }, [_vm.search ? _c("div", { class: ["cn-table-search-container", { "cn-table-search-inline-container": _vm.__searchType === "inline" }] }, [_c("cn-form", { ref: "search-table-search-form", attrs: { "data": _vm.ownSearchList, "layout": _vm.__searchType, "columns": _vm.__searchColumns, "labelWidth": _vm.__searchLabelWidth }, scopedSlots: _vm._u([_vm._l(_vm.ownSearchList, function({ name }) {
     return { key: `${name}FormExtra`, fn: function() {
       return [_vm._t(`${name}FormExtra`)];
     }, proxy: true };

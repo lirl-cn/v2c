@@ -3,7 +3,7 @@
     <!-- 表格搜索部分 -->
     <div :class="['cn-table-search-container', { 'cn-table-search-inline-container': __searchType === 'inline' }]"
       v-if="search">
-      <cn-form ref="search-table-search-form" :data="ownSearchList" :layout="__searchType" :columns="__searchColumns">
+      <cn-form ref="search-table-search-form" :data="ownSearchList" :layout="__searchType" :columns="__searchColumns" :labelWidth="__searchLabelWidth">
         <div :style="(__searchType === 'grid' && isSearchOpen) ? {'grid-column': `span ${__searchBtnContainerSpan}`} : undefined" :class="[
           'cn-table-search-btn-container',
           { 'cn-table-search-btn-block-container': __searchType === 'block' }
@@ -121,6 +121,7 @@ type ValueEnumType = {
 }
 type SearchType = {
   type?: 'inline' | 'gird' | 'block' // 搜索排列样式
+  labelWidth?: number | string  //label 宽度
   columns?: number // 几列
   resetText?: string | false  // 重置文案
   searchText?: string | false // 搜索文案
@@ -225,7 +226,7 @@ export default {
       default: 3
     },
     scroll: {
-      type: [Object, false] as PropType<{ y?: string |number } | false>,
+      type: [Object, Boolean] as PropType<{ y?: string |number } | false>,
     },
     // 请求地址
     action: String,
@@ -706,6 +707,9 @@ export default {
     },
     __searchType() {
       return this.formatGetStaticValue('type', 'searchType')
+    },
+    __searchLabelWidth(){
+      return this.formatGetStaticValue('labelWidth')
     },
     __searchColumns() {
       return this.formatGetStaticValue('columns', 'searchColumns')

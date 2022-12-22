@@ -86,7 +86,7 @@ const _sfc_main = {
       default: 3
     },
     scroll: {
-      type: [Object, false]
+      type: [Object, Boolean]
     },
     action: String,
     onloadAutoRequest: {
@@ -505,6 +505,9 @@ const _sfc_main = {
     },
     __searchType() {
       return this.formatGetStaticValue("type", "searchType");
+    },
+    __searchLabelWidth() {
+      return this.formatGetStaticValue("labelWidth");
     },
     __searchColumns() {
       return this.formatGetStaticValue("columns", "searchColumns");
