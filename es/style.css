@@ -91988,6 +91988,7 @@ html a:hover {
 .cn-table--container {
   background-color: #fff;
   padding: 12px;
+  font-size: 14px;
 }
 
 .cn-table--container .cn-table-search-container:not(.cn-table-search-inline-container) {
@@ -92020,7 +92021,6 @@ html a:hover {
 
 .cn-table--container .cn-table-search-btn-container .cn-table-search-operation {
   margin-inline-start: 6px;
-  font-size: 14px;
 }
 
 .cn-table--container .cn-table-head-container {

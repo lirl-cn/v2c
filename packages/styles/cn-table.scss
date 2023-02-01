@@ -1,6 +1,7 @@
 .cn-table--container {
   background-color: #fff;
   padding: 12px;
+  font-size: 14px;
 
   .cn-table-search-container:not(.cn-table-search-inline-container) {
     margin-bottom: 18px;
@@ -33,7 +34,6 @@
 
     .cn-table-search-operation {
       margin-inline-start: 6px;
-      font-size: 14px;
     }
   }
 
