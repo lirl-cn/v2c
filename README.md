@@ -50,7 +50,11 @@ Vue.use(CnV2C, {
 $--color-primary: #21b28e;
 // 支持的可修改变量名列表 https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss
 
+// vite项目引入该文件
 @import "@lirl-cn/v2c/packages/styles/index.scss";
+
+// webpack项目引入该文件
+@import "～@lirl-cn/v2c/packages/styles/index.webpack";
 ```
 
 [查看所有 scss 变量](https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss)

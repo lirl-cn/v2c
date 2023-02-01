@@ -59,8 +59,8 @@
         :key="__pagination.current" :row-key="rowKey" @selection-change="selectionLineChangeHandle"
         select-on-indeterminate :class="tableClassName" size="small" :border="true" ref="cn-table-container">
         <!-- class="cn-table-bordered-small-container" -->
-        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="48"></el-table-column>
-        <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" label="序号" class-name="cn--text-center" width="46"></el-table-column>
+        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="56"></el-table-column>
+        <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" label="序号" class-name="cn--text-center" width="56"></el-table-column>
         <cn-column v-for="({
         title,
         dataIndex,
@@ -120,7 +120,7 @@ type ValueEnumType = {
   }
 }
 type SearchType = {
-  type?: 'inline' | 'gird' | 'block' // 搜索排列样式
+  type?: 'inline' | 'grid' | 'block' // 搜索排列样式
   labelWidth?: number | string  //label 宽度
   columns?: number // 几列
   resetText?: string | false  // 重置文案
@@ -218,8 +218,8 @@ export default {
     },
     // 搜索类型： inline行内显示，gird分列显示默认为3，block全部独占一行 默认为gird
     searchType: {
-      type: String as PropType<'gird' | 'block' | 'inline'>,
-      default: "gird"
+      type: String as PropType<'grid' | 'block' | 'inline'>,
+      default: "grid"
     },
     searchColumns: {
       type: Number,

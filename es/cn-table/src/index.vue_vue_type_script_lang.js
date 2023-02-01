@@ -79,7 +79,7 @@ const _sfc_main = {
     },
     searchType: {
       type: String,
-      default: "gird"
+      default: "grid"
     },
     searchColumns: {
       type: Number,

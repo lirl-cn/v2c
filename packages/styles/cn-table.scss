@@ -1,66 +1,81 @@
-.cn-table--container{
+.cn-table--container {
   background-color: #fff;
   padding: 12px;
-  
-  .cn-table-search-container:not(.cn-table-search-inline-container){
+
+  .cn-table-search-container:not(.cn-table-search-inline-container) {
     margin-bottom: 18px;
     transition: all 0.3s;
   }
-  .cn-table-search-inline-container{
+
+  .cn-table-search-inline-container {
     .cn-table-search-btn-container {
       margin-bottom: 18px;
     }
   }
+
   .cn-table-search-btn-container {
     display: inline-flex;
     vertical-align: top;
     line-height: 32px;
     text-align: right;
     justify-content: flex-end;
+
     &.cn-table-search-btn-block-container {
       text-align: right;
       display: flex;
       justify-content: flex-end;
       margin-bottom: 24px;
     }
+
     .el-button {
       height: min-content;
     }
-    .cn-table-search-operation{
+
+    .cn-table-search-operation {
       margin-inline-start: 6px;
+      font-size: 14px;
     }
   }
-  .cn-table-head-container{
+
+  .cn-table-head-container {
     display: flex;
     align-items: center;
     padding-bottom: 12px;
-    .cn-table-head-title{
+
+    .cn-table-head-title {
       width: max-content;
     }
-    .cn-table-head-operation{
+
+    .cn-table-head-operation {
       flex: 1;
       text-align: right;
     }
-    .cn-table-head-setting{
+
+    .cn-table-head-setting {
       margin-left: 12px;
-      i{
+
+      i {
         font-size: 18px;
         cursor: pointer;
-        &:not(:last-child){
+
+        &:not(:last-child) {
           margin-right: 8px;
         }
       }
     }
   }
-  .cn-table-container{
-    th.el-table__cell{
+
+  .cn-table-container {
+    th.el-table__cell {
       background-color: $--color-primary-light-9;
     }
-    .cn--text-center{
+
+    .cn--text-center {
       text-align: center;
     }
   }
-  .cn-table-alert-container{
+
+  .cn-table-alert-container {
     color: $--color-info;
     // font-size: 12px;
     padding-block: 12px;
@@ -71,15 +86,18 @@
     transition: all 0.3s;
     border-radius: $--border-radius-base;
     margin-block-end: 12px;
-    .cn-table-alert-info-content{
+
+    .cn-table-alert-info-content {
       flex: 1;
       display: inline-flex;
       align-items: center;
-      a{
+
+      a {
         margin-inline-start: 8px;
       }
     }
-    .cn-table-alert-info-options{
+
+    .cn-table-alert-info-options {
       padding-inline-start: 16px;
       display: inline-flex;
       align-items: center;
@@ -87,7 +105,7 @@
     }
   }
 
-  .cn-table-pagination-container{
+  .cn-table-pagination-container {
     margin-block-start: 12px;
     text-align: right;
   }

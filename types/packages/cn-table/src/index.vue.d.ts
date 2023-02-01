@@ -21,7 +21,7 @@ declare type ValueEnumType = {
     };
 };
 declare type SearchType = {
-    type?: 'inline' | 'gird' | 'block';
+    type?: 'inline' | 'grid' | 'block';
     labelWidth?: number | string;
     columns?: number;
     resetText?: string | false;
@@ -346,7 +346,7 @@ declare const _sfc_main: {
             default: undefined;
         };
         searchType: {
-            type: PropType<"gird" | "block" | "inline">;
+            type: PropType<"grid" | "block" | "inline">;
             default: string;
         };
         searchColumns: {
