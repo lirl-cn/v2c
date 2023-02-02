@@ -16,14 +16,14 @@ var _sfc_render = function render() {
     var _a2;
     return [_vm._v(" \u5DF2\u9009 " + _vm._s((_a2 = _vm.selectedRows) == null ? void 0 : _a2.length) + " \u9879 "), _c("a", { on: { "click": _vm._clearSelectRows } }, [_vm._v("\u53D6\u6D88\u9009\u62E9")])];
   }, { "selectedRows": _vm.selectedRows })], 2), _c("div", { staticClass: "cn-table-alert-info-options" }, [_vm._t("alertInfoOptions", function() {
-    var _a2, _b2, _c2, _d, _e, _f;
-    return [_c("a", { on: { "click": function($event) {
+    var _a2, _b2, _c2, _d, _e, _f, _g, _h;
+    return [((_a2 = _vm.rowSelection) == null ? void 0 : _a2.onBatchDelete) ? _c("a", { on: { "click": function($event) {
       var _a3, _b3;
       (_b3 = (_a3 = _vm.rowSelection) == null ? void 0 : _a3.onBatchDelete) == null ? void 0 : _b3.call(_a3, _vm.selectedRows);
-    } } }, [_vm._v(_vm._s(((_a2 = _vm.rowSelection) == null ? void 0 : _a2.batchDeleteText) || ((_c2 = (_b2 = _vm.$CN_V2C_TABLE_CONFIG) == null ? void 0 : _b2.rowSelection) == null ? void 0 : _c2.batchDeleteText) || "\u6279\u91CF\u5220\u9664"))]), _c("a", { on: { "click": function($event) {
+    } } }, [_vm._v(_vm._s(((_b2 = _vm.rowSelection) == null ? void 0 : _b2.batchDeleteText) || ((_d = (_c2 = _vm.$CN_V2C_TABLE_CONFIG) == null ? void 0 : _c2.rowSelection) == null ? void 0 : _d.batchDeleteText) || "\u6279\u91CF\u5220\u9664"))]) : _vm._e(), ((_e = _vm.rowSelection) == null ? void 0 : _e.onBatchDownload) ? _c("a", { on: { "click": function($event) {
       var _a3, _b3;
       (_b3 = (_a3 = _vm.rowSelection) == null ? void 0 : _a3.onBatchDownload) == null ? void 0 : _b3.call(_a3, _vm.selectedRows);
-    } } }, [_vm._v(_vm._s(((_d = _vm.rowSelection) == null ? void 0 : _d.batchDownloadText) || ((_f = (_e = _vm.$CN_V2C_TABLE_CONFIG) == null ? void 0 : _e.rowSelection) == null ? void 0 : _f.batchDownloadText) || "\u5BFC\u51FA\u6570\u636E"))])];
+    } } }, [_vm._v(_vm._s(((_f = _vm.rowSelection) == null ? void 0 : _f.batchDownloadText) || ((_h = (_g = _vm.$CN_V2C_TABLE_CONFIG) == null ? void 0 : _g.rowSelection) == null ? void 0 : _h.batchDownloadText) || "\u5BFC\u51FA\u6570\u636E"))]) : _vm._e()];
   }, { "selectedRows": _vm.selectedRows })], 2)]) : _vm._e(), _c("el-table", { directives: [{ name: "loading", rawName: "v-loading", value: _vm.ownLoading, expression: "ownLoading" }], key: _vm.__pagination.current, ref: "cn-table-container", class: _vm.tableClassName, attrs: { "data": _vm.dataSource || _vm.ownDataSource, "height": _vm.scroll ? _vm.scroll.y : void 0, "row-key": _vm.rowKey, "select-on-indeterminate": "", "size": "small", "border": true }, on: { "selection-change": _vm.selectionLineChangeHandle } }, [_vm.rowSelection ? _c("el-table-column", { attrs: { "type": "selection", "class-name": "cn--text-center", "width": "56" } }) : _vm._e(), Boolean(_vm.showIndex) ? _c("el-table-column", { attrs: { "type": "index", "index": _vm.calcIndex, "label": "\u5E8F\u53F7", "class-name": "cn--text-center", "width": "56" } }) : _vm._e(), _vm._l(_vm.tableColumns, function({
     title,
     dataIndex,

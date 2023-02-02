@@ -50,8 +50,8 @@
         </div>
         <div class="cn-table-alert-info-options">
           <slot name="alertInfoOptions" v-bind:selectedRows="selectedRows">
-            <a @click="rowSelection?.onBatchDelete?.(selectedRows)">{{rowSelection?.batchDeleteText || $CN_V2C_TABLE_CONFIG?.rowSelection?.batchDeleteText || '批量删除'}}</a>
-            <a @click="rowSelection?.onBatchDownload?.(selectedRows)">{{rowSelection?.batchDownloadText || $CN_V2C_TABLE_CONFIG?.rowSelection?.batchDownloadText || '导出数据'}}</a>
+            <a v-if="rowSelection?.onBatchDelete" @click="rowSelection?.onBatchDelete?.(selectedRows)">{{rowSelection?.batchDeleteText || $CN_V2C_TABLE_CONFIG?.rowSelection?.batchDeleteText || '批量删除'}}</a>
+            <a v-if="rowSelection?.onBatchDownload" @click="rowSelection?.onBatchDownload?.(selectedRows)">{{rowSelection?.batchDownloadText || $CN_V2C_TABLE_CONFIG?.rowSelection?.batchDownloadText || '导出数据'}}</a>
           </slot>
         </div>
       </div>
@@ -59,7 +59,7 @@
         :key="__pagination.current" :row-key="rowKey" @selection-change="selectionLineChangeHandle"
         select-on-indeterminate :class="tableClassName" size="small" :border="true" ref="cn-table-container">
         <!-- class="cn-table-bordered-small-container" -->
-        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="56"></el-table-column>
+        <el-table-column v-if="rowSelection" type="selection" class-name="cn--text-center" width="48"></el-table-column>
         <el-table-column v-if="Boolean(showIndex)" type="index" :index="calcIndex" label="序号" class-name="cn--text-center" width="56"></el-table-column>
         <cn-column v-for="({
         title,
@@ -173,6 +173,10 @@ export type RowSelectionType = {
   onChange?: (selectedRows: SelectedRowsResponse['selectedRows']) => void // 当选择行变化时调用
 }
 type ActionRefType = {
+  reload: () => void
+  search: () => void
+  reset: () => void
+  resetSelectedRows: () => void
   onSearch: () => void  // 搜索
   onReset: () => void // 重置
   onReload: () => void  // 重新加载
@@ -435,6 +439,8 @@ export default {
         (this.$refs["search-table-search-form"] as any).resetFields();
       this.searchData = {};
       this._cacheSearchValues = {};
+      // 请求先清空选择行
+      this.$set(this, 'selectedRows', [])
       this.fetchDataSource(
         this.__pagination.defaultCurrent,
         this.__pagination.pageSize,
@@ -443,6 +449,8 @@ export default {
       this.watchReset && this.watchReset();
     },
     async reload() {
+      // 请求先清空选择行
+      this.$set(this, 'selectedRows', [])
       this.fetchDataSource(
         this.__pagination.current,
         this.__pagination.pageSize,
@@ -498,6 +506,8 @@ export default {
       const params = this.search ? await this.getSearchParams() : {};
       // console.log(params)
       this.searchData = params;
+      // 请求先清空选择行
+      this.$set(this, 'selectedRows', [])
       this.fetchDataSource(
         this.__pagination.defaultCurrent,
         this.__pagination.pageSize,
@@ -723,6 +733,9 @@ export default {
     },
     ownActionRef():ActionRefType {
       return {
+        reload: this.reload,
+        search: this.onSearch,
+        reset: this._onReset,
         onSearch: this.onSearch,
         onReset: this._onReset,
         getSearchParams: this.getSearchParams,
@@ -735,6 +748,9 @@ export default {
             // selectedRowKeys: this.selectedRowKeys,
             selectedRows: this.selectedRows
           };
+        },
+        resetSelectedRows: () => {
+          this.$set(this, 'selectedRows', [])
         }
       };
     }

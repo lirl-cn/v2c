@@ -319,7 +319,6 @@ export default defineComponent({
       },
     ];
     const fetchData = async (data: any) => {
-      console.log(data);
       if (data.page === 0) {
         return {
           success: true,
@@ -346,7 +345,6 @@ export default defineComponent({
         };
       }
     };
-    console.log(formDataSource);
     return () => (
       <div class="container">
         <h1>Home</h1>
@@ -390,7 +388,7 @@ export default defineComponent({
           columns={tableColumns}
           showIndex
           search={{
-            labelWidth: 76
+            labelWidth: 76,
           }}
           scopedSlots={{
             headOperation: () => (
@@ -398,9 +396,8 @@ export default defineComponent({
                 新增
               </el-button>
             ),
-            jump: ({text, record, index}) => {
-              console.log(index)
-              return index
+            jump: ({ text, record, index }) => {
+              return index;
             },
           }}
           searchType="grid"

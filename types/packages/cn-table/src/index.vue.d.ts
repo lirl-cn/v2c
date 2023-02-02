@@ -77,6 +77,10 @@ export declare type RowSelectionType = {
     onChange?: (selectedRows: SelectedRowsResponse['selectedRows']) => void;
 };
 declare type ActionRefType = {
+    reload: () => void;
+    search: () => void;
+    reset: () => void;
+    resetSelectedRows: () => void;
     onSearch: () => void;
     onReset: () => void;
     onReload: () => void;

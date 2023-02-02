@@ -254,6 +254,7 @@ const _sfc_main = {
         this.$refs["search-table-search-form"] && this.$refs["search-table-search-form"].resetFields();
         this.searchData = {};
         this._cacheSearchValues = {};
+        this.$set(this, "selectedRows", []);
         this.fetchDataSource(
           this.__pagination.defaultCurrent,
           this.__pagination.pageSize,
@@ -264,6 +265,7 @@ const _sfc_main = {
     },
     reload() {
       return __async(this, null, function* () {
+        this.$set(this, "selectedRows", []);
         this.fetchDataSource(
           this.__pagination.current,
           this.__pagination.pageSize,
@@ -319,6 +321,7 @@ const _sfc_main = {
       return __async(this, null, function* () {
         const params = this.search ? yield this.getSearchParams() : {};
         this.searchData = params;
+        this.$set(this, "selectedRows", []);
         this.fetchDataSource(
           this.__pagination.defaultCurrent,
           this.__pagination.pageSize,
@@ -521,6 +524,9 @@ const _sfc_main = {
     },
     ownActionRef() {
       return {
+        reload: this.reload,
+        search: this.onSearch,
+        reset: this._onReset,
         onSearch: this.onSearch,
         onReset: this._onReset,
         getSearchParams: this.getSearchParams,
@@ -530,6 +536,9 @@ const _sfc_main = {
           return {
             selectedRows: this.selectedRows
           };
+        },
+        resetSelectedRows: () => {
+          this.$set(this, "selectedRows", []);
         }
       };
     }
