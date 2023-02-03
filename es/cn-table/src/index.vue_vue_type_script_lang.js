@@ -529,7 +529,12 @@ const _sfc_main = {
         reset: this._onReset,
         onSearch: this.onSearch,
         onReset: this._onReset,
-        getSearchParams: this.getSearchParams,
+        getSearchParams: () => {
+          return __spreadProps(__spreadValues({}, this.getSearchParams()), {
+            [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG.current.format ? this.$CN_V2C_TABLE_CONFIG.current.format(this.ownPagination.current) : this.ownPagination.current,
+            [this.$CN_V2C_TABLE_CONFIG.pageSize.key]: this.$CN_V2C_TABLE_CONFIG.pageSize.format ? this.$CN_V2C_TABLE_CONFIG.pageSize.format(this.ownPagination.pageSize) : this.ownPagination.pageSize
+          });
+        },
         setSearchFieldsValue: this.setSearchFieldsValue,
         onReload: this.reload,
         getSelectedRows: () => {

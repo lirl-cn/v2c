@@ -3,6 +3,7 @@ import "./home.scss";
 export default defineComponent({
   setup() {
     const formRef = ref();
+    const actionRef = ref();
     const value = ref();
     let options = ref<any[]>([]);
     onMounted(() => {
@@ -345,6 +346,9 @@ export default defineComponent({
         };
       }
     };
+    const onAdd = () => {
+      console.log(actionRef.value.getSearchParams());
+    };
     return () => (
       <div class="container">
         <h1>Home</h1>
@@ -384,6 +388,7 @@ export default defineComponent({
         </el-button>
         <el-divider>cn-table 生成表格</el-divider>
         <cn-table
+          actionRef={(node: any) => (actionRef.value = node)}
           request={fetchData}
           columns={tableColumns}
           showIndex
@@ -392,7 +397,7 @@ export default defineComponent({
           }}
           scopedSlots={{
             headOperation: () => (
-              <el-button size="small" type="warning">
+              <el-button onClick={onAdd} size="small" type="warning">
                 新增
               </el-button>
             ),
