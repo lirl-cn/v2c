@@ -8,6 +8,7 @@ v2c 内置了依赖了 element-ui 组件，即所有的 element UI 组件你都�
 
 ```
 npm install @lirl-cn/v2c
+-------------------------
 yarn add @lirl-cn/v2c
 ```
 
@@ -17,12 +18,26 @@ yarn add @lirl-cn/v2c
 
 ```ts
 import CnV2C from "@lirl-cn/v2c";
-import request from "@/utils/request"; // 你自己的request方法 返回格式为{data: any[], total: number, success?: boolean}
+import request from "@/utils/request"; // 你自己的request方法 (url, options) => ({data: any[], total: number, success?: boolean})
 import "@lirl-cn/v2c/es/styles.css"; // 引入样式
 Vue.use(CnV2C, {
   table: {
     // 挂载全局一些公共方法，可以避免每个页面使用时配置，全部非必传
-    request, // 当定义了request后，cn-table可以直接仅传action字段，内部会调用该方法去获取数据
+    request: async (url, options) => {
+      const response = await request({ url, ...options });
+      if (response.code === 200) {
+        return {
+          data: response?.rows,
+          total: response.total,
+          success: true,
+        };
+      } else {
+        return {
+          data: [],
+          total: 0,
+        };
+      }
+    }, // 当定义了request后，cn-table可以直接仅传action字段，内部会调用该方法去获取数据
     current: {
       key: "page", // 项目里列表接口当前页参数名, 默认是current
       format: (current: number) => current - 1, // 是否要进行格式化，默认从1开始
@@ -30,6 +45,11 @@ Vue.use(CnV2C, {
     pageSize: {
       key: "size", // 项目里列表接口页数参数名, 默认是pageSize
       // format: (pageSize: number) => pageSize - 1, // 同current，非必传
+    },
+    search: {
+      dateRangeExtraPlacement: "start", // 表格搜索日期区间dateRangeExtra字段添加位置
+      dateRangeExtra: ["begin", "end"], // 表格搜索日期区间额外拼接的字符串
+      /**? 如：表格 dataIndex为Time, 以上配置将得到 beginTime: yyyy-mm-dd HH:mm:ss, endTime: yyyy-mm-dd HH:mm:ss */
     },
   },
 });
@@ -88,7 +108,7 @@ $--color-primary: #21b28e;
 | options        | 选择性组件的数据源，如`select`、`radio`等 | `{ label: string, value: string, [k: string]: any }[]` | -      |
 | rules          | 表单验证规则, `element ui form rules`     | `object`                                               | -      |
 
-##### FormItemType
+##### FormItemType 内置的 form 组件类型
 
 ```ts
 type FormItemType =
@@ -132,6 +152,50 @@ ref 获取
 | setFieldValue  | 基于 key 设置单个值 | `(key:string, value:any) => void`    |
 | setFieldsValue | 设置表单的值        | `(fields:{[k:string]: any}) => void` |
 | resetFields    | 重置表单            | `() => void`                         |
+
+#### 插槽
+
+如内置 form 组件不满足业务需求也可以自定义 form 组件，示例如下
+
+```html
+<cn-form>
+  <!-- `${name}CustomFormComponent` 格式必须是这样，自行绑定value值和change方法，不支持v-modal -->
+  <template #customCustomFormComponent="{value, onChange}">
+    <you-custom-component
+      :value="value"
+      @change="onChange"
+    ></you-custom-component>
+  </template>
+  <template #customInputCustomFormComponent="{value, onChange}">
+    <el-input :value="value" @input="onChange"></el-input>
+  </template>
+</cn-form>
+```
+
+额外的 FormItem 内容
+
+```html
+<cn-form>
+  <!-- `${name}FormExtra` 格式必须是这样 -->
+  <template #selectFormExtra>
+    <el-link to="/other-list">点击查看更多</el-link>
+  </template>
+</cn-form>
+```
+
+默认插槽
+
+```html
+<cn-form>
+  <!-- #default 可省略 -->
+  <template #default>
+    <div style="text-align: center;">
+      <el-button @click="onCancel">取消</el-button>
+      <el-button type="primary" @click="onSubmit">提交</el-button>
+    </div>
+  </template>
+</cn-form>
+```
 
 ### cn-table
 
