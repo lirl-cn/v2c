@@ -307,6 +307,7 @@ export default defineComponent({
       },
       {
         title: "年龄",
+        valueType: 'custom',
         dataIndex: "id",
       },
       {
@@ -404,6 +405,14 @@ export default defineComponent({
             jump: ({ text, record, index }) => {
               return index;
             },
+            idFormExtra: () => 999,
+            idCustomFormComponent: ({value, onChange}) => (
+              <cn-tags
+                value={value}
+                onChange={onChange}
+                options={options.value}
+              ></cn-tags>
+            )
           }}
           searchType="grid"
           rowSelection={{
