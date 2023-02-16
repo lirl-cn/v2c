@@ -13,7 +13,7 @@ export declare type ResponseDataType = {
   total: number;  // 一共多少数据
 }
 export declare type SearchType = {
-  type?: 'inline' | 'gird' | 'block' // 搜索排列样式
+  type?: 'inline' | 'grid' | 'block' // 搜索排列样式
   columns?: number // 几列
   resetText?: string | false  // 重置文案
   searchText?: string | false // 搜索文案
