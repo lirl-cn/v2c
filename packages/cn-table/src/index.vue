@@ -53,13 +53,13 @@
               class="cn-table-search-operation"
               @click="toggleSearchPanel"
               v-if="isSearchOpen"
-              >收起 <i class="el-icon-arrow-up"
+              >{{ __closeText }} <i class="el-icon-arrow-up"
             /></a>
             <a
               class="cn-table-search-operation"
               @click="toggleSearchPanel"
               v-else
-              >展开 <i class="el-icon-arrow-down"
+              >{{ __openText }} <i class="el-icon-arrow-down"
             /></a>
           </template>
         </div>
@@ -105,13 +105,13 @@
             Array.isArray(__setting) && __setting.indexOf('fullScreen') !== -1
           "
           class="el-icon-help"
-          title="全屏切换"
+          :title="othersTextEnum['setting-fullScreen'] || '全屏切换'"
           @click="toggleFullScreen"
         ></i>
         <i
           v-if="Array.isArray(__setting) && __setting.indexOf('reload') !== -1"
           class="el-icon-refresh"
-          title="刷新"
+          :title="othersTextEnum['setting-reload'] || '刷新'"
           @click="reload"
         ></i>
       </div>
@@ -121,10 +121,24 @@
       <div v-if="selectedRows?.length" class="cn-table-alert-container">
         <div class="cn-table-alert-info-content">
           <slot name="alertInfoContent" v-bind:selectedRows="selectedRows">
-            已选
+            {{
+              rowSelection?.selectText ||
+              $CN_V2C_TABLE_CONFIG?.rowSelection?.selectText ||
+              "已选"
+            }}
             {{ selectedRows?.length }}
-            项
-            <a @click="_clearSelectRows">取消选择</a>
+            {{
+              rowSelection?.itemText ||
+              $CN_V2C_TABLE_CONFIG?.rowSelection?.itemText ||
+              "项"
+            }}
+            <a @click="_clearSelectRows">
+              {{
+                rowSelection?.cancelSelectText ||
+                $CN_V2C_TABLE_CONFIG?.rowSelection?.cancelSelectText ||
+                "取消选择"
+              }}
+            </a>
           </slot>
         </div>
         <div class="cn-table-alert-info-options">
@@ -174,7 +188,7 @@
           v-if="Boolean(showIndex)"
           type="index"
           :index="calcIndex"
-          label="序号"
+          :label="othersTextEnum['table-index'] || '序号'"
           class-name="cn--text-center"
           width="56"
         ></el-table-column>
@@ -318,6 +332,9 @@ type SelectedRowsResponse = {
   selectedRows: any[];
 };
 export type RowSelectionType = {
+  selectText?: string; // 已选中 文案
+  itemText?: string; // 项 文案
+  cancelSelectText?: string; // 取消选择 文案
   batchDeleteText?: string; // 批量删除文案
   batchDownloadText?: string; // 批量导出文案
   onBatchDelete?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void; // 批量删除调用的方法
@@ -358,6 +375,14 @@ export default {
       type: [Array, Boolean] as PropType<false | SettingKeyType[]>,
       default: () => ["reload", "fullScreen"],
     },
+    othersTextEnum: {
+      type: [Object, undefined] as PropType<{ [k: string]: string }>,
+      default: () => ({
+        "setting-reload": "刷新",
+        "setting-fullScreen": "全屏切换",
+        "table-index": "序号",
+      }),
+    },
     resetText: {
       type: [String, Boolean] as PropType<string | false>,
       default: "重置",
@@ -365,6 +390,14 @@ export default {
     searchText: {
       type: [String, Boolean] as PropType<string | false>,
       default: "查询",
+    },
+    openText: {
+      type: [String] as PropType<string>,
+      default: "展开",
+    },
+    closeText: {
+      type: [String] as PropType<string>,
+      default: "收起",
     },
     title: {
       type: [String, Boolean] as PropType<string | false>,
@@ -938,6 +971,12 @@ export default {
     },
     __searchText() {
       return this.formatGetStaticValue("searchText");
+    },
+    __openText() {
+      return this.formatGetStaticValue("openText");
+    },
+    __closeText() {
+      return this.formatGetStaticValue("closeText");
     },
     __searchType() {
       return this.formatGetStaticValue("type", "searchType");

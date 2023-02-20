@@ -1,8 +1,8 @@
 import type { DataType as FormItemPropType } from '../../cn-form/src/index.vue';
 import { FormItemType, OptionsType } from '../../common';
-import type { PropType } from 'vue';
-import type { HTMLAttributes, StyleValue } from 'vue/types/jsx';
-import { VNode } from 'vue/types/umd';
+import type { PropType } from "vue";
+import type { HTMLAttributes, StyleValue } from "vue/types/jsx";
+import { VNode } from "vue/types/umd";
 export declare type ParamsType = {
     page: number;
     size: number;
@@ -13,7 +13,7 @@ export declare type ResponseDataType = {
     data: any[];
     total: number;
 };
-declare type StatusType = 'success' | 'error' | 'default' | 'processing' | 'warning';
+declare type StatusType = "success" | "error" | "default" | "processing" | "warning";
 declare type ValueEnumType = {
     [k: string]: {
         text: string;
@@ -21,7 +21,7 @@ declare type ValueEnumType = {
     };
 };
 declare type SearchType = {
-    type?: 'inline' | 'grid' | 'block';
+    type?: "inline" | "grid" | "block";
     labelWidth?: number | string;
     columns?: number;
     resetText?: string | false;
@@ -56,7 +56,7 @@ declare type ColumnType = {
     className?: string;
     render?: () => string | VNode;
     minWidth?: number | string;
-    fixed: 'left' | 'right';
+    fixed: "left" | "right";
     rangeExtra?: [string, string];
     rangeExtraPlacement?: "start" | "end";
 };
@@ -70,11 +70,14 @@ declare type SelectedRowsResponse = {
     selectedRows: any[];
 };
 export declare type RowSelectionType = {
+    selectText?: string;
+    itemText?: string;
+    cancelSelectText?: string;
     batchDeleteText?: string;
     batchDownloadText?: string;
-    onBatchDelete?: (selectedRows: SelectedRowsResponse['selectedRows']) => void;
-    onBatchDownload?: (selectedRows: SelectedRowsResponse['selectedRows']) => void;
-    onChange?: (selectedRows: SelectedRowsResponse['selectedRows']) => void;
+    onBatchDelete?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
+    onBatchDownload?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
+    onChange?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
 };
 declare type ActionRefType = {
     reload: () => void;
@@ -88,7 +91,7 @@ declare type ActionRefType = {
     setSearchFieldsValue<T = any>(fieldsValue: T): void;
     getSelectedRows: () => SelectedRowsResponse;
 };
-declare type SettingKeyType = 'reload' | 'fullScreen';
+declare type SettingKeyType = "reload" | "fullScreen";
 declare const _sfc_main: {
     name: string;
     components: {
@@ -333,12 +336,30 @@ declare const _sfc_main: {
             type: PropType<false | SettingKeyType[]>;
             default: () => string[];
         };
+        othersTextEnum: {
+            type: PropType<{
+                [k: string]: string;
+            }>;
+            default: () => {
+                "setting-reload": string;
+                "setting-fullScreen": string;
+                "table-index": string;
+            };
+        };
         resetText: {
             type: PropType<string | false>;
             default: string;
         };
         searchText: {
             type: PropType<string | false>;
+            default: string;
+        };
+        openText: {
+            type: PropType<string>;
+            default: string;
+        };
+        closeText: {
+            type: PropType<string>;
             default: string;
         };
         title: {
@@ -529,6 +550,8 @@ declare const _sfc_main: {
         __searchDateRangeExtra(): any;
         __resetText(): any;
         __searchText(): any;
+        __openText(): any;
+        __closeText(): any;
         __searchType(): any;
         __searchLabelWidth(): any;
         __searchColumns(): any;

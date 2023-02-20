@@ -61,6 +61,14 @@ const _sfc_main = {
       type: [Array, Boolean],
       default: () => ["reload", "fullScreen"]
     },
+    othersTextEnum: {
+      type: [Object, void 0],
+      default: () => ({
+        "setting-reload": "\u5237\u65B0",
+        "setting-fullScreen": "\u5168\u5C4F\u5207\u6362",
+        "table-index": "\u5E8F\u53F7"
+      })
+    },
     resetText: {
       type: [String, Boolean],
       default: "\u91CD\u7F6E"
@@ -68,6 +76,14 @@ const _sfc_main = {
     searchText: {
       type: [String, Boolean],
       default: "\u67E5\u8BE2"
+    },
+    openText: {
+      type: [String],
+      default: "\u5C55\u5F00"
+    },
+    closeText: {
+      type: [String],
+      default: "\u6536\u8D77"
     },
     title: {
       type: [String, Boolean],
@@ -203,7 +219,12 @@ const _sfc_main = {
   methods: {
     calcIndex(index) {
       if (typeof this.showIndex === "function") {
-        return this.showIndex({ index, current: this.__pagination.current, pageSize: this.__pagination.pageSize, text: (this.__pagination.current - 1) * this.__pagination.pageSize + (index + 1) });
+        return this.showIndex({
+          index,
+          current: this.__pagination.current,
+          pageSize: this.__pagination.pageSize,
+          text: (this.__pagination.current - 1) * this.__pagination.pageSize + (index + 1)
+        });
       }
       return (this.__pagination.current - 1) * this.__pagination.pageSize + (index + 1);
     },
@@ -275,16 +296,14 @@ const _sfc_main = {
     },
     preData() {
       return __async(this, null, function* () {
-        this.jump(this.__pagination.current > 1 ? this.__pagination.current - 1 : 1);
+        this.jump(
+          this.__pagination.current > 1 ? this.__pagination.current - 1 : 1
+        );
       });
     },
     jump(current) {
       return __async(this, null, function* () {
-        this.fetchDataSource(
-          current,
-          this.__pagination.pageSize,
-          {}
-        );
+        this.fetchDataSource(current, this.__pagination.pageSize, {});
       });
     },
     setSearchFieldsValue(fields) {
@@ -294,10 +313,12 @@ const _sfc_main = {
       return __async(this, null, function* () {
         let values = yield this.$refs["search-table-search-form"].getFieldsValue();
         if (!this.isSearchOpen) {
-          const showItems = this.searchList.filter((item) => {
-            var _a, _b, _c;
-            return !((_a = item.formItemProps) == null ? void 0 : _a.class) || ((_c = (_b = item.formItemProps) == null ? void 0 : _b.class) == null ? void 0 : _c.indexOf(HIDDEN_CLASS_NAME)) === -1;
-          }).map((item) => item.name);
+          const showItems = this.searchList.filter(
+            (item) => {
+              var _a, _b, _c;
+              return !((_a = item.formItemProps) == null ? void 0 : _a.class) || ((_c = (_b = item.formItemProps) == null ? void 0 : _b.class) == null ? void 0 : _c.indexOf(HIDDEN_CLASS_NAME)) === -1;
+            }
+          ).map((item) => item.name);
           values = __spreadValues(__spreadValues({}, this._cacheSearchValues), showItems.reduce((pre, cur) => {
             pre[cur] = values[cur];
             return pre;
@@ -354,10 +375,13 @@ const _sfc_main = {
         } else {
           let response;
           try {
-            response = yield this.$CN_V2C_TABLE_CONFIG.request(this.action || "/", __spreadValues({
-              method: this.__method,
-              [this.__method.toLocaleUpperCase() === "POST" ? "data" : "params"]: params
-            }, options));
+            response = yield this.$CN_V2C_TABLE_CONFIG.request(
+              this.action || "/",
+              __spreadValues({
+                method: this.__method,
+                [this.__method.toLocaleUpperCase() === "POST" ? "data" : "params"]: params
+              }, options)
+            );
             response = this.formatResponse ? yield this.formatResponse(response) : response;
           } catch (error) {
             (_a = this.catchFetchDataError) == null ? void 0 : _a.call(this, error);
@@ -428,20 +452,24 @@ const _sfc_main = {
           });
           this.isSearchOpen = !this.isSearchOpen;
           this.$nextTick(() => {
-            const showItems = this.searchList.filter((item) => {
-              var _a, _b, _c;
-              return !((_a = item.formItemProps) == null ? void 0 : _a.class) || ((_c = (_b = item.formItemProps) == null ? void 0 : _b.class) == null ? void 0 : _c.indexOf(HIDDEN_CLASS_NAME)) === -1;
-            }).map((item) => item.name);
+            const showItems = this.searchList.filter(
+              (item) => {
+                var _a, _b, _c;
+                return !((_a = item.formItemProps) == null ? void 0 : _a.class) || ((_c = (_b = item.formItemProps) == null ? void 0 : _b.class) == null ? void 0 : _c.indexOf(HIDDEN_CLASS_NAME)) === -1;
+              }
+            ).map((item) => item.name);
             this.$refs["search-table-search-form"].setFieldsValue(__spreadValues({}, showItems.reduce((pre, cur) => {
               pre[cur] = values[cur];
               return pre;
             }, {})));
           });
         } else {
-          const showItems = this.searchList.filter((item) => {
-            var _a, _b, _c;
-            return !((_a = item.formItemProps) == null ? void 0 : _a.class) || ((_c = (_b = item.formItemProps) == null ? void 0 : _b.class) == null ? void 0 : _c.indexOf(HIDDEN_CLASS_NAME)) === -1;
-          }).map((item) => item.name);
+          const showItems = this.searchList.filter(
+            (item) => {
+              var _a, _b, _c;
+              return !((_a = item.formItemProps) == null ? void 0 : _a.class) || ((_c = (_b = item.formItemProps) == null ? void 0 : _b.class) == null ? void 0 : _c.indexOf(HIDDEN_CLASS_NAME)) === -1;
+            }
+          ).map((item) => item.name);
           this.searchList = this.searchList.map((item) => {
             var _a, _b;
             return __spreadProps(__spreadValues({}, item), {
@@ -495,16 +523,28 @@ const _sfc_main = {
       }), this.pagination) : __spreadProps(__spreadValues({}, this.ownPagination), { pageSizeOptions: this.pageSizeOptions });
     },
     __searchDateRangeExtraPlacement() {
-      return this.formatGetStaticValue("dateRangeExtraPlacement", "searchDateRangeExtraPlacement");
+      return this.formatGetStaticValue(
+        "dateRangeExtraPlacement",
+        "searchDateRangeExtraPlacement"
+      );
     },
     __searchDateRangeExtra() {
-      return this.formatGetStaticValue("dateRangeExtra", "searchDateRangeExtra");
+      return this.formatGetStaticValue(
+        "dateRangeExtra",
+        "searchDateRangeExtra"
+      );
     },
     __resetText() {
       return this.formatGetStaticValue("resetText");
     },
     __searchText() {
       return this.formatGetStaticValue("searchText");
+    },
+    __openText() {
+      return this.formatGetStaticValue("openText");
+    },
+    __closeText() {
+      return this.formatGetStaticValue("closeText");
     },
     __searchType() {
       return this.formatGetStaticValue("type", "searchType");
@@ -520,6 +560,7 @@ const _sfc_main = {
       return this.__searchColumns - i;
     },
     ownSearchList() {
+      console.log([...this.searchList]);
       return [...this.searchList];
     },
     ownActionRef() {
@@ -531,8 +572,12 @@ const _sfc_main = {
         onReset: this._onReset,
         getSearchParams: () => {
           return __spreadProps(__spreadValues({}, this.getSearchParams()), {
-            [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG.current.format ? this.$CN_V2C_TABLE_CONFIG.current.format(this.ownPagination.current) : this.ownPagination.current,
-            [this.$CN_V2C_TABLE_CONFIG.pageSize.key]: this.$CN_V2C_TABLE_CONFIG.pageSize.format ? this.$CN_V2C_TABLE_CONFIG.pageSize.format(this.ownPagination.pageSize) : this.ownPagination.pageSize
+            [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG.current.format ? this.$CN_V2C_TABLE_CONFIG.current.format(
+              this.ownPagination.current
+            ) : this.ownPagination.current,
+            [this.$CN_V2C_TABLE_CONFIG.pageSize.key]: this.$CN_V2C_TABLE_CONFIG.pageSize.format ? this.$CN_V2C_TABLE_CONFIG.pageSize.format(
+              this.ownPagination.pageSize
+            ) : this.ownPagination.pageSize
           });
         },
         setSearchFieldsValue: this.setSearchFieldsValue,
@@ -563,52 +608,58 @@ const _sfc_main = {
       handler(val) {
         return __async(this, null, function* () {
           const searchTypesMap = {};
-          let searchList = this.search ? yield Promise.all(val.filter(
-            ({ hideInSearch, dataIndex }) => dataIndex !== "operate" && !hideInSearch
-          ).map((item) => __async(this, null, function* () {
-            var _a;
-            const type = item.valueType || (item.valueOptions || item.fetchOptions || item.valueEnum ? "select" : "input");
-            const name = item.searchName || item.name || item.dataIndex || item.key;
-            let options = [];
-            if (item.fetchOptions && typeof item.fetchOptions === "function") {
-              let responseOpt;
-              try {
-                responseOpt = yield (_a = item.fetchOptions) == null ? void 0 : _a.call(item);
-              } catch (error) {
-                console.error(item.dataIndex, "\u5728fetchOptions\u65F6\u53D1\u751F\u9519\u8BEF", error);
+          let searchList = this.search ? yield Promise.all(
+            val.filter(
+              ({ hideInSearch, dataIndex }) => dataIndex !== "operate" && !hideInSearch
+            ).map((item) => __async(this, null, function* () {
+              var _a;
+              const type = item.valueType || (item.valueOptions || item.fetchOptions || item.valueEnum ? "select" : "input");
+              const name = item.searchName || item.name || item.dataIndex || item.key;
+              let options = [];
+              if (item.fetchOptions && typeof item.fetchOptions === "function") {
+                let responseOpt;
+                try {
+                  responseOpt = yield (_a = item.fetchOptions) == null ? void 0 : _a.call(item);
+                } catch (error) {
+                  console.error(
+                    item.dataIndex,
+                    "\u5728fetchOptions\u65F6\u53D1\u751F\u9519\u8BEF",
+                    error
+                  );
+                }
+                if (Array.isArray(responseOpt)) {
+                  item.valueOptions = responseOpt;
+                } else if (typeof responseOpt === "object") {
+                  item.valueEnum = responseOpt;
+                }
               }
-              if (Array.isArray(responseOpt)) {
-                item.valueOptions = responseOpt;
-              } else if (typeof responseOpt === "object") {
-                item.valueEnum = responseOpt;
+              if (item.valueEnum) {
+                options = Object.keys(item.valueEnum).map((key) => {
+                  var _a2;
+                  return {
+                    label: (_a2 = item.valueEnum) == null ? void 0 : _a2[key].text,
+                    value: key
+                  };
+                });
               }
-            }
-            if (item.valueEnum) {
-              options = Object.keys(item.valueEnum).map((key) => {
-                var _a2;
-                return {
-                  label: (_a2 = item.valueEnum) == null ? void 0 : _a2[key].text,
-                  value: key
-                };
+              if (item.valueOptions) {
+                options = item.valueOptions;
+              }
+              searchTypesMap[name] = {
+                type,
+                rangeExtra: item.rangeExtra,
+                rangeExtraPlacement: item.rangeExtraPlacement,
+                options
+              };
+              return __spreadProps(__spreadValues({}, item), {
+                name,
+                type,
+                options,
+                title: item.searchTitle || item.title,
+                style: item.searchStyle
               });
-            }
-            if (item.valueOptions) {
-              options = item.valueOptions;
-            }
-            searchTypesMap[name] = {
-              type,
-              rangeExtra: item.rangeExtra,
-              rangeExtraPlacement: item.rangeExtraPlacement,
-              options
-            };
-            return __spreadProps(__spreadValues({}, item), {
-              name,
-              type,
-              options,
-              title: item.searchTitle || item.title,
-              style: item.searchStyle
-            });
-          }))) : [];
+            }))
+          ) : [];
           this.$set(this, "searchTypesMap", searchTypesMap);
           this.$set(this, "searchList", searchList);
           this.$set(

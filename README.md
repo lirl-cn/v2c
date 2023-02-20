@@ -74,7 +74,7 @@ $--color-primary: #21b28e;
 @import "@lirl-cn/v2c/packages/styles/index.scss";
 
 // webpack项目引入该文件
-@import "～@lirl-cn/v2c/packages/styles/index.webpack";
+@import "~@lirl-cn/v2c/packages/styles/index.webpack";
 ```
 
 [查看所有 scss 变量](https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss)
@@ -273,6 +273,9 @@ type ActionRefType = {
 };
 
 type RowSelectionType = {
+  selectText?: string; // 已选中 文案
+  itemText?: string; // 项 文案
+  cancelSelectText?: string; // 取消选择 文案
   batchDeleteText?: string; // 批量删除文案
   batchDownloadText?: string; // 批量导出文案
   onBatchDelete?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void; // 批量删除调用的方法
@@ -283,12 +286,16 @@ type RowSelectionType = {
 };
 
 type SettingType = "reload" | "fullScreen";
+type othersTextEnumKeys = 'setting-reload' | 'setting-fullScreen' | 'table-index'
 
 class CnTable extends ElementUIComponent {
   columns: ColumnType[]; // 表格列数据
   title?: string; // 表格标题
   resetText?: string;
   searchText?: string;
+  openText?: string,
+  closeText?: string,
+  othersTextEnum?: {[k:string]: string},
   rowKey?: string; // 行唯一，需要选择时必传
   searchType?: SearchType["type"];
   searchColumns?: number;

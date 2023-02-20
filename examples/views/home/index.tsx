@@ -307,7 +307,7 @@ export default defineComponent({
       },
       {
         title: "年龄",
-        valueType: 'custom',
+        valueType: "custom",
         dataIndex: "id",
       },
       {
@@ -406,16 +406,22 @@ export default defineComponent({
               return index;
             },
             idFormExtra: () => 999,
-            idCustomFormComponent: ({value, onChange}) => (
+            idCustomFormComponent: ({ value, onChange }) => (
               <cn-tags
                 value={value}
                 onChange={onChange}
                 options={options.value}
               ></cn-tags>
-            )
+            ),
           }}
           searchType="grid"
+          openText="open"
+          closeText="close"
+          othersTextEnum={{
+            "table-index": "index",
+          }}
           rowSelection={{
+            cancelSelectText: "www",
             onBatchDelete: (rows: any) => {
               console.log("onBatchDelete", rows);
             },
