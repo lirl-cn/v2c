@@ -78,6 +78,7 @@ export declare type RowSelectionType = {
     onBatchDelete?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
     onBatchDownload?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
     onChange?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
+    defaultSelectedRows?: any[];
 };
 declare type ActionRefType = {
     reload: () => void;
@@ -90,6 +91,7 @@ declare type ActionRefType = {
     getSearchParams<T = ParamsType>(): T | Promise<T>;
     setSearchFieldsValue<T = any>(fieldsValue: T): void;
     getSelectedRows: () => SelectedRowsResponse;
+    setSelectedRows: (rows: any[]) => void;
 };
 declare type SettingKeyType = "reload" | "fullScreen";
 declare const _sfc_main: {
@@ -516,11 +518,15 @@ declare const _sfc_main: {
         _cacheSearchValues: {
             [k: string]: any;
         };
-        selectedRows: never[];
+        selectedRows: any[];
         isFullScreen: boolean;
         isSearchOpen: boolean;
+        isSetDefaultSelectedRowed: boolean;
     };
     methods: {
+        clearSelection(): void;
+        toggleSelection(rows: any[]): void;
+        setDefaultSelectedRow(): void;
         calcIndex(index: number): any;
         showSlot(dataIndex: any): any;
         _clearSelectRows(): void;

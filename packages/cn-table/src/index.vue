@@ -342,6 +342,8 @@ export type RowSelectionType = {
     selectedRows: SelectedRowsResponse["selectedRows"]
   ) => void; // 批量导出调用的方法
   onChange?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void; // 当选择行变化时调用
+  // selectedRows?: any[];
+  defaultSelectedRows?: any[];
 };
 type ActionRefType = {
   reload: () => void;
@@ -354,6 +356,7 @@ type ActionRefType = {
   getSearchParams<T = ParamsType>(): T | Promise<T>; // 获取所以搜索参数
   setSearchFieldsValue<T = any>(fieldsValue: T): void; // 设置搜索参数
   getSelectedRows: () => SelectedRowsResponse; // 获取选择的数据
+  setSelectedRows: (rows: any[]) => void;
 };
 type SettingKeyType = "reload" | "fullScreen";
 const DEFAULT_RESPONSE_DATA = {
@@ -568,12 +571,50 @@ export default {
       searchData: {},
       _cacheSearchValues: {} as { [k: string]: any },
       // selectedRowKeys: [],
-      selectedRows: [],
+      selectedRows: [] as any[],
       isFullScreen: false,
       isSearchOpen: true,
+      isSetDefaultSelectedRowed: false,
     };
   },
   methods: {
+    clearSelection() {
+      (this.$refs["cn-table-container"] as any).clearSelection();
+      this.selectedRows = [];
+    },
+    toggleSelection(rows: any[]) {
+      if (rows && rows.length) {
+        rows.forEach((row) => {
+          (this.$refs["cn-table-container"] as any).toggleRowSelection(row);
+        });
+        this.selectedRows = rows;
+      }
+    },
+    setDefaultSelectedRow() {
+      if (
+        this.isSetDefaultSelectedRowed ||
+        !this.rowSelection?.defaultSelectedRows
+      ) {
+        const rows = this.ownDataSource?.filter(
+          (item: any) =>
+            this.selectedRows?.findIndex(
+              (it) => it[this.rowKey || "id"] === item[this.rowKey || "id"]
+            ) !== -1
+        );
+        this.toggleSelection(rows);
+      } else {
+        if (!this.rowSelection?.defaultSelectedRows) return;
+        const rows = this.ownDataSource?.filter(
+          (item: any) =>
+            this.rowSelection?.defaultSelectedRows?.indexOf(
+              item[this.rowKey || "id"]
+            ) !== -1
+        );
+        console.log("2", rows);
+        this.toggleSelection(rows);
+        this.isSetDefaultSelectedRowed = true;
+      }
+    },
     calcIndex(index: number) {
       if (typeof this.showIndex === "function") {
         return this.showIndex({
@@ -769,6 +810,9 @@ export default {
           pageSize,
           total: response.total || 0,
         };
+        this.$nextTick(() => {
+          this.setDefaultSelectedRow();
+        });
       } else {
         let response: ResponseDataType;
         try {
@@ -799,6 +843,9 @@ export default {
             pageSize,
             total: response.total || 0,
           };
+          this.$nextTick(() => {
+            this.setDefaultSelectedRow();
+          });
         } else {
           this.$set(this, "ownDataSource", []);
           this.ownPagination = {
@@ -992,7 +1039,7 @@ export default {
       return this.__searchColumns - i;
     },
     ownSearchList() {
-      console.log([...this.searchList]);
+      // console.log([...this.searchList]);
       return [...this.searchList] as FormItemPropType[];
     },
     ownActionRef(): ActionRefType {
@@ -1030,12 +1077,20 @@ export default {
           };
         },
         resetSelectedRows: () => {
-          this.$set(this, "selectedRows", []);
+          this.clearSelection();
         },
+        setSelectedRows: this.toggleSelection,
       };
     },
   },
   watch: {
+    // 'rowSelection.selectedRows': {
+    //   handler(val) {
+    //     this.selectedRows = val || []
+    //   },
+    //   deep: true,
+    //   immediate: true,
+    // },
     loading(loading) {
       this.ownLoading = loading;
     },

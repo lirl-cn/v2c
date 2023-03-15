@@ -322,7 +322,7 @@ export default defineComponent({
     ];
     const fetchData = async (data: any) => {
       if (data.page === 0) {
-        return {
+        const response = {
           success: true,
           data: Array(20)
             .fill({})
@@ -333,6 +333,7 @@ export default defineComponent({
             })),
           total: 37,
         };
+        return response;
       } else {
         return {
           success: true,
@@ -417,10 +418,12 @@ export default defineComponent({
           searchType="grid"
           openText="open"
           closeText="close"
+          rowKey="id"
           othersTextEnum={{
             "table-index": "index",
           }}
           rowSelection={{
+            defaultSelectedRows: [0, 1],
             cancelSelectText: "www",
             onBatchDelete: (rows: any) => {
               console.log("onBatchDelete", rows);

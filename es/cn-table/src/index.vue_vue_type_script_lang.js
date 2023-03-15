@@ -213,10 +213,51 @@ const _sfc_main = {
       _cacheSearchValues: {},
       selectedRows: [],
       isFullScreen: false,
-      isSearchOpen: true
+      isSearchOpen: true,
+      isSetDefaultSelectedRowed: false
     };
   },
   methods: {
+    clearSelection() {
+      this.$refs["cn-table-container"].clearSelection();
+      this.selectedRows = [];
+    },
+    toggleSelection(rows) {
+      if (rows && rows.length) {
+        rows.forEach((row) => {
+          this.$refs["cn-table-container"].toggleRowSelection(row);
+        });
+        this.selectedRows = rows;
+      }
+    },
+    setDefaultSelectedRow() {
+      var _a, _b, _c, _d;
+      if (this.isSetDefaultSelectedRowed || !((_a = this.rowSelection) == null ? void 0 : _a.defaultSelectedRows)) {
+        const rows = (_b = this.ownDataSource) == null ? void 0 : _b.filter(
+          (item) => {
+            var _a2;
+            return ((_a2 = this.selectedRows) == null ? void 0 : _a2.findIndex(
+              (it) => it[this.rowKey || "id"] === item[this.rowKey || "id"]
+            )) !== -1;
+          }
+        );
+        this.toggleSelection(rows);
+      } else {
+        if (!((_c = this.rowSelection) == null ? void 0 : _c.defaultSelectedRows))
+          return;
+        const rows = (_d = this.ownDataSource) == null ? void 0 : _d.filter(
+          (item) => {
+            var _a2, _b2;
+            return ((_b2 = (_a2 = this.rowSelection) == null ? void 0 : _a2.defaultSelectedRows) == null ? void 0 : _b2.indexOf(
+              item[this.rowKey || "id"]
+            )) !== -1;
+          }
+        );
+        console.log("2", rows);
+        this.toggleSelection(rows);
+        this.isSetDefaultSelectedRowed = true;
+      }
+    },
     calcIndex(index) {
       if (typeof this.showIndex === "function") {
         return this.showIndex({
@@ -372,6 +413,9 @@ const _sfc_main = {
             pageSize,
             total: response.total || 0
           });
+          this.$nextTick(() => {
+            this.setDefaultSelectedRow();
+          });
         } else {
           let response;
           try {
@@ -395,6 +439,9 @@ const _sfc_main = {
               current,
               pageSize,
               total: response.total || 0
+            });
+            this.$nextTick(() => {
+              this.setDefaultSelectedRow();
             });
           } else {
             this.$set(this, "ownDataSource", []);
@@ -560,7 +607,6 @@ const _sfc_main = {
       return this.__searchColumns - i;
     },
     ownSearchList() {
-      console.log([...this.searchList]);
       return [...this.searchList];
     },
     ownActionRef() {
@@ -588,8 +634,9 @@ const _sfc_main = {
           };
         },
         resetSelectedRows: () => {
-          this.$set(this, "selectedRows", []);
-        }
+          this.clearSelection();
+        },
+        setSelectedRows: this.toggleSelection
       };
     }
   },
