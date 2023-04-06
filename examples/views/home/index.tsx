@@ -39,10 +39,11 @@ export default defineComponent({
           title: "tags-radio",
           type: "tags-radio",
           name: "tags-radio",
+          initialValue: 0,
           options: [
             {
               label: "2222",
-              value: 2222,
+              value: 0,
             },
             {
               label: "3333",
@@ -65,7 +66,7 @@ export default defineComponent({
             // },
             {
               label: "3333",
-              value: 3333,
+              value: 0,
             },
             {
               label: "4444",

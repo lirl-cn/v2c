@@ -155,7 +155,7 @@ export default {
           this.$set(
             this.formModel,
             cur.name || cur.dataIndex || cur.key,
-            initialValues[cur.name] || cur.initialValue || (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
+            initialValues[cur.name] ?? cur.initialValue ?? (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
           );
           pre[cur.name || cur.dataIndex || cur.key] = cur.rules;
           return pre;
