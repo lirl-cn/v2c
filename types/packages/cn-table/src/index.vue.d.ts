@@ -24,6 +24,7 @@ declare type SearchType = {
     type?: "inline" | "grid" | "block";
     labelWidth?: number | string;
     columns?: number;
+    autoCalcColumns?: boolean;
     resetText?: string | false;
     searchText?: string | false;
     rangeExtra?: [string, string];
@@ -56,6 +57,7 @@ declare type ColumnType = {
     className?: string;
     render?: () => string | VNode;
     minWidth?: number | string;
+    span?: number;
     fixed: "left" | "right";
     rangeExtra?: [string, string];
     rangeExtraPlacement?: "start" | "end";
@@ -497,7 +499,9 @@ declare const _sfc_main: {
         };
     };
     data(): {
-        searchList: FormItemPropType[];
+        searchList: (FormItemPropType & {
+            span: number;
+        })[];
         tableColumns: ColumnType[];
         ownPagination: {
             defaultCurrent: number;
@@ -522,6 +526,9 @@ declare const _sfc_main: {
         isFullScreen: boolean;
         isSearchOpen: boolean;
         isSetDefaultSelectedRowed: boolean;
+        autoCalcSearchSpans: number[][];
+        autoSearchColumns: number;
+        allSearchSpans: number;
     };
     methods: {
         clearSelection(): void;
@@ -543,12 +550,15 @@ declare const _sfc_main: {
         fetchDataSource(current: number, pageSize: number, data?: any, options?: any): Promise<void>;
         deepRenderText(record: any, keys: string[]): string;
         renderText(record: any, dataIndex: string, valueEnum: ValueEnumType): any;
-        toggleSearchPanel(): Promise<void>;
+        toggleSearchPanel(reload?: boolean): Promise<void>;
         toggleFullScreen(): void;
         formatGetStaticValue(key: string, oldKey?: string): any;
+        resize(): void;
     };
     mounted(): void;
+    beforeDestroy(): void;
     computed: {
+        _autoCalcSearchColumns(): any;
         __method(): any;
         __setting(): any;
         __pagination(): any;
@@ -561,11 +571,15 @@ declare const _sfc_main: {
         __searchType(): any;
         __searchLabelWidth(): any;
         __searchColumns(): any;
+        ___searchColumns(): any;
         __searchBtnContainerSpan(): number;
         ownSearchList(): FormItemPropType[];
         ownActionRef(): ActionRefType;
     };
     watch: {
+        autoSearchColumns: {
+            handler(): void;
+        };
         loading(loading: any): void;
         actionRef: {
             handler(val: any): void;

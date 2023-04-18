@@ -12,7 +12,7 @@
         ref="search-table-search-form"
         :data="ownSearchList"
         :layout="__searchType"
-        :columns="__searchColumns"
+        :columns="___searchColumns"
         :labelWidth="__searchLabelWidth"
       >
         <div
@@ -45,19 +45,18 @@
           <slot name="operationsBtnSuffix"></slot>
           <template
             v-if="
-              __searchType === 'grid' &&
-              ownSearchList.length > __searchColumns - 1
+              __searchType === 'grid' && allSearchSpans > ___searchColumns - 1
             "
           >
             <a
               class="cn-table-search-operation"
-              @click="toggleSearchPanel"
+              @click="() => toggleSearchPanel(false)"
               v-if="isSearchOpen"
               >{{ __closeText }} <i class="el-icon-arrow-up"
             /></a>
             <a
               class="cn-table-search-operation"
-              @click="toggleSearchPanel"
+              @click="() => toggleSearchPanel(false)"
               v-else
               >{{ __openText }} <i class="el-icon-arrow-down"
             /></a>
@@ -285,6 +284,7 @@ type SearchType = {
   type?: "inline" | "grid" | "block"; // 搜索排列样式
   labelWidth?: number | string; //label 宽度
   columns?: number; // 几列
+  autoCalcColumns?: boolean;
   resetText?: string | false; // 重置文案
   searchText?: string | false; // 搜索文案
   rangeExtra?: [string, string]; // 区间选择额外增加的字段
@@ -318,6 +318,7 @@ type ColumnType = {
   className?: string;
   render?: () => string | VNode;
   minWidth?: number | string;
+  span?: number; // 占几列
   fixed: "left" | "right";
   rangeExtra?: [string, string]; // 区间选择额外增加的字段
   rangeExtraPlacement?: "start" | "end"; // 区间选择额外增加字段的位置
@@ -553,7 +554,7 @@ export default {
   },
   data() {
     return {
-      searchList: [] as FormItemPropType[],
+      searchList: [] as (FormItemPropType & { span: number })[],
       tableColumns: [] as ColumnType[],
       ownPagination: {
         defaultCurrent: 1,
@@ -575,6 +576,15 @@ export default {
       isFullScreen: false,
       isSearchOpen: true,
       isSetDefaultSelectedRowed: false,
+      autoCalcSearchSpans: [
+        [513, 1],
+        [785, 2],
+        [1230, 3],
+        [1880, 4],
+        [Infinity, 5],
+      ],
+      autoSearchColumns: 3,
+      allSearchSpans: 0,
     };
   },
   methods: {
@@ -610,7 +620,6 @@ export default {
               item[this.rowKey || "id"]
             ) !== -1
         );
-        console.log("2", rows);
         this.toggleSelection(rows);
         this.isSetDefaultSelectedRowed = true;
       }
@@ -890,17 +899,29 @@ export default {
           : this.emptyText;
       }
     },
-    async toggleSearchPanel() {
+    async toggleSearchPanel(reload?: boolean = false) {
       const values = await (
         this.$refs["search-table-search-form"] as any
       ).getFieldsValue();
       // 当前状态为展开
-      if (this.isSearchOpen) {
+      if ((!reload && this.isSearchOpen) || (reload && !this.isSearchOpen)) {
+        console.log("open");
         // 缓存的搜索参数
         this._cacheSearchValues = values;
-        this.searchList = this.searchList.map((item, index) => {
-          if (index < this.__searchColumns - 1) {
-            return item;
+        let spans = 0;
+        this.searchList = this.searchList.map((item) => {
+          spans += item.span || 1;
+          console.log(spans, item.span, this.___searchColumns);
+          if (spans < this.___searchColumns) {
+            return {
+              ...item,
+              formItemProps: {
+                ...item.formItemProps,
+                class: item.formItemProps?.class
+                  ?.replaceAll(HIDDEN_CLASS_NAME, "")
+                  .trim(),
+              },
+            };
           } else {
             return {
               ...item,
@@ -913,7 +934,9 @@ export default {
             };
           }
         });
-        this.isSearchOpen = !this.isSearchOpen;
+        if (!reload) {
+          this.isSearchOpen = !this.isSearchOpen;
+        }
         this.$nextTick(() => {
           const showItems = this.searchList
             .filter(
@@ -930,6 +953,7 @@ export default {
           });
         });
       } else {
+        console.log("close");
         // 当前状态为收起
         // 取出显示的字段
         const showItems = this.searchList
@@ -944,11 +968,13 @@ export default {
           formItemProps: {
             ...item.formItemProps,
             class: item.formItemProps?.class
-              ?.replace(HIDDEN_CLASS_NAME, "")
+              ?.replaceAll(HIDDEN_CLASS_NAME, "")
               .trim(),
           },
         }));
-        this.isSearchOpen = !this.isSearchOpen;
+        if (!reload) {
+          this.isSearchOpen = !this.isSearchOpen;
+        }
         this.$nextTick(() => {
           (this.$refs["search-table-search-form"] as any).setFieldsValue({
             ...this._cacheSearchValues,
@@ -978,14 +1004,38 @@ export default {
         this[oldKey || key]
       );
     },
+    resize() {
+      const clientWidth =(this.$refs["cn-table--container"] as any)?.getBoundingClientRect().width ||  window.innerWidth || document.body.clientWidth;
+      console.log(clientWidth)
+      for (let i = 0; i < this.autoCalcSearchSpans.length; i++) {
+        const [width, span] = this.autoCalcSearchSpans[i];
+        if (clientWidth <= width) {
+          this.autoSearchColumns = span;
+          return;
+        }
+      }
+    },
   },
   mounted() {
     !this.dataSource && this.onloadAutoRequest && this.onSearch();
     if (this.actionRef && typeof this.actionRef === "function") {
       this.actionRef(this.ownActionRef);
     }
+    if (this.__searchType === "grid" && this._autoCalcSearchColumns) {
+      window.addEventListener("resize", this.resize);
+      this.resize();
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.resize);
   },
   computed: {
+    _autoCalcSearchColumns() {
+      return (
+        typeof this.search === "object" &&
+        this.search?.autoCalcColumns !== false
+      );
+    },
     __method() {
       return this.method || this.$CN_V2C_TABLE_CONFIG.method;
     },
@@ -1034,9 +1084,15 @@ export default {
     __searchColumns() {
       return this.formatGetStaticValue("columns", "searchColumns");
     },
+    ___searchColumns() {
+      return this._autoCalcSearchColumns
+        ? this.autoSearchColumns
+        : this.__searchColumns;
+    },
     __searchBtnContainerSpan() {
-      const i = this.ownSearchList.length % this.__searchColumns;
-      return this.__searchColumns - i;
+      const i = this.allSearchSpans % this.___searchColumns;
+      // const i = this.ownSearchList.length % this.___searchColumns;
+      return this.___searchColumns - i;
     },
     ownSearchList() {
       // console.log([...this.searchList]);
@@ -1084,6 +1140,13 @@ export default {
     },
   },
   watch: {
+    autoSearchColumns: {
+      handler() {
+        this.$nextTick(() => {
+          this.toggleSearchPanel(true);
+        });
+      },
+    },
     // 'rowSelection.selectedRows': {
     //   handler(val) {
     //     this.selectedRows = val || []
@@ -1105,6 +1168,7 @@ export default {
       async handler(val: ColumnType[]) {
         const searchTypesMap: { [k: string | undefined]: any } = {};
         // format 搜索项 默认operate为操作列，不参与搜索
+        let allSearchSpans = 0;
         let searchList = this.search
           ? await Promise.all(
               val
@@ -1157,11 +1221,54 @@ export default {
                     rangeExtraPlacement: item.rangeExtraPlacement,
                     options,
                   };
+                  let span = item.span;
+                  if (item.formItemProps?.style) {
+                    if (
+                      typeof item.formItemProps?.style === "string" &&
+                      item.formItemProps?.style.indexOf("grid-column") !== -1
+                    ) {
+                      let gridColumnSpan = item.formItemProps?.style
+                        .split("grid-column:")[1]
+                        .split("span ")[1];
+                      if (gridColumnSpan.indexOf(";") !== -1) {
+                        gridColumnSpan = gridColumnSpan.split(";")[0];
+                      }
+                      span = Number(gridColumnSpan);
+                    } else {
+                      if (
+                        Object.prototype.toString.call(
+                          item.formItemProps?.style
+                        ) === "[object Object]" &&
+                        (item.formItemProps?.style["grid-column"] ||
+                          item.formItemProps?.style["gridColumn"])
+                      ) {
+                        let gridColumnSpan = (
+                          item.formItemProps?.style["grid-column"] ||
+                          item.formItemProps?.style["gridColumn"]
+                        ).split(" ")?.[1];
+                        span = Number(gridColumnSpan);
+                      }
+                    }
+                  }
+                  const style = item.span
+                    ? typeof item.formItemProps?.style === "string"
+                      ? `${item.formItemProps}; grid-column: span ${span};`
+                      : {
+                          ...(item.formItemProps?.style as object),
+                          "grid-column": `span ${span}`,
+                        }
+                    : undefined;
+                  allSearchSpans += span || 1;
                   return {
                     ...item,
                     name,
                     type,
                     options,
+                    formItemProps: {
+                      ...item.formItemProps,
+                      style,
+                    },
+                    span,
                     title: item.searchTitle || item.title,
                     style: item.searchStyle,
                   };
@@ -1170,6 +1277,7 @@ export default {
           : [];
         // this.searchTypesMap = searchTypesMap;
         // this.searchList = searchList;
+        this.allSearchSpans = allSearchSpans;
         this.$set(this, "searchTypesMap", searchTypesMap);
         this.$set(this, "searchList", searchList);
         this.$set(
