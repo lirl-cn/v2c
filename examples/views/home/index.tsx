@@ -479,9 +479,9 @@ export default defineComponent({
           request={fetchData}
           columns={tableColumns}
           showIndex
-          search={{
-            labelWidth: 76,
-          }}
+          // search={{
+          //   labelWidth: 76,
+          // }}
           scopedSlots={{
             headOperation: () => (
               <el-button onClick={onAdd} size="small" type="warning">

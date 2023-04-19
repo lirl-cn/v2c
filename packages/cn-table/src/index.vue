@@ -905,13 +905,11 @@ export default {
       ).getFieldsValue();
       // 当前状态为展开
       if ((!reload && this.isSearchOpen) || (reload && !this.isSearchOpen)) {
-        console.log("open");
         // 缓存的搜索参数
         this._cacheSearchValues = values;
         let spans = 0;
         this.searchList = this.searchList.map((item) => {
           spans += item.span || 1;
-          console.log(spans, item.span, this.___searchColumns);
           if (spans < this.___searchColumns) {
             return {
               ...item,
@@ -953,7 +951,6 @@ export default {
           });
         });
       } else {
-        console.log("close");
         // 当前状态为收起
         // 取出显示的字段
         const showItems = this.searchList
@@ -1005,8 +1002,11 @@ export default {
       );
     },
     resize() {
-      const clientWidth =(this.$refs["cn-table--container"] as any)?.getBoundingClientRect().width ||  window.innerWidth || document.body.clientWidth;
-      console.log(clientWidth)
+      const clientWidth =
+        (this.$refs["cn-table--container"] as any)?.getBoundingClientRect()
+          .width ||
+        window.innerWidth ||
+        document.body.clientWidth;
       for (let i = 0; i < this.autoCalcSearchSpans.length; i++) {
         const [width, span] = this.autoCalcSearchSpans[i];
         if (clientWidth <= width) {
@@ -1032,8 +1032,9 @@ export default {
   computed: {
     _autoCalcSearchColumns() {
       return (
-        typeof this.search === "object" &&
-        this.search?.autoCalcColumns !== false
+        (typeof this.search === "object" &&
+          this.search?.autoCalcColumns !== false) ||
+        this.search !== false
       );
     },
     __method() {
