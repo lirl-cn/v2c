@@ -19,7 +19,6 @@ Vue.use(baseUi, {
     pageSize: {
       key: 'size',
     },
-    setting: false,
   }
 })
 new Vue({

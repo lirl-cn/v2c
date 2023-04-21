@@ -39,7 +39,7 @@
     "vite-plugin-dts": "^1.7.1"
   },
   "dependencies": {
-    "element-ui": "2.15.7"
+    "element-ui": "^2.15.7"
   },
   "author": "lirl",
   "repository": {

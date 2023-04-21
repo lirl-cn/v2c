@@ -131,7 +131,7 @@
               $CN_V2C_TABLE_CONFIG?.rowSelection?.itemText ||
               "项"
             }}
-            <a @click="_clearSelectRows">
+            <a @click="clearSelection">
               {{
                 rowSelection?.cancelSelectText ||
                 $CN_V2C_TABLE_CONFIG?.rowSelection?.cancelSelectText ||
@@ -180,6 +180,7 @@
         <el-table-column
           v-if="rowSelection"
           type="selection"
+          :reserve-selection="true"
           class-name="cn--text-center"
           width="48"
         ></el-table-column>
@@ -590,12 +591,15 @@ export default {
   methods: {
     clearSelection() {
       (this.$refs["cn-table-container"] as any).clearSelection();
-      this.selectedRows = [];
+      this.$set(this, "selectedRows", []);
     },
     toggleSelection(rows: any[]) {
       if (rows && rows.length) {
         rows.forEach((row) => {
-          (this.$refs["cn-table-container"] as any).toggleRowSelection(row);
+          (this.$refs["cn-table-container"] as any).toggleRowSelection(
+            row,
+            true
+          );
         });
         this.selectedRows = rows;
       }
@@ -605,13 +609,17 @@ export default {
         this.isSetDefaultSelectedRowed ||
         !this.rowSelection?.defaultSelectedRows
       ) {
-        const rows = this.ownDataSource?.filter(
-          (item: any) =>
-            this.selectedRows?.findIndex(
-              (it) => it[this.rowKey || "id"] === item[this.rowKey || "id"]
-            ) !== -1
-        );
-        this.toggleSelection(rows);
+        const rows = this.selectedRows?.map((item: any) => {
+          const i = this.ownDataSource?.filter(
+            (it) => it[this.rowKey || "id"] === item[this.rowKey || "id"]
+          );
+          if (i.length) {
+            return i[0];
+          } else {
+            return item;
+          }
+        });
+        this.toggleSelection(rows, false);
       } else {
         if (!this.rowSelection?.defaultSelectedRows) return;
         const rows = this.ownDataSource?.filter(
@@ -644,11 +652,8 @@ export default {
       // console.log(this.$scopedSlots, dataIndex)
       return Boolean(this.$scopedSlots[dataIndex]);
     },
-    _clearSelectRows() {
-      (this.$refs["cn-table-container"] as any).clearSelection();
-    },
     selectionLineChangeHandle(selectedRows: any[]) {
-      // this.$set(this, 'selectedRowKeys', selectedRowKeys);
+      // console.log("selectedRows-change: ", selectedRows);
       this.$set(this, "selectedRows", selectedRows);
       if (this.rowSelection) {
         const { onChange } = this.rowSelection;
@@ -699,7 +704,7 @@ export default {
       this.searchData = {};
       this._cacheSearchValues = {};
       // 请求先清空选择行
-      this.$set(this, "selectedRows", []);
+      this.clearSelection();
       this.fetchDataSource(
         this.__pagination.defaultCurrent,
         this.__pagination.pageSize,
@@ -709,7 +714,7 @@ export default {
     },
     async reload() {
       // 请求先清空选择行
-      this.$set(this, "selectedRows", []);
+      // this.$set(this, "selectedRows", []);
       this.fetchDataSource(
         this.__pagination.current,
         this.__pagination.pageSize,
@@ -770,7 +775,7 @@ export default {
       // console.log(params)
       this.searchData = params;
       // 请求先清空选择行
-      this.$set(this, "selectedRows", []);
+      this.clearSelection();
       this.fetchDataSource(
         this.__pagination.defaultCurrent,
         this.__pagination.pageSize,
