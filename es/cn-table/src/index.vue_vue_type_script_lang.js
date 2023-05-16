@@ -229,12 +229,15 @@ const _sfc_main = {
   methods: {
     clearSelection() {
       this.$refs["cn-table-container"].clearSelection();
-      this.selectedRows = [];
+      this.$set(this, "selectedRows", []);
     },
     toggleSelection(rows) {
       if (rows && rows.length) {
         rows.forEach((row) => {
-          this.$refs["cn-table-container"].toggleRowSelection(row);
+          this.$refs["cn-table-container"].toggleRowSelection(
+            row,
+            true
+          );
         });
         this.selectedRows = rows;
       }
@@ -242,14 +245,17 @@ const _sfc_main = {
     setDefaultSelectedRow() {
       var _a, _b, _c, _d;
       if (this.isSetDefaultSelectedRowed || !((_a = this.rowSelection) == null ? void 0 : _a.defaultSelectedRows)) {
-        const rows = (_b = this.ownDataSource) == null ? void 0 : _b.filter(
-          (item) => {
-            var _a2;
-            return ((_a2 = this.selectedRows) == null ? void 0 : _a2.findIndex(
-              (it) => it[this.rowKey || "id"] === item[this.rowKey || "id"]
-            )) !== -1;
+        const rows = (_b = this.selectedRows) == null ? void 0 : _b.map((item) => {
+          var _a2;
+          const i = (_a2 = this.ownDataSource) == null ? void 0 : _a2.filter(
+            (it) => it[this.rowKey || "id"] === item[this.rowKey || "id"]
+          );
+          if (i.length) {
+            return i[0];
+          } else {
+            return item;
           }
-        );
+        });
         this.toggleSelection(rows);
       } else {
         if (!((_c = this.rowSelection) == null ? void 0 : _c.defaultSelectedRows))
@@ -279,9 +285,6 @@ const _sfc_main = {
     },
     showSlot(dataIndex) {
       return Boolean(this.$scopedSlots[dataIndex]);
-    },
-    _clearSelectRows() {
-      this.$refs["cn-table-container"].clearSelection();
     },
     selectionLineChangeHandle(selectedRows) {
       this.$set(this, "selectedRows", selectedRows);
@@ -321,21 +324,19 @@ const _sfc_main = {
     },
     _onReset() {
       return __async(this, null, function* () {
-        this.$refs["search-table-search-form"] && this.$refs["search-table-search-form"].resetFields();
+        this.$refs["search-table-search-form"] && (yield this.$refs["search-table-search-form"].resetFields());
         this.searchData = {};
         this._cacheSearchValues = {};
-        this.$set(this, "selectedRows", []);
-        this.fetchDataSource(
-          this.__pagination.defaultCurrent,
-          this.__pagination.pageSize,
-          {}
-        );
+        yield this.clearSelection();
+        if (typeof this.search === "object" && this.search.beforeReset) {
+          yield this.search.beforeReset();
+        }
+        this.onSearch();
         this.watchReset && this.watchReset();
       });
     },
     reload() {
       return __async(this, null, function* () {
-        this.$set(this, "selectedRows", []);
         this.fetchDataSource(
           this.__pagination.current,
           this.__pagination.pageSize,
@@ -391,7 +392,7 @@ const _sfc_main = {
       return __async(this, null, function* () {
         const params = this.search ? yield this.getSearchParams() : {};
         this.searchData = params;
-        this.$set(this, "selectedRows", []);
+        this.clearSelection();
         this.fetchDataSource(
           this.__pagination.defaultCurrent,
           this.__pagination.pageSize,
@@ -492,13 +493,11 @@ const _sfc_main = {
       return __async(this, null, function* () {
         const values = yield this.$refs["search-table-search-form"].getFieldsValue();
         if (!reload && this.isSearchOpen || reload && !this.isSearchOpen) {
-          console.log("open");
           this._cacheSearchValues = values;
           let spans = 0;
           this.searchList = this.searchList.map((item) => {
             var _a, _b, _c;
             spans += item.span || 1;
-            console.log(spans, item.span, this.___searchColumns);
             if (spans < this.___searchColumns) {
               return __spreadProps(__spreadValues({}, item), {
                 formItemProps: __spreadProps(__spreadValues({}, item.formItemProps), {
@@ -529,7 +528,6 @@ const _sfc_main = {
             }, {})));
           });
         } else {
-          console.log("close");
           const showItems = this.searchList.filter(
             (item) => {
               var _a, _b, _c;
@@ -573,7 +571,6 @@ const _sfc_main = {
     resize() {
       var _a;
       const clientWidth = ((_a = this.$refs["cn-table--container"]) == null ? void 0 : _a.getBoundingClientRect().width) || window.innerWidth || document.body.clientWidth;
-      console.log(clientWidth);
       for (let i = 0; i < this.autoCalcSearchSpans.length; i++) {
         const [width, span] = this.autoCalcSearchSpans[i];
         if (clientWidth <= width) {
@@ -599,7 +596,7 @@ const _sfc_main = {
   computed: {
     _autoCalcSearchColumns() {
       var _a;
-      return typeof this.search === "object" && ((_a = this.search) == null ? void 0 : _a.autoCalcColumns) !== false;
+      return typeof this.search === "object" && ((_a = this.search) == null ? void 0 : _a.autoCalcColumns) !== false || this.search !== false;
     },
     __method() {
       return this.method || this.$CN_V2C_TABLE_CONFIG.method;

@@ -29,6 +29,7 @@ declare type SearchType = {
     searchText?: string | false;
     rangeExtra?: [string, string];
     rangeExtraPlacement?: "start" | "end";
+    beforeReset?: () => void;
 };
 declare type ColumnType = {
     dataIndex: string;
@@ -536,7 +537,6 @@ declare const _sfc_main: {
         setDefaultSelectedRow(): void;
         calcIndex(index: number): any;
         showSlot(dataIndex: any): any;
-        _clearSelectRows(): void;
         selectionLineChangeHandle(selectedRows: any[]): void;
         formatValue(name: string, value: any): any;
         _onReset(): Promise<void>;
