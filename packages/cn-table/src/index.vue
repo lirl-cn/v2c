@@ -290,6 +290,7 @@ type SearchType = {
   searchText?: string | false; // 搜索文案
   rangeExtra?: [string, string]; // 区间选择额外增加的字段
   rangeExtraPlacement?: "start" | "end"; // 区间选择额外增加字段的位置
+  beforeReset?: () => void
 };
 type ColumnType = {
   dataIndex: string; // 表单唯一值，该列基于哪个字段显示，支持a.b.c但不建议
@@ -619,7 +620,7 @@ export default {
             return item;
           }
         });
-        this.toggleSelection(rows, false);
+        this.toggleSelection(rows);
       } else {
         if (!this.rowSelection?.defaultSelectedRows) return;
         const rows = this.ownDataSource?.filter(
@@ -700,16 +701,15 @@ export default {
     },
     async _onReset() {
       this.$refs["search-table-search-form"] &&
-        (this.$refs["search-table-search-form"] as any).resetFields();
+        await (this.$refs["search-table-search-form"] as any).resetFields();
       this.searchData = {};
       this._cacheSearchValues = {};
       // 请求先清空选择行
-      this.clearSelection();
-      this.fetchDataSource(
-        this.__pagination.defaultCurrent,
-        this.__pagination.pageSize,
-        {}
-      );
+      await this.clearSelection();
+      if(typeof this.search === 'object' && this.search.beforeReset){
+        await this.search.beforeReset()
+      }
+      this.onSearch();
       this.watchReset && this.watchReset();
     },
     async reload() {

@@ -388,7 +388,18 @@ export default defineComponent({
 
       {
         title: "性别",
-        dataIndex: "jump",
+        dataIndex: "sex",
+        fieldItemProps: {
+          clearable: false
+        },
+        valueEnum: {
+          0: {
+            text: "男",
+          },
+          1: {
+            text: "女",
+          },
+        },
       },
 
       {
@@ -399,6 +410,7 @@ export default defineComponent({
     ];
 
     const fetchData = async (data: any) => {
+      console.log(data)
       if (data.page === 0) {
         const response = {
           success: true,
@@ -408,6 +420,7 @@ export default defineComponent({
               ...item,
               name: index + "姓名",
               id: index,
+              sex: index % 2,
             })),
           total: 37,
         };
@@ -479,9 +492,12 @@ export default defineComponent({
           request={fetchData}
           columns={tableColumns}
           showIndex
-          // search={{
-          //   labelWidth: 76,
-          // }}
+          search={{
+            labelWidth: 76,
+            beforeReset(){
+              actionRef.value.setSearchFieldsValue({sex: '1'})
+            }
+          }}
           scopedSlots={{
             headOperation: () => (
               <el-button onClick={onAdd} size="small" type="warning">
