@@ -223,7 +223,8 @@ const _sfc_main = {
         [Infinity, 5]
       ],
       autoSearchColumns: 3,
-      allSearchSpans: 0
+      allSearchSpans: 0,
+      isInit: false
     };
   },
   methods: {
@@ -578,10 +579,21 @@ const _sfc_main = {
           return;
         }
       }
+    },
+    onMountedFetchData() {
+      const timer = setTimeout(() => {
+        if (this.isInit) {
+          !this.dataSource && this.onloadAutoRequest && this.onSearch();
+          clearTimeout(timer);
+        } else {
+          clearTimeout(timer);
+          this.onMountedFetchData();
+        }
+      }, 500);
     }
   },
   mounted() {
-    !this.dataSource && this.onloadAutoRequest && this.onSearch();
+    this.onMountedFetchData();
     if (this.actionRef && typeof this.actionRef === "function") {
       this.actionRef(this.ownActionRef);
     }
@@ -660,8 +672,8 @@ const _sfc_main = {
         reset: this._onReset,
         onSearch: this.onSearch,
         onReset: this._onReset,
-        getSearchParams: () => {
-          return __spreadProps(__spreadValues({}, this.getSearchParams()), {
+        getSearchParams: () => __async(this, null, function* () {
+          return __spreadProps(__spreadValues({}, yield this.getSearchParams()), {
             [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG.current.format ? this.$CN_V2C_TABLE_CONFIG.current.format(
               this.ownPagination.current
             ) : this.ownPagination.current,
@@ -669,7 +681,7 @@ const _sfc_main = {
               this.ownPagination.pageSize
             ) : this.ownPagination.pageSize
           });
-        },
+        }),
         setSearchFieldsValue: this.setSearchFieldsValue,
         onReload: this.reload,
         getSelectedRows: () => {
@@ -796,6 +808,7 @@ const _sfc_main = {
           );
           if (this.$refs["cn-table-container"]) {
             this.$nextTick(() => {
+              this.isInit = true;
               this.$refs["cn-table-container"].doLayout();
             });
           }

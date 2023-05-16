@@ -290,7 +290,7 @@ type SearchType = {
   searchText?: string | false; // 搜索文案
   rangeExtra?: [string, string]; // 区间选择额外增加的字段
   rangeExtraPlacement?: "start" | "end"; // 区间选择额外增加字段的位置
-  beforeReset?: () => void
+  beforeReset?: () => void;
 };
 type ColumnType = {
   dataIndex: string; // 表单唯一值，该列基于哪个字段显示，支持a.b.c但不建议
@@ -587,6 +587,7 @@ export default {
       ],
       autoSearchColumns: 3,
       allSearchSpans: 0,
+      isInit: false,
     };
   },
   methods: {
@@ -701,13 +702,13 @@ export default {
     },
     async _onReset() {
       this.$refs["search-table-search-form"] &&
-        await (this.$refs["search-table-search-form"] as any).resetFields();
+        (await (this.$refs["search-table-search-form"] as any).resetFields());
       this.searchData = {};
       this._cacheSearchValues = {};
       // 请求先清空选择行
       await this.clearSelection();
-      if(typeof this.search === 'object' && this.search.beforeReset){
-        await this.search.beforeReset()
+      if (typeof this.search === "object" && this.search.beforeReset) {
+        await this.search.beforeReset();
       }
       this.onSearch();
       this.watchReset && this.watchReset();
@@ -1020,9 +1021,20 @@ export default {
         }
       }
     },
+    onMountedFetchData(){
+      const timer = setTimeout(() => {
+        if(this.isInit){
+          !this.dataSource && this.onloadAutoRequest && this.onSearch();
+          clearTimeout(timer)
+        }else{
+          clearTimeout(timer)
+          this.onMountedFetchData()
+        }
+      }, 500)
+    }
   },
   mounted() {
-    !this.dataSource && this.onloadAutoRequest && this.onSearch();
+    this.onMountedFetchData()
     if (this.actionRef && typeof this.actionRef === "function") {
       this.actionRef(this.ownActionRef);
     }
@@ -1111,9 +1123,9 @@ export default {
         reset: this._onReset,
         onSearch: this.onSearch,
         onReset: this._onReset,
-        getSearchParams: () => {
+        getSearchParams: async () => {
           return {
-            ...this.getSearchParams(),
+            ...(await this.getSearchParams()),
             [this.$CN_V2C_TABLE_CONFIG.current.key]: this.$CN_V2C_TABLE_CONFIG
               .current.format
               ? this.$CN_V2C_TABLE_CONFIG.current.format(
@@ -1298,6 +1310,7 @@ export default {
         );
         if (this.$refs["cn-table-container"]) {
           this.$nextTick(() => {
+            this.isInit = true;
             (this.$refs["cn-table-container"] as any).doLayout();
           });
         }

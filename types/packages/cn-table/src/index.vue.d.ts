@@ -530,6 +530,7 @@ declare const _sfc_main: {
         autoCalcSearchSpans: number[][];
         autoSearchColumns: number;
         allSearchSpans: number;
+        isInit: boolean;
     };
     methods: {
         clearSelection(): void;
@@ -554,6 +555,7 @@ declare const _sfc_main: {
         toggleFullScreen(): void;
         formatGetStaticValue(key: string, oldKey?: string): any;
         resize(): void;
+        onMountedFetchData(): void;
     };
     mounted(): void;
     beforeDestroy(): void;

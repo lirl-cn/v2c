@@ -392,6 +392,7 @@ export default defineComponent({
         fieldItemProps: {
           clearable: false
         },
+        initialValue: '1',
         valueEnum: {
           0: {
             text: "男",
@@ -441,8 +442,8 @@ export default defineComponent({
       }
     };
 
-    const onAdd = () => {
-      console.log(actionRef.value.getSearchParams());
+    const onAdd = async() => {
+      console.log(await actionRef.value.getSearchParams());
     };
 
     return () => (
