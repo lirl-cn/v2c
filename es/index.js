@@ -51,7 +51,8 @@ const defaultTableConfig = {
   method: "GET"
 };
 const install = function(Vue, config = {}) {
-  Vue.use(ElementUI, _default);
+  const { elementUIConfig = {} } = config;
+  Vue.use(ElementUI, __spreadValues({ locale: _default }, elementUIConfig));
   components.forEach((component) => {
     Vue.component(component.name, component);
   });

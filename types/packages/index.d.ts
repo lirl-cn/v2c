@@ -53,6 +53,9 @@ declare type configType = {
         search?: any;
         setting?: false | string[];
     };
+    elementUIConfig?: {
+        [k: string]: any;
+    };
 };
 declare const install: (Vue: VueConstructor, config?: configType) => void;
 export { CnTags, CnPagination, CnBadge, CnForm, CnTable, };

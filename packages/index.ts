@@ -52,7 +52,8 @@ type configType = {
     method?: 'GET' | 'POST',
     search?: any
     setting?: false | string[]
-  }
+  },
+  elementUIConfig?: { [k: string]: any }
 }
 const defaultTableConfig = {
   request: () => {
@@ -68,7 +69,8 @@ const defaultTableConfig = {
   method: 'GET',
 }
 const install = function (Vue: VueConstructor, config: configType = {}) {
-  Vue.use(ElementUI, locale);
+  const { elementUIConfig = {} } = config
+  Vue.use(ElementUI, { locale, ...elementUIConfig });
   components.forEach(component => {
     Vue.component(component.name, component);
   });
