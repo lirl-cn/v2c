@@ -71,10 +71,11 @@ export type DataType = {
   placeholder?: string,
   formItemProps?: {[k:string]: any}
   fieldItemProps?: {[k:string]: any}
+  initialValue?: any
 }
 export default {
   name: 'cn-form',
-  components: { 
+  components: {
     FormItem: () => import("./form-item.vue")
    },
   props: {
@@ -152,10 +153,11 @@ export default {
         const initialValues:any = this.getFieldsValue();
         const rules = val.reduce((pre:any, cur:any) => {
           // 初始化默认值
+          const key = cur.name || cur.dataIndex || cur.key
           this.$set(
             this.formModel,
-            cur.name || cur.dataIndex || cur.key,
-            initialValues[cur.name] ?? cur.initialValue ?? (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
+              key,
+              key in initialValues ? initialValues[key] : cur.initialValue ?? (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
           );
           pre[cur.name || cur.dataIndex || cur.key] = cur.rules;
           return pre;

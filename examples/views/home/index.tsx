@@ -454,6 +454,7 @@ export default defineComponent({
         <cn-tags
           value={value.value}
           onChange={(text: any) => (value.value = text)}
+          showAll={{label: '全部', value: ''}}
           options={options.value}
         ></cn-tags>{" "}
         <cn-pagination total={70} current={2}></cn-pagination>{" "}

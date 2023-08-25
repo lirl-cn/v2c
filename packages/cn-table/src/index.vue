@@ -1061,13 +1061,13 @@ export default {
       return this.$CN_V2C_TABLE_CONFIG?.setting ?? this.setting;
     },
     __pagination() {
-      return typeof this.pagination === "object"
+      return (typeof this.pagination === "object"
         ? {
             ...this.ownPagination,
             pageSizeOptions: this.pageSizeOptions,
             ...this.pagination,
           }
-        : { ...this.ownPagination, pageSizeOptions: this.pageSizeOptions };
+        : { ...this.ownPagination, pageSizeOptions: this.pageSizeOptions } as any);
     },
     __searchDateRangeExtraPlacement() {
       return this.formatGetStaticValue(

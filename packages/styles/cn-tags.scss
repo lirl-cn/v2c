@@ -1,5 +1,6 @@
 .cn-tags-container {
   display: flex;
+  gap: 12px;
   .cn-tags-item {
     padding: 0px 12px;
     height: 32px;
@@ -11,9 +12,6 @@
     align-items: center;
     border: 1px solid #d9d9d9;
     cursor: pointer;
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
     &.cn-tags-item-active {
       color: $--color-primary;
       border-color: $--color-primary;

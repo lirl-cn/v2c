@@ -14,6 +14,7 @@ export declare type DataType = {
     fieldItemProps?: {
         [k: string]: any;
     };
+    initialValue?: any;
 };
 declare const _sfc_main: {
     name: string;

@@ -66,9 +66,10 @@ export default {
           newValue = []
         }
         if (newValue.indexOf(val) !== -1) {
+          const _newValue = newValue.filter(v => v !== val)
           this.$emit(
             "change",
-            newValue.filter(v => v !== val)
+            this.showAll && !_newValue.length ? [this.showAll.value] : _newValue
           );
         } else {
           this.$emit("change", [...newValue, val]);
