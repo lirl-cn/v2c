@@ -82,6 +82,7 @@ export declare type RowSelectionType = {
     onBatchDownload?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
     onChange?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void;
     defaultSelectedRows?: any[];
+    selectable?: (row: any, index: number) => boolean;
 };
 declare type ActionRefType = {
     reload: () => void;

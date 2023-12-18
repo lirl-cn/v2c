@@ -183,6 +183,7 @@
           :reserve-selection="true"
           class-name="cn--text-center"
           width="48"
+          :selectable="rowSelection?.selectable"
         ></el-table-column>
         <el-table-column
           v-if="Boolean(showIndex)"
@@ -347,6 +348,7 @@ export type RowSelectionType = {
   onChange?: (selectedRows: SelectedRowsResponse["selectedRows"]) => void; // 当选择行变化时调用
   // selectedRows?: any[];
   defaultSelectedRows?: any[];
+  selectable?: (row: any, index: number) => boolean
 };
 type ActionRefType = {
   reload: () => void;

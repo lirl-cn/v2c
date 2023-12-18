@@ -533,7 +533,10 @@ export default defineComponent({
             onBatchDelete: (rows: any) => {
               console.log("onBatchDelete", rows);
             },
-
+            selectable(row, index){
+              console.log(row)
+              return index !== 2
+            },
             onBatchDownload: (rows: any) => {
               console.log("onBatchDownload", rows);
             },
