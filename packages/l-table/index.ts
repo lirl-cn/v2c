@@ -1,0 +1,6 @@
+import type { VueConstructor } from 'vue';
+import LTable from './src/index.vue';
+LTable.install = function (Vue: VueConstructor) {
+  Vue.component(LTable.name, LTable);
+};
+export default LTable;

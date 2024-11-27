@@ -10,6 +10,8 @@ import CnTable from './cn-table';
 import CnTags from "./cn-tags";
 import LrTree from "./lr-tree";
 import LrTree2 from "./lr-tree2";
+import LTable from "./l-table";
+import BEmpty from "./b-empty";
 
 const components = [
   CnTags,
@@ -19,6 +21,8 @@ const components = [
   CnTable,
   LrTree,
   LrTree2,
+  LTable,
+  BEmpty,
 ]
 declare module 'vue/types/vue' {
   // 来声明全局属性
@@ -38,10 +42,12 @@ declare module 'vue/types/vue' {
       search?: any
       setting?: false | string[]
     },
+    $CN_V2C_LTABLE_CONFIG: Record<string, any>
   }
 }
 
 type configType = {
+  lTable?: Record<string, any>
   table?: {
     request?: (url: string, params?: { method: 'POST' | 'GET', [k: string]: any }) => Promise<{ success?: boolean, data: any[], total: number }>
     current?: {
@@ -76,12 +82,16 @@ const install = function (Vue: VueConstructor, config: configType = {}) {
   const { elementUIConfig = {} } = config
   Vue.use(ElementUI, { locale, ...elementUIConfig });
   components.forEach(component => {
+    // @ts-ignore
     Vue.component(component.name, component);
   });
 
   Vue.prototype.$CN_V2C_TABLE_CONFIG = {
     ...defaultTableConfig,
     ...config.table,
+  }
+  Vue.prototype.$CN_V2C_LTABLE_CONFIG = {
+    ...config.lTable,
   }
 };
 if (typeof window !== 'undefined' && window.Vue) {

@@ -446,14 +446,16 @@ export default defineComponent({
       if (data.page === 0) {
         const response = {
           success: true,
-          data: Array(20)
-            .fill({})
-            .map((item, index) => ({
-              ...item,
-              name: index + "姓名",
-              id: index,
-              sex: index % 2,
-            })),
+          meta: {
+            data: Array(20)
+              .fill({})
+              .map((item, index) => ({
+                ...item,
+                name: index + "姓名",
+                id: index,
+                sex: index % 2,
+              })),
+          },
           total: 37,
         };
 
@@ -461,13 +463,15 @@ export default defineComponent({
       } else {
         return {
           success: true,
-          data: Array(17)
-            .fill({})
-            .map((item, index) => ({
-              ...item,
-              name: index + "姓名",
-              id: index + data.size,
-            })),
+          meta: {
+            data: Array(17)
+              .fill({})
+              .map((item, index) => ({
+                ...item,
+                name: index + "姓名",
+                id: index + data.size,
+              })),
+          },
           total: 37,
         };
       }
@@ -482,9 +486,6 @@ export default defineComponent({
         {" "}
         <h1>Home</h1> <h2>2222</h2> <div>count: 2</div>{" "}
         <el-button type="primary"> 22222</el-button>{" "}
-        <div style={{width:'100%', height: '400px'}}>
-          <lr-tree2 dataSource={treeData}></lr-tree2>
-        </div>
         <cn-tags
           value={value.value}
           onChange={(text: any) => (value.value = text)}
@@ -523,59 +524,63 @@ export default defineComponent({
           提交表单{" "}
         </el-button>{" "}
         <el-divider>cn-table 生成表格</el-divider>{" "}
-        <cn-table
-          actionRef={(node: any) => (actionRef.value = node)}
-          request={fetchData}
-          columns={tableColumns}
-          showIndex
-          search={{
-            labelWidth: 76,
-            beforeReset(){
-              actionRef.value.setSearchFieldsValue({sex: '1'})
-            }
-          }}
-          scopedSlots={{
-            headOperation: () => (
-              <el-button onClick={onAdd} size="small" type="warning">
-                {" "}
-                新增{" "}
-              </el-button>
-            ),
-            jump: ({ text, record, index }) => {
-              return index;
-            },
+        <div style={{height: '600px'}}>
+          <l-table
+            ref={actionRef}
+            request={fetchData}
+            columns={tableColumns}
+            showIndex
+            border={false}
+            stripe={true}
+            search={{
+              labelWidth: 76,
+              beforeReset(){
+                actionRef.value.setSearchFieldsValue({sex: '1'})
+              }
+            }}
+            scopedSlots={{
+              headOperation: () => (
+                <el-button onClick={onAdd} size="small" type="warning">
+                  {" "}
+                  新增{" "}
+                </el-button>
+              ),
+              jump: ({ text, record, index }) => {
+                return index;
+              },
 
-            idFormExtra: () => 999,
-            idCustomFormComponent: ({ value, onChange }) => (
-              <cn-tags
-                value={value}
-                onChange={onChange}
-                options={options.value}
-              ></cn-tags>
-            ),
-          }}
-          searchType="grid"
-          openText="open"
-          closeText="close"
-          rowKey="id"
-          othersTextEnum={{
-            "table-index": "index",
-          }}
-          rowSelection={{
-            defaultSelectedRows: [0, 1],
-            cancelSelectText: "www",
-            onBatchDelete: (rows: any) => {
-              console.log("onBatchDelete", rows);
-            },
-            selectable(row, index){
-              console.log(row)
-              return index !== 2
-            },
-            onBatchDownload: (rows: any) => {
-              console.log("onBatchDownload", rows);
-            },
-          }}
-        ></cn-table>{" "}
+              idFormExtra: () => 999,
+              idCustomFormComponent: ({ value, onChange }) => (
+                <cn-tags
+                  value={value}
+                  onChange={onChange}
+                  options={options.value}
+                ></cn-tags>
+              ),
+            }}
+            searchType="grid"
+            openText="open"
+            closeText="close"
+            rowKey="id"
+            othersTextEnum={{
+              "table-index": "index",
+            }}
+            rowSelection={{
+              defaultSelectedRows: [0, 1],
+              cancelSelectText: "www",
+              onBatchDelete: (rows: any) => {
+                console.log("onBatchDelete", rows);
+              },
+              selectable(row, index){
+                console.log(row)
+                return index !== 2
+              },
+              onBatchDownload: (rows: any) => {
+                console.log("onBatchDownload", rows);
+              },
+            }}
+          ></l-table>
+        </div>{" "}
       </div>
     );
   },
