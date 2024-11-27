@@ -8,7 +8,18 @@ import CnForm from './cn-form';
 import CnPagination from './cn-pagination/src/index.vue';
 import CnTable from './cn-table';
 import CnTags from "./cn-tags";
+import LrTree from "./lr-tree";
+import LrTree2 from "./lr-tree2";
 
+const components = [
+  CnTags,
+  CnPagination,
+  CnBadge,
+  CnForm,
+  CnTable,
+  LrTree,
+  LrTree2,
+]
 declare module 'vue/types/vue' {
   // 来声明全局属性
   interface Vue {
@@ -30,13 +41,6 @@ declare module 'vue/types/vue' {
   }
 }
 
-const components = [
-  CnTags,
-  CnPagination,
-  CnBadge,
-  CnForm,
-  CnTable,
-]
 type configType = {
   table?: {
     request?: (url: string, params?: { method: 'POST' | 'GET', [k: string]: any }) => Promise<{ success?: boolean, data: any[], total: number }>

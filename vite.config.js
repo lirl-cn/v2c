@@ -21,9 +21,9 @@ export default {
     //   resolvers: [],
     // }),
     //因为这个插件默认打包到es下，我们想让lib目录下也生成声明文件需要再配置一个
-    dts({
-      outputDir: 'types'
-    })
+    // dts({
+    //   outputDir: 'types'
+    // })
   ],
   server: {
     proxy: {
@@ -61,20 +61,25 @@ export default {
   },
   hmr: true,
   build: {
-    target: 'es2015',
+    target: ['es2015', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     //打包文件目录
     outDir: "es",
     //压缩
     minify: false,
     //css分离
     //cssCodeSplit: true,
+    dynamicImportVarsOptions: {},
     rollupOptions: {
       //忽略打包vue文件
       external: ['element-ui'],
       input: ['packages/index.ts'],
+      commonjsOptions: {
+        transformMixedEsModules: true,
+        ignoreTryCatch: false,
+      },
       output: [
         {
-          format: 'es',
+          // format: 'es',
           //不用打包成.es.js,这里我们想把它打包成.js
           entryFileNames: '[name].js',
           //让打包目录和我们目录对应

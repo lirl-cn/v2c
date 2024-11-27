@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "jsx": "preserve",
-    "target": "ESNext",
+    "target": "esnext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
+    "module": "esnext",
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node",
     "strict": true,
@@ -19,9 +19,9 @@
     "typeRoots": [
 
       "./node_modules/vue/types",
-      
+
       "./types/packages"
-      
+
     ],
     "paths": {
       "@/*": ["./examples/*"],
@@ -30,13 +30,6 @@
       "~/*": ["./node_modules/*"]
     },
     "skipLibCheck": true
-  },
-  "vueCompilerOptions": {
-    "experimentalDisableTemplateSupport": true,
-    "target": 2.7,
-    "extensions": [
-      ".vue"
-    ]
   },
   "include": ["examples", "packages"]
 }

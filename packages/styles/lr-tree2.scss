@@ -1,0 +1,104 @@
+.lr-tree-select--container2 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.lr-tree-select-container2 {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--lr-tree-bg-color);
+  padding: 24px 36px;
+  position: relative;
+  font-size: 14px;
+  // display: flex;
+  // align-items: center;
+}
+.lr-tree-select-e2 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+}
+.lr-tree-select-canvas2 {
+  transform-origin: left top;
+  display: inline-block;
+  width: max-content;
+  height: max-content;
+}
+.lr-tree-select-operate2 {
+  position: absolute;
+  right: 20px;
+  bottom: 36px;
+  background: #fff;
+  box-shadow: 0 0 4px 1px rgba(7, 67, 62, 0.08);
+  border-radius: 22px;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  z-index: 999;
+  user-select: none;
+  > span {
+    display: inline-flex;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: $--color-primary;
+    font-size: 24px;
+  }
+  i {
+    font-style: normal;
+  }
+}
+$borderColor: var(--lr-tree-border-color);
+$borderWidth: 1px;
+.lr-tree-node-container2 {
+  display: flex;
+  align-items: center;
+  > i {
+    display: block;
+    width: 40px;
+    height: $borderWidth;
+    background-color: $borderColor;
+    margin-left: 8px;
+  }
+}
+.lr-tree-node--inner2 {
+  display: flex;
+  flex-direction: column;
+  gap: 75px;
+  padding-left: 38px;
+  border-left: $borderWidth solid $borderColor;
+  > div {
+    position: relative;
+    &::before {
+      content: ' ';
+      position: absolute;
+      width: 36px;
+      height: $borderWidth;
+      background-color: $borderColor;
+      left: -39px; // border width发生变化时需要动态调整
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    &:first-child::after,
+    &:last-child::after {
+      content: ' ';
+      width: 4px;
+      height: 50%;
+      position: absolute;
+      background-color: var(--lr-tree-bg-color);
+      left: -41px;
+    }
+    &:first-child::after {
+      top: 0;
+    }
+    &:last-child::after {
+      bottom: 0;
+    }
+  }
+}

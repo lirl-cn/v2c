@@ -334,6 +334,37 @@ export default defineComponent({
     });
     const checkList = ref([]);
 
+    const treeData = {
+        id: '1',
+        text: 'string',
+        data: {id:2},
+        children: [
+          {
+            id: '10',
+            text: 'string',
+            data: {id:2},
+            children: [
+              {
+                id: '2',
+                text: 'string',
+                data: {id:2},
+                children: []
+              },
+            ]
+          },
+          {
+            id: '11',
+            text: 'string',
+            data: {id:2},
+          },
+          {
+            id: '12',
+            text: 'string',
+            data: {id:2},
+          },
+        ]
+      }
+
     const onSubmit = async () => {
       console.log(await formRef.value.validateFields());
     };
@@ -451,6 +482,9 @@ export default defineComponent({
         {" "}
         <h1>Home</h1> <h2>2222</h2> <div>count: 2</div>{" "}
         <el-button type="primary"> 22222</el-button>{" "}
+        <div style={{width:'100%', height: '400px'}}>
+          <lr-tree2 dataSource={treeData}></lr-tree2>
+        </div>
         <cn-tags
           value={value.value}
           onChange={(text: any) => (value.value = text)}
