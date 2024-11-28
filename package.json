@@ -4,7 +4,9 @@
   "main": "es/index.js",
   "files": [
     "es",
-    "lib"
+    "lib",
+    "packages/styles",
+    "types/packages"
   ],
   "type": "module",
   "scripts": {
