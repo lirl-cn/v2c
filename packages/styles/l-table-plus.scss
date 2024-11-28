@@ -1,0 +1,20 @@
+.lrl-table-plus-container {
+  .c-content--header {
+    padding: 20px 20px 0;
+    display: flex;
+  }
+
+  .lrl-table-search-right-opt {
+    width: max-content;
+  }
+
+  .cn-form-inline-container {
+    width: 0;
+    flex: 1;
+
+    .el-form--inline .el-form-item {
+      margin-bottom: 0;
+      margin-top: 0px;
+    }
+  }
+}

@@ -11,7 +11,10 @@ import CnTags from "./cn-tags";
 import LrTree from "./lr-tree";
 import LrTree2 from "./lr-tree2";
 import LTable from "./l-table";
+import LTablePlus from "./l-table-plus";
 import BEmpty from "./b-empty";
+import CModal from "./c-modal";
+import CContentContainer from "./c-content-container";
 
 const components = [
   CnTags,
@@ -22,7 +25,10 @@ const components = [
   LrTree,
   LrTree2,
   LTable,
+  LTablePlus,
   BEmpty,
+  CModal,
+  CContentContainer,
 ]
 declare module 'vue/types/vue' {
   // 来声明全局属性

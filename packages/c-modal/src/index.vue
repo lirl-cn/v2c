@@ -17,10 +17,10 @@
     <template #footer>
       <slot name="footer">
         <div v-if="noFooter !== true" class="cn-model-dialog-footer">
-          <el-button @click="$emit('close')">
+          <el-button :size="btnSize" @click="$emit('close')">
             {{ cancelText || '取 消' }}
           </el-button>
-          <el-button type="primary" @click="$emit('ok')">
+          <el-button :size="btnSize" type="primary" @click="$emit('ok')">
             {{ okText || '确 定' }}
           </el-button>
         </div>
@@ -29,7 +29,7 @@
   </el-dialog>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'CModal',
   props: {
@@ -65,6 +65,11 @@ export default defineComponent({
     cancelText: {
       type: String,
       required: false
+    },
+    btnSize: {
+      type: String as PropType<"medium" | "small" | "mini" >,
+      required: false,
+      default: 'small'
     }
   },
   emits: ['close', 'ok'],

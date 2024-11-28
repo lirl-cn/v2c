@@ -525,7 +525,7 @@ export default defineComponent({
         </el-button>{" "}
         <el-divider>cn-table 生成表格</el-divider>{" "}
         <div style={{height: '600px'}}>
-          <l-table
+          <l-table-plus
             ref={actionRef}
             request={fetchData}
             columns={tableColumns}
@@ -579,7 +579,7 @@ export default defineComponent({
                 console.log("onBatchDownload", rows);
               },
             }}
-          ></l-table>
+          ></l-table-plus>
         </div>{" "}
       </div>
     );
