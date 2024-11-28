@@ -347,7 +347,7 @@ export default defineComponent({
     },
     tableParams(){
       return {
-        ...this.owmParams,
+        ...this.ownParams,
         ...this.params,
       }
     },
@@ -409,7 +409,7 @@ export default defineComponent({
       searchRef: undefined,
       tableRef: undefined,
       formRef: undefined,
-      owmParams: {},
+      ownParams: {},
       addVisible: false,
       detail: undefined,
     }

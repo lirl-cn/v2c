@@ -22,12 +22,8 @@ Vue.use(baseUi, {
   },
   lTable: {
     request,
-    current: {
-      key: 'page',
-    },
-    pageSize: {
-      key: 'size',
-    },
+    currentKey: 'page',
+    pageSizeKey: 'size',
     layout: 'total, prev, pager, next, jumper',
     border: true,
     stripe: false,

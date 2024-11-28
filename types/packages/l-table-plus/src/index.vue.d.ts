@@ -206,7 +206,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     searchRef: undefined;
     tableRef: undefined;
     formRef: undefined;
-    owmParams: {};
+    ownParams: {};
     addVisible: boolean;
     detail: undefined;
 }, {
