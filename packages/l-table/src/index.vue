@@ -95,8 +95,8 @@
       class="l-table-pagination"
     >
       <el-pagination
-        :current-page.sync="dParams[currentKey]"
-        :page-size="dParams[pageSizeKey]"
+        :current-page.sync="dParams[_currentKey]"
+        :page-size="dParams[_pageSizeKey]"
         :layout="finallyLayout"
         :total="dParams.total"
         :hide-on-single-page="_hideOnSinglePage"
@@ -106,7 +106,7 @@
         <!--        hide-on-single-page-->
         <slot name="l-table-pagination">
           <span key="1">
-            {{ dParams[currentKey] }} / {{ dParams[pageSizeKey] }}
+            {{ dParams[_currentKey] }} / {{ dParams[_pageSizeKey] }}
           </span>
         </slot>
       </el-pagination>
@@ -393,16 +393,16 @@ export default defineComponent({
       if (typeof this.showIndex === 'function') {
         return this.showIndex({
           index,
-          current: this.dParams[this.currentKey],
-          pageSize: this.dParams[this.pageSizeKey],
+          current: this.dParams[this._currentKey],
+          pageSize: this.dParams[this._pageSizeKey],
           text:
-            (this.dParams[this.currentKey] - 1) *
-            this.dParams[this.pageSizeKey] +
+            (this.dParams[this._currentKey] - 1) *
+            this.dParams[this._pageSizeKey] +
             (index + 1),
         })
       }
       return (
-        (this.dParams[this.currentKey] - 1) * this.dParams[this.pageSizeKey] +
+        (this.dParams[this._currentKey] - 1) * this.dParams[this._pageSizeKey] +
         (index + 1)
       )
     },
