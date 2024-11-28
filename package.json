@@ -40,10 +40,6 @@
     "element-ui": "^2.15.7"
   },
   "author": "lirl",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lirl-cn/v2c"
-  },
   "keywords": [
     "vue",
     "vue2",
