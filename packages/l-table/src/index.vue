@@ -24,7 +24,7 @@
         <el-table
           ref="tableRef"
           :stripe="_stripe"
-          :data="dataSource || _dataSource"
+          :data="dataSource || ownDataSource"
           :style="`width: 100%; ${tableStyle || ''}`"
           height="100%"
           v-bind="attrs"
@@ -360,7 +360,7 @@ export default defineComponent({
       return this.loading !== undefined ? this.loading : this._loading
     },
     isTableEmpty(){
-      return !(this.dataSource || this._dataSource)?.length
+      return !(this.dataSource || this.ownDataSource)?.length
     },
     attrs(){
       return this.$attrs
@@ -380,7 +380,7 @@ export default defineComponent({
       dParams: {
         total: 0,
       },
-      _dataSource: [],
+      ownDataSource: [],
       _loading: true,
       selectedRows: [],
     }
@@ -468,17 +468,17 @@ export default defineComponent({
         response = this._formatResponse
           ? this._formatResponse(response, 'resolve')
           : response
-        this._dataSource = response.meta?.data || []
+        this.$set(this, "ownDataSource", response.meta?.data || []);
         this.dParams.total = response.total
       } else {
         response = this._formatResponse
           ? this._formatResponse(response, 'reject')
           : false
         if (response) {
-          this._dataSource = response.meta?.data || []
+          this.$set(this, "ownDataSource", response.meta?.data || []);
           this.dParams.total = response.total
         } else {
-          this._dataSource = []
+          this.$set(this, "ownDataSource", []);
           this.dParams.total = 0
         }
       }
@@ -544,7 +544,7 @@ export default defineComponent({
       this.$refs['tableRef']?.toggleRowSelection(row, true)
     },
     getDataSource(){
-      return this._dataSource
+      return this.ownDataSource
     },
     onParamsActionChange(){
       this.dParams = {

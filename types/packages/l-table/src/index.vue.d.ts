@@ -186,7 +186,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     dParams: {
         total: number;
     };
-    _dataSource: never[];
+    ownDataSource: never[];
     _loading: boolean;
     selectedRows: never[];
 }, {
