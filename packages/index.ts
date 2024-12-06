@@ -110,5 +110,12 @@ export {
   CnBadge,
   CnForm,
   CnTable,
+  LrTree,
+  LrTree2,
+  LTable,
+  LTablePlus,
+  BEmpty,
+  CModal,
+  CContentContainer,
 };
 export default install
