@@ -4,6 +4,13 @@ import CnForm from './cn-form';
 import CnPagination from './cn-pagination/src/index.vue';
 import CnTable from './cn-table';
 import CnTags from "./cn-tags";
+import LrTree from "./lr-tree";
+import LrTree2 from "./lr-tree2";
+import LTable from "./l-table";
+import LTablePlus from "./l-table-plus";
+import BEmpty from "./b-empty";
+import CModal from "./c-modal";
+import CContentContainer from "./c-content-container";
 declare module 'vue/types/vue' {
     interface Vue {
         $CN_V2C_TABLE_CONFIG: {
@@ -60,5 +67,5 @@ declare type configType = {
     };
 };
 declare const install: (Vue: VueConstructor, config?: configType) => void;
-export { CnTags, CnPagination, CnBadge, CnForm, CnTable, };
+export { CnTags, CnPagination, CnBadge, CnForm, CnTable, LrTree, LrTree2, LTable, LTablePlus, BEmpty, CModal, CContentContainer, };
 export default install;

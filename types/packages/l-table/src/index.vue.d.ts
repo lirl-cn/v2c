@@ -81,6 +81,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     loading: {
         type: BooleanConstructor;
         required: false;
+        default: undefined;
     };
     hideOnSinglePage: {
         type: BooleanConstructor;
@@ -311,6 +312,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     loading: {
         type: BooleanConstructor;
         required: false;
+        default: undefined;
     };
     hideOnSinglePage: {
         type: BooleanConstructor;
