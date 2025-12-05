@@ -210,6 +210,7 @@ export default defineComponent({
     loading: {
       type: Boolean,
       required: false,
+      default: undefined
     },
     hideOnSinglePage: {
       type: Boolean,
