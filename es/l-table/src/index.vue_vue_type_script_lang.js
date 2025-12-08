@@ -255,6 +255,7 @@ const _sfc_main = defineComponent({
       };
     },
     pageLoading() {
+      console.log("loading", this.loading, "_loading", this._loading);
       return this.loading !== void 0 ? this.loading : this._loading;
     },
     isTableEmpty() {
