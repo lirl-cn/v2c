@@ -1,6 +1,6 @@
 {
   "name": "@lirl-cn/v2c",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "es/index.js",
   "files": [
     "es",
