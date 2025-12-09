@@ -42,12 +42,9 @@ import LTable from "./l-table/src/index.js";
 import { default as default8 } from "./l-table/src/index.js";
 import LTablePlus from "./l-table-plus/src/index.js";
 import { default as default9 } from "./l-table-plus/src/index.js";
-import BEmpty from "./b-empty/src/index.js";
 import { default as default10 } from "./b-empty/src/index.js";
-import CModal from "./c-modal/src/index.js";
-import { default as default11 } from "./c-modal/src/index.js";
-import CContentContainer from "./c-content-container/src/index.js";
-import { default as default12 } from "./c-content-container/src/index.js";
+import { default as default11 } from "./c-content-container/src/index.js";
+import { default as default12 } from "./c-modal/src/index.js";
 import CnForm from "./cn-form/src/index.js";
 import { default as default13 } from "./cn-form/src/index.js";
 const components = [
@@ -59,10 +56,7 @@ const components = [
   LrTree,
   LrTree2,
   LTable,
-  LTablePlus,
-  BEmpty,
-  CModal,
-  CContentContainer
+  LTablePlus
 ];
 const defaultTableConfig = {
   request: () => {
@@ -88,8 +82,8 @@ if (typeof window !== "undefined" && window.Vue) {
 }
 export {
   default10 as BEmpty,
-  default12 as CContentContainer,
-  default11 as CModal,
+  default11 as CContentContainer,
+  default12 as CModal,
   default4 as CnBadge,
   default13 as CnForm,
   default2 as CnPagination,

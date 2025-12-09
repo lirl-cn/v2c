@@ -14,6 +14,18 @@ import LTablePlus from "./l-table-plus";
 import LrTree from "./lr-tree";
 import LrTree2 from "./lr-tree2";
 
+export {
+  BEmpty, CContentContainer, CModal, CnBadge,
+  CnForm, CnPagination, CnTable, CnTags, LrTree,
+  LrTree2,
+  LTable,
+  LTablePlus
+};
+
+export * from './cn-form';
+export * from './cn-table';
+export * from './l-table';
+
 const components = [
   CnTags,
   CnPagination,
@@ -24,9 +36,6 @@ const components = [
   LrTree2,
   LTable,
   LTablePlus,
-  BEmpty,
-  CModal,
-  CContentContainer,
 ]
 declare module 'vue/types/vue' {
   // 来声明全局属性
@@ -101,11 +110,5 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 
-export {
-  BEmpty, CContentContainer, CModal, CnBadge,
-  CnForm, CnPagination, CnTable, CnTags, LrTree,
-  LrTree2,
-  LTable,
-  LTablePlus
-};
+
 export default install

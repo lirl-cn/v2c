@@ -272,29 +272,26 @@ export type ParamsType = {
 };
 export type ResponseDataType = {
   success?: boolean;
-  data: any[];
-  total: number;
+  success?: boolean; // 是否成功
+  data: any[]; // 数据源
+  total: number; // 一共多少数据
 };
-
-type StatusType = "success" | "error" | "default" | "processing" | "warning";
-type ValueEnumType = {
+export type StatusType = "success" | "error" | "default" | "processing" | "warning";
+export type ValueEnumType = {
   [k: string]: {
-    text: string;
-    status: StatusType;
+    text: string; // 文案
+    status?: StatusType; // 状态
   };
 };
-type SearchType = {
+export type SearchType = {
   type?: "inline" | "grid" | "block"; // 搜索排列样式
-  labelWidth?: number | string; //label 宽度
   columns?: number; // 几列
-  autoCalcColumns?: boolean;
   resetText?: string | false; // 重置文案
   searchText?: string | false; // 搜索文案
   rangeExtra?: [string, string]; // 区间选择额外增加的字段
   rangeExtraPlacement?: "start" | "end"; // 区间选择额外增加字段的位置
-  beforeReset?: () => void;
 };
-type ColumnType = {
+export type ColumnType = {
   dataIndex: string; // 表单唯一值，该列基于哪个字段显示，支持a.b.c但不建议
   title: string; // 单元格名称文案
   searchTitle?: string; // 搜索框显示的文案。若为空默认显示title
@@ -323,17 +320,17 @@ type ColumnType = {
   render?: () => string | VNode;
   minWidth?: number | string;
   span?: number; // 占几列
-  fixed: "left" | "right";
+  fixed?: "left" | "right";
   rangeExtra?: [string, string]; // 区间选择额外增加的字段
   rangeExtraPlacement?: "start" | "end"; // 区间选择额外增加字段的位置
 };
-type PaginationType = {
+export type PaginationType = {
   defaultPageSize?: number;
   pageSizeOptions?: number[];
   current?: number;
   pageSize?: number;
 };
-type SelectedRowsResponse = {
+export type SelectedRowsResponse = {
   selectedRows: any[];
 };
 export type RowSelectionType = {

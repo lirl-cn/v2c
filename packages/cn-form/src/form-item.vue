@@ -280,8 +280,7 @@
 <script lang="ts">
 import { FormItemType, OptionsType } from '#/common';
 import type { PropType } from 'vue';
-import { CnTags } from '../../';
-
+import CnTags from '../../cn-tags';
 export default {
   components: { CnTags },
   props: {

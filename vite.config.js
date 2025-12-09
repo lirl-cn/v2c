@@ -20,9 +20,10 @@ export default {
     // Components({
     //   resolvers: [],
     // }),
-    //因为这个插件默认打包到es下，我们想让lib目录下也生成声明文件需要再配置一个
     dts({
-      outputDir: 'types'
+      outputDir: 'types',
+      tsConfigFilePath: './tsconfig.build.json',
+      skipDiagnostics: true
     })
   ],
   server: {

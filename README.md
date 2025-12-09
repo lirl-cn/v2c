@@ -148,7 +148,7 @@ import type {
   ResponseDataType,  // 响应数据类型
   RowSelectionType,  // 行选择配置类型
   ActionRefType,     // 方法引用类型
-} from '@lirl-cn/v2c/types/packages/cn-table/src/index.vue'
+} from '@lirl-cn/v2c'
 
 // 使用类型
 const columns: ColumnType[] = [
@@ -185,7 +185,7 @@ const actionRef = (ref: ActionRefType) => {
 import type {
   DataType as FormDataType,  // 表单数据类型
   FormItemType,              // 表单项类型
-} from '@lirl-cn/v2c/types/packages/cn-form/src/index.vue'
+} from '@lirl-cn/v2c'
 
 const formData: FormDataType[] = [
   {
@@ -202,7 +202,7 @@ const formData: FormDataType[] = [
 ```typescript
 import type {
   ColumnsType  // L-Table 列类型
-} from '@lirl-cn/v2c/types/packages/l-table/src/index.vue'
+} from '@lirl-cn/v2c'
 
 const columns: ColumnsType[] = [
   {
@@ -224,16 +224,11 @@ const columns: ColumnsType[] = [
 
 ### 类型定义路径
 
-| 组件 | 类型定义路径 |
-|------|-------------|
-| cn-table | `@lirl-cn/v2c/types/packages/cn-table/src/index.vue` |
-| cn-form | `@lirl-cn/v2c/types/packages/cn-form/src/index.vue` |
-| l-table | `@lirl-cn/v2c/types/packages/l-table/src/index.vue` |
-| l-table-plus | `@lirl-cn/v2c/types/packages/l-table-plus/src/index.vue` |
-| cn-badge | `@lirl-cn/v2c/types/packages/cn-badge/src/index.vue` |
-| cn-tags | `@lirl-cn/v2c/types/packages/cn-tags/src/index.vue` |
-| lr-tree | `@lirl-cn/v2c/types/packages/lr-tree/src/index.vue` |
-| lr-tree2 | `@lirl-cn/v2c/types/packages/lr-tree2/src/index.vue` |
+所有类型定义均可直接从包根目录导入：
+
+```typescript
+import type { ColumnType, FormDataType } from '@lirl-cn/v2c'
+```
 
 ## 📖 核心组件
 

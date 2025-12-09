@@ -1,4 +1,3 @@
-import "../../index.js";
 import "../../cn-tags/index.js";
 import CnTags from "../../cn-tags/src/index.js";
 const _sfc_main = {

@@ -104,19 +104,6 @@ export default {
       type: String,
       default: "grid"
     },
-    /**
-     * 数据源
-     * {
-     *    name: string 表单唯一值，key
-     *    title： string  label文案
-     *    placeholder
-     *    type： string  form-item类型，后续如果新增需要在组件内加入新组件
-     *    options： {label:string, value: string|number}[]  select、checkbox等组件的数据源 后续新增的组件需要数据源也可复用该字段
-     *    formItemProps：object 绑定给el-form-item的attrs
-     *    fieldItemProps：object 绑定给 表单组件 的attrs
-     * }[]
-     *  */
-
     data: {
       type: Array as PropType<DataType[]>,
       default: () => []
@@ -151,13 +138,20 @@ export default {
     data: {
       handler(val: any) {
         const initialValues:any = (this as any).getFieldsValue();
+        // const rules = {};
         const rules = val.reduce((pre:any, cur:any) => {
           // 初始化默认值
           const key = cur.name || cur.dataIndex || cur.key
+          
+          const needDefaultValueArrayTypes = (this as any).needDefaultValueArrayTypes || [];
+          const isArrayType = needDefaultValueArrayTypes.indexOf(cur.type) !== -1;
+          const defaultValue = isArrayType ? [] : undefined;
+          const value = key in initialValues ? initialValues[key] : (cur.initialValue ?? defaultValue);
+          
           (this as any).$set(
             (this as any).formModel,
               key,
-              key in initialValues ? initialValues[key] : cur.initialValue ?? ((this as any).needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
+              value
           );
           pre[cur.name || cur.dataIndex || cur.key] = cur.rules;
           return pre;
@@ -204,7 +198,7 @@ export default {
         (this.$refs["formRef"] as any).validateField(fields, (valid:boolean) => {
           if (valid) {
             if (fields.length === 1) {
-              resolve((this as any).formModel[fields]);
+              resolve((this as any).formModel[fields[0]]);
             } else {
               resolve(fields.reduce((pre: any, cur: any) => {
                 pre[cur] = (this as any).formModel[cur];
