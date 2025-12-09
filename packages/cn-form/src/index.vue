@@ -149,70 +149,70 @@ export default {
   },
   watch: {
     data: {
-      handler(val) {
-        const initialValues:any = this.getFieldsValue();
+      handler(val: any) {
+        const initialValues:any = (this as any).getFieldsValue();
         const rules = val.reduce((pre:any, cur:any) => {
           // 初始化默认值
           const key = cur.name || cur.dataIndex || cur.key
-          this.$set(
-            this.formModel,
+          (this as any).$set(
+            (this as any).formModel,
               key,
-              key in initialValues ? initialValues[key] : cur.initialValue ?? (this.needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
+              key in initialValues ? initialValues[key] : cur.initialValue ?? ((this as any).needDefaultValueArrayTypes.indexOf(cur.type) !== -1 ? [] : undefined)
           );
           pre[cur.name || cur.dataIndex || cur.key] = cur.rules;
           return pre;
         }, {});
-        this.rules = rules;
+        (this as any).rules = rules;
       },
       immediate: true,
       deep: true
     },
     actionRef: {
-      handler(val){
-        val && val(this.ownActionRef)
+      handler(val: any){
+        val && val((this as any).ownActionRef)
       },
       immediate: true,
       deep: true
     },
   },
   computed: {
-    ownActionRef(){
+    ownActionRef(): any {
       return {
-        validateFields: this.validateFields,
-        getFieldsValue: this.getFieldsValue,
-        getFieldValue: this.getFieldValue,
-        setFieldValue: this.setFieldValue,
-        setFieldsValue: this.setFieldsValue,
-        resetFields: this.resetFields,
+        validateFields: (this as any).validateFields,
+        getFieldsValue: (this as any).getFieldsValue,
+        getFieldValue: (this as any).getFieldValue,
+        setFieldValue: (this as any).setFieldValue,
+        setFieldsValue: (this as any).setFieldsValue,
+        resetFields: (this as any).resetFields,
       }
     }
   },
   methods: {
     async _validate() {
-      return new Promise(async (resolve, reject) => {
-        const valid = await (this.$refs["formRef"] as any).validate();
-        if (valid) {
-          resolve({...this.formModel});
-        } else {
-          reject();
-        }
+      return new Promise((resolve, reject) => {
+        (this.$refs["formRef"] as any).validate((valid: boolean) => {
+          if (valid) {
+            resolve({...(this as any).formModel});
+          } else {
+            reject(false);
+          }
+        });
       });
     },
     async _validateField(fields:string[] = []) {
       return new Promise((resolve, reject) => {
         (this.$refs["formRef"] as any).validateField(fields, (valid:boolean) => {
-          if (!valid) {
-            if (typeof fields === "string") {
-              resolve(this.formModel[fields]);
+          if (valid) {
+            if (fields.length === 1) {
+              resolve((this as any).formModel[fields]);
             } else {
-              const results = fields.reduce((pre:any, cur:string) => {
-                pre[cur] = this.formModel[cur];
+              resolve(fields.reduce((pre: any, cur: any) => {
+                pre[cur] = (this as any).formModel[cur];
                 return pre;
-              }, {});
-              resolve(results);
+              }, {}));
             }
           } else {
-            reject();
+            reject(false);
           }
         });
       });
@@ -226,19 +226,19 @@ export default {
       }
     },
     // 获取所有值
-    getFieldsValue() {
-      return {...this.formModel};
+    getFieldsValue(): any {
+      return {...(this as any).formModel};
     },
     // 基于key获取单个值
-    getFieldValue(key: string) {
-      return this.formModel[key];
+    getFieldValue(key: string): any {
+      return (this as any).formModel[key];
     },
     // 基于key设置单个值
-    setFieldValue(key:string, value:any) {
-      this.$set(
-        this.formModel,
+    setFieldValue(key: string, value: any) {
+      (this as any).$set(
+        (this as any).formModel,
         key,
-        value,
+        value
       );
     },
     // 设置表单的值

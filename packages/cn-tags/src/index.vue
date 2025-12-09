@@ -30,8 +30,10 @@
     >
   </div>
 </template>
-<script >
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'CnTags',
   model: {
     prop: "value",
@@ -51,7 +53,7 @@ export default {
       default: () => []
     },
     mode: {
-      type: "checkbox" | "radio",
+      type: String as () => "checkbox" | "radio",
       default: "checkbox"
     }
   },
@@ -59,25 +61,25 @@ export default {
     onClickAll(){
       this.$emit("change", [this.showAll.value]);
     },
-    onClick(val) {
+    onClick(val: any) {
       if (this.mode === "checkbox") {
-        let newValue = this.value || [];
-        if(this.showAll && newValue.length === 1 && newValue[0] === this.showAll.value){
+        let newValue: any = this.value || [];
+        if(this.showAll && Array.isArray(newValue) && newValue.length === 1 && newValue[0] === this.showAll.value){
           newValue = []
         }
-        if (newValue.indexOf(val) !== -1) {
-          const _newValue = newValue.filter(v => v !== val)
+        if (Array.isArray(newValue) && newValue.indexOf(val) !== -1) {
+          const _newValue = newValue.filter((v: any) => v !== val)
           this.$emit(
             "change",
             this.showAll && !_newValue.length ? [this.showAll.value] : _newValue
           );
         } else {
-          this.$emit("change", [...newValue, val]);
+          this.$emit("change", Array.isArray(newValue) ? [...newValue, val] : [val]);
         }
       } else {
         if (val !== this.value) this.$emit("change", val);
       }
     }
   }
-};
+});
 </script>

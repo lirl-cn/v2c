@@ -46,8 +46,8 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-import { defineComponent } from "../../node_modules/vue/dist/vue.runtime.esm.js";
-import dayjs from "../../node_modules/dayjs/dayjs.min.js";
+import { defineComponent } from "vue";
+import dayjs from "dayjs";
 import { isEmpty } from "../../utils/index.js";
 const _sfc_main = defineComponent({
   name: "LTable",

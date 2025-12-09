@@ -1,7 +1,16 @@
+/* 
+ * All-in-One Import
+ * This file imports Element UI with V2C theme variables
+ * Use this if you want everything in one import
+ */
+
 /* Import V2C theme variables */
 @import "./variables.scss";
 
-/* Component styles only - NO Element UI */
+/* Import Element UI with custom theme */
+@import "~element-ui/packages/theme-chalk/src/index.scss";
+
+/* Import V2C component styles */
 @import "./common.scss";
 @import "./cn-tags.scss";
 @import "./cn-badge.scss";

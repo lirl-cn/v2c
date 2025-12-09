@@ -1,5 +1,6 @@
 import LrTreeNode from "./tree-node.js";
-const _sfc_main = {
+import { defineComponent } from "vue";
+const _sfc_main = defineComponent({
   name: "LrTree",
   components: {
     LrTreeNode
@@ -71,7 +72,7 @@ const _sfc_main = {
       deep: true
     }
   }
-};
+});
 export {
   _sfc_main as default
 };

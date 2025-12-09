@@ -37,7 +37,7 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-import { defineComponent } from "../../node_modules/vue/dist/vue.runtime.esm.js";
+import { defineComponent } from "vue";
 import { Message } from "element-ui";
 const mapToOptions = (valueEnum) => {
   if (!valueEnum)
@@ -313,7 +313,7 @@ const _sfc_main = defineComponent({
       return __async(this, null, function* () {
         var _a, _b;
         const values = yield this.formRef.validateFields();
-        const response = yield this.detail ? (_a = this.updateFun) == null ? void 0 : _a.call(this, __spreadValues(__spreadValues({}, this.detail), values)) : (_b = this.createFun) == null ? void 0 : _b.call(this, values);
+        const response = yield this.detail ? (_a = this.updateFun) == null ? void 0 : _a.call(this, __spreadValues(__spreadValues({}, this.detail || {}), values)) : (_b = this.createFun) == null ? void 0 : _b.call(this, values);
         if (response == null ? void 0 : response.success) {
           this.addVisible = false;
           this.reload();
@@ -330,25 +330,32 @@ const _sfc_main = defineComponent({
       this.$emit("select", value);
     },
     reload() {
-      this.$refs["tableRef"].reload();
+      var _a;
+      (_a = this.$refs["tableRef"]) == null ? void 0 : _a.reload();
     },
     doLayout() {
-      this.$refs["tableRef"].doLayout();
+      var _a;
+      (_a = this.$refs["tableRef"]) == null ? void 0 : _a.doLayout();
     },
     clearSelectRows() {
-      this.$refs["tableRef"].clearSelectRows();
+      var _a;
+      (_a = this.$refs["tableRef"]) == null ? void 0 : _a.clearSelectRows();
     },
     getSelectedRows() {
-      return this.$refs["tableRef"].getSelectedRows();
+      var _a;
+      return (_a = this.$refs["tableRef"]) == null ? void 0 : _a.getSelectedRows();
     },
     getParams() {
-      return this.$refs["tableRef"].getParams();
+      var _a;
+      return (_a = this.$refs["tableRef"]) == null ? void 0 : _a.getParams();
     },
     getDataSource() {
-      return this.$refs["tableRef"].getDataSource();
+      var _a;
+      return (_a = this.$refs["tableRef"]) == null ? void 0 : _a.getDataSource();
     },
     toggleRowSelection(row) {
-      this.$refs["tableRef"].toggleRowSelection(row);
+      var _a;
+      (_a = this.$refs["tableRef"]) == null ? void 0 : _a.toggleRowSelection(row);
     }
   },
   expose: ["reload", "doLayout", "clearSelectRows", "getSelectedRows", "getParams", "getDataSource", "toggleRowSelection"]

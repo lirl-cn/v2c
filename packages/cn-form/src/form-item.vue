@@ -336,8 +336,8 @@ export default {
     }
   },
   computed: {
-    onChange(){
-      return this.fieldItemProps.onChange ? this.fieldItemProps.onChange : () => {}
+    onChange(): any {
+      return (this as any).fieldItemProps.onChange ? (this as any).fieldItemProps.onChange : () => {}
     }
   }
 };

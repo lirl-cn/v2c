@@ -203,15 +203,17 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: undefined;
     };
 }, {}, {
-    searchRef: undefined;
-    tableRef: undefined;
-    formRef: undefined;
-    ownParams: {};
+    searchRef: any;
+    tableRef: any;
+    formRef: any;
+    ownParams: Record<string, any>;
     addVisible: boolean;
-    detail: undefined;
+    detail: any;
 }, {
     showHeader(): boolean;
-    tableParams(): {};
+    tableParams(): {
+        [x: string]: any;
+    };
     tableColumns(): {
         render: ((val: string | number | boolean | Record<string, any>, record: Record<string, any>) => string) | ((text: string) => any) | undefined;
         title: string;
@@ -271,7 +273,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
             value: string;
             label: any;
         }[] | undefined;
-        initialValue: undefined;
+        initialValue: any;
         rules: any[] | undefined;
         dataIndex: string;
         valueType?: "date" | "date-time" | undefined;
@@ -495,9 +497,27 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     layout: string;
-    params: Record<string, any>;
-    action: string;
     columns: ColumnsT[];
+    action: string;
+    title: string;
+    rowKey: string;
+    showIndex: boolean | Function;
+    method: "POST" | "GET";
+    formatResponse: (res: any, type?: 'reject' | 'resolve') => Promise<{
+        success: boolean;
+        total?: number;
+        meta: {
+            data: Record<string, any>[];
+        };
+    }>;
+    request: (params: Record<string, any>) => Promise<{
+        success: boolean;
+        total?: number;
+        meta: {
+            data: Record<string, any>;
+        };
+    }>;
+    params: Record<string, any>;
     stripe: boolean;
     border: boolean;
     selection: boolean;
@@ -510,27 +530,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         hasChildren: string;
     };
     indexText: string;
-    showIndex: boolean | Function;
-    request: (params: Record<string, any>) => Promise<{
-        success: boolean;
-        total?: number;
-        meta: {
-            data: Record<string, any>;
-        };
-    }>;
-    method: "POST" | "GET";
     currentKey: string;
     pageSizeKey: string;
     defaultCurrentValue: number;
     defaultPageSizeValue: number;
-    rowKey: string;
-    formatResponse: (res: any, type?: 'reject' | 'resolve') => Promise<{
-        success: boolean;
-        total?: number;
-        meta: {
-            data: Record<string, any>[];
-        };
-    }>;
     createText: string | boolean;
     hideSearch: boolean;
     searchLayout: "grid" | "block" | "inline";
@@ -539,7 +542,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     searchFormat: (params: any) => any;
     searchDateRangeSuffix: string[];
     formWidth: string;
-    title: string;
     createFun: (params: Record<string, any>) => Promise<RESPONSE_TYPE>;
     updateFun: (params: Record<string, any>) => Promise<RESPONSE_TYPE>;
 }>;

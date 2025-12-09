@@ -39,8 +39,8 @@
 <script lang="ts">
 import type { DataType } from './tree-node.vue'
 import LrTreeNode from './tree-node.vue'
-import {PropType} from 'vue'
-export default {
+import { PropType, defineComponent } from 'vue'
+export default defineComponent({
   name: 'LrTree',
   components: {
     LrTreeNode
@@ -73,19 +73,19 @@ export default {
   },
   data(){
     return {
-      containerRef: undefined,
-      contentRef: undefined,
-      canvasRef: undefined,
+      containerRef: undefined as any,
+      contentRef: undefined as any,
+      canvasRef: undefined as any,
       scaleValue: 1,
       canvasMinWidth: 'max-content',
       isHideScroll: false,
     }
   },
   methods: {
-    toScale(type, value) {
+    toScale(type: string, value: number) {
       console.log(type, value)
       this.$nextTick(() => {
-        const rect = this.$refs['canvasRef'].getBoundingClientRect()
+        const rect = (this.$refs['canvasRef'] as HTMLElement).getBoundingClientRect()
         let scale = 1
         if(type === '+'){
           scale = Math.round((this.scaleValue + value) * 100) / 100
@@ -101,7 +101,7 @@ export default {
         this.scaleValue = scale
         this.canvasMinWidth = rect.width / beforeScale * scale + 36 + 'px'
         // console.log(containerRef.value.getBoundingClientRect().width, rect.width, rect.width / beforeScale * scale + 36)
-        this.isHideScroll = this.$refs['containerRef'].getBoundingClientRect().width - rect.width / beforeScale * scale + 36 > 0
+        this.isHideScroll = (this.$refs['containerRef'] as HTMLElement).getBoundingClientRect().width - rect.width / beforeScale * scale + 36 > 0
       })
     },
   },
@@ -113,5 +113,5 @@ export default {
       deep: true
     },
   }
-}
+})
 </script>

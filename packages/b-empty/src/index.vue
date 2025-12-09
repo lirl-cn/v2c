@@ -3,8 +3,10 @@
     <slot>- 暂无数据 -</slot>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'BEmpty'
-}
+});
 </script>

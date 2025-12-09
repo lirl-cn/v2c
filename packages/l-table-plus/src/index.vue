@@ -406,12 +406,12 @@ export default defineComponent({
   },
   data(){
     return {
-      searchRef: undefined,
-      tableRef: undefined,
-      formRef: undefined,
-      ownParams: {},
+      searchRef: undefined as any,
+      tableRef: undefined as any,
+      formRef: undefined as any,
+      ownParams: {} as Record<string, any>,
       addVisible: false,
-      detail: undefined,
+      detail: undefined as any,
     }
   },
   methods: {
@@ -442,7 +442,7 @@ export default defineComponent({
       const values = await this.formRef.validateFields()
       const response = await (this.detail
         ? this.updateFun?.({
-          ...this.detail,
+          ...(this.detail || {}),
           ...values,
         })
         : this.createFun?.(values))
@@ -461,25 +461,25 @@ export default defineComponent({
       this.$emit('select', value)
     },
     reload(){
-      this.$refs['tableRef'].reload()
+      (this.$refs['tableRef'] as any)?.reload()
     },
     doLayout(){
-      this.$refs['tableRef'].doLayout()
+      (this.$refs['tableRef'] as any)?.doLayout()
     },
     clearSelectRows(){
-      this.$refs['tableRef'].clearSelectRows()
+      (this.$refs['tableRef'] as any)?.clearSelectRows()
     },
     getSelectedRows(){
-      return this.$refs['tableRef'].getSelectedRows()
+      return (this.$refs['tableRef'] as any)?.getSelectedRows()
     },
     getParams(){
-      return this.$refs['tableRef'].getParams()
+      return (this.$refs['tableRef'] as any)?.getParams()
     },
     getDataSource(){
-      return this.$refs['tableRef'].getDataSource()
+      return (this.$refs['tableRef'] as any)?.getDataSource()
     },
     toggleRowSelection(row: any){
-      this.$refs['tableRef'].toggleRowSelection(row)
+      (this.$refs['tableRef'] as any)?.toggleRowSelection(row)
     },
   },
   expose: ['reload', 'doLayout', 'clearSelectRows', 'getSelectedRows', 'getParams', 'getDataSource', 'toggleRowSelection'],

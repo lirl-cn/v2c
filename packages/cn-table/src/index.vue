@@ -259,6 +259,7 @@
 import type { DataType as FormItemPropType } from "#/cn-form/src/index.vue";
 import { FormItemType, OptionsType } from "#/common";
 import type { PropType } from "vue";
+import { defineComponent } from "vue";
 import type { HTMLAttributes, StyleValue } from "vue/types/jsx";
 import { VNode } from "vue/types/umd";
 import CnForm from "../../cn-form";
@@ -350,7 +351,7 @@ export type RowSelectionType = {
   defaultSelectedRows?: any[];
   selectable?: (row: any, index: number) => boolean
 };
-type ActionRefType = {
+export type ActionRefType = {
   reload: () => void;
   search: () => void;
   reset: () => void;
@@ -370,7 +371,7 @@ const DEFAULT_RESPONSE_DATA = {
   total: 0,
 };
 const HIDDEN_CLASS_NAME = "cn-form-item-hidden";
-export default {
+export default defineComponent({
   name: "cn-table",
   components: {
     CnElPagination,
@@ -846,7 +847,7 @@ export default {
           response = this.formatResponse
             ? await this.formatResponse(response)
             : response;
-        } catch (error: Error) {
+        } catch (error: any) {
           this.catchFetchDataError?.(error);
           response = DEFAULT_RESPONSE_DATA;
           current = 1;
@@ -907,7 +908,7 @@ export default {
           : this.emptyText;
       }
     },
-    async toggleSearchPanel(reload?: boolean = false) {
+    async toggleSearchPanel(reload: boolean = false) {
       const values = await (
         this.$refs["search-table-search-form"] as any
       ).getFieldsValue();
@@ -1006,7 +1007,7 @@ export default {
       return (
         this.$CN_V2C_TABLE_CONFIG?.search?.[key] ??
         (this.search === false ? false : (this.search as any)?.[key]) ??
-        this[oldKey || key]
+        (this as any)[oldKey || key]
       );
     },
     resize() {
@@ -1186,7 +1187,7 @@ export default {
     },
     columns: {
       async handler(val: ColumnType[]) {
-        const searchTypesMap: { [k: string | undefined]: any } = {};
+        const searchTypesMap: { [k: string]: any } = {};
         // format 搜索项 默认operate为操作列，不参与搜索
         let allSearchSpans = 0;
         let searchList = this.search
@@ -1321,5 +1322,5 @@ export default {
       deep: true,
     },
   },
-};
+});
 </script>

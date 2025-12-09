@@ -1,20 +1,18 @@
-import ElementUI from 'element-ui';
-import locale from 'element-ui/lib/locale/lang/zh-CN';
 import type { VueConstructor } from 'vue';
 import './styles/index.scss';
 
+import BEmpty from "./b-empty";
+import CContentContainer from "./c-content-container";
+import CModal from "./c-modal";
 import CnBadge from './cn-badge';
 import CnForm from './cn-form';
 import CnPagination from './cn-pagination/src/index.vue';
 import CnTable from './cn-table';
 import CnTags from "./cn-tags";
-import LrTree from "./lr-tree";
-import LrTree2 from "./lr-tree2";
 import LTable from "./l-table";
 import LTablePlus from "./l-table-plus";
-import BEmpty from "./b-empty";
-import CModal from "./c-modal";
-import CContentContainer from "./c-content-container";
+import LrTree from "./lr-tree";
+import LrTree2 from "./lr-tree2";
 
 const components = [
   CnTags,
@@ -68,8 +66,7 @@ type configType = {
     method?: 'GET' | 'POST',
     search?: any
     setting?: false | string[]
-  },
-  elementUIConfig?: { [k: string]: any }
+  }
 }
 const defaultTableConfig = {
   request: () => {
@@ -85,8 +82,8 @@ const defaultTableConfig = {
   method: 'GET',
 }
 const install = function (Vue: VueConstructor, config: configType = {}) {
-  const { elementUIConfig = {} } = config
-  Vue.use(ElementUI, { locale, ...elementUIConfig });
+  // Element UI should be installed by the consumer
+  // Vue.use(ElementUI) should be called before Vue.use(V2C)
   components.forEach(component => {
     // @ts-ignore
     Vue.component(component.name, component);
@@ -105,17 +102,10 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export {
-  CnTags,
-  CnPagination,
-  CnBadge,
-  CnForm,
-  CnTable,
-  LrTree,
+  BEmpty, CContentContainer, CModal, CnBadge,
+  CnForm, CnPagination, CnTable, CnTags, LrTree,
   LrTree2,
   LTable,
-  LTablePlus,
-  BEmpty,
-  CModal,
-  CContentContainer,
+  LTablePlus
 };
 export default install

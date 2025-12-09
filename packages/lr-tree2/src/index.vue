@@ -84,10 +84,11 @@ export default defineComponent({
     }
   },
   methods: {
-    toScale(type, value) {
+    toScale(type: string, value: number) {
       console.log(type, value)
       this.$nextTick(() => {
-        const rect = this.$refs['canvasRef'].getBoundingClientRect()
+        const rect = (this.$refs['canvasRef'] as HTMLElement)?.getBoundingClientRect()
+        if (!rect) return
         let scale = 1
         if(type === '+'){
           scale = Math.round((this.scaleValue + value) * 100) / 100
@@ -102,7 +103,7 @@ export default defineComponent({
         this.scaleValue = scale
         this.canvasMinWidth = rect.width / beforeScale * scale + 36 + 'px'
         // console.log(containerRef.value.getBoundingClientRect().width, rect.width, rect.width / beforeScale * scale + 36)
-        this.isHideScroll = this.$refs['containerRef'].getBoundingClientRect().width - rect.width / beforeScale * scale + 36 > 0
+        this.isHideScroll = (this.$refs['containerRef'] as HTMLElement)?.getBoundingClientRect().width - rect.width / beforeScale * scale + 36 > 0
       })
     }
   },

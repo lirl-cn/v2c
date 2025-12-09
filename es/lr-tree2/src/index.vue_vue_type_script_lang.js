@@ -1,5 +1,5 @@
 import LrTreeNode2 from "./tree-node2.js";
-import { defineComponent } from "../../node_modules/vue/dist/vue.runtime.esm.js";
+import { defineComponent } from "vue";
 const _sfc_main = defineComponent({
   name: "LrTree2",
   components: {
@@ -45,7 +45,10 @@ const _sfc_main = defineComponent({
     toScale(type, value) {
       console.log(type, value);
       this.$nextTick(() => {
-        const rect = this.$refs["canvasRef"].getBoundingClientRect();
+        var _a, _b;
+        const rect = (_a = this.$refs["canvasRef"]) == null ? void 0 : _a.getBoundingClientRect();
+        if (!rect)
+          return;
         let scale = 1;
         if (type === "+") {
           scale = Math.round((this.scaleValue + value) * 100) / 100;
@@ -59,7 +62,7 @@ const _sfc_main = defineComponent({
         const beforeScale = Math.round(this.scaleValue * 100) / 100;
         this.scaleValue = scale;
         this.canvasMinWidth = rect.width / beforeScale * scale + 36 + "px";
-        this.isHideScroll = this.$refs["containerRef"].getBoundingClientRect().width - rect.width / beforeScale * scale + 36 > 0;
+        this.isHideScroll = ((_b = this.$refs["containerRef"]) == null ? void 0 : _b.getBoundingClientRect().width) - rect.width / beforeScale * scale + 36 > 0;
       });
     }
   },

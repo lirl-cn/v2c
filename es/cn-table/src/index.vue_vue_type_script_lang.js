@@ -37,6 +37,7 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
+import { defineComponent } from "vue";
 import "../../cn-form/index.js";
 import "../../cn-pagination/index.js";
 import CnColumn from "./column.js";
@@ -48,7 +49,7 @@ const DEFAULT_RESPONSE_DATA = {
   total: 0
 };
 const HIDDEN_CLASS_NAME = "cn-form-item-hidden";
-const _sfc_main = {
+const _sfc_main = defineComponent({
   name: "cn-table",
   components: {
     CnElPagination: CnPagination,
@@ -818,7 +819,7 @@ const _sfc_main = {
       deep: true
     }
   }
-};
+});
 export {
   _sfc_main as default
 };

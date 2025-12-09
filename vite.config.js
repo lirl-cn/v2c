@@ -71,7 +71,7 @@ export default {
     dynamicImportVarsOptions: {},
     rollupOptions: {
       //忽略打包vue文件
-      external: ['element-ui'],
+      external: ['vue', 'element-ui', 'dayjs'],
       input: ['packages/index.ts'],
       commonjsOptions: {
         transformMixedEsModules: true,

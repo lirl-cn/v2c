@@ -184,12 +184,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: undefined;
     };
 }, {}, {
-    dParams: {
-        total: number;
-    };
-    ownDataSource: never[];
+    dParams: Record<string, any>;
+    ownDataSource: any[];
     ownLoading: boolean;
-    selectedRows: never[];
+    selectedRows: any[];
 }, {
     _emptyText(): any;
     _rowKey(): any;
@@ -235,11 +233,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
     jumpPage(page: number): void;
     clearSelectRows(): void;
     getParams(): {
-        total: number;
+        [x: string]: any;
     };
-    getSelectedRows(): never[];
+    getSelectedRows(): any[];
     toggleRowSelection(row: any): void;
-    getDataSource(): never[];
+    getDataSource(): any[];
     onParamsActionChange(): void;
 }, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, ("change" | "select")[], string, Readonly<import("vue").ExtractPropTypes<{
     columns: {
@@ -416,9 +414,27 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     layout: string;
-    params: Record<string, any>;
     columns: ColumnsType[];
+    loading: boolean;
+    rowKey: string;
+    showIndex: boolean | Function;
+    method: "POST" | "GET";
+    formatResponse: (res: any, type?: 'reject' | 'resolve') => Promise<{
+        success: boolean;
+        total?: number;
+        meta: {
+            data: Record<string, any>[];
+        };
+    }>;
     emptyText: string;
+    request: (params: Record<string, any>) => Promise<{
+        success: boolean;
+        total?: number;
+        meta: {
+            data: Record<string, any>;
+        };
+    }>;
+    params: Record<string, any>;
     empty: string;
     stripe: boolean;
     emptyInTable: boolean;
@@ -428,7 +444,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     selectType: "checkbox" | "radio";
     onSearchClearSelectedRows: boolean;
     noPadding: boolean;
-    loading: boolean;
     hideOnSinglePage: boolean;
     load: (tree: any, treeNode: any, resolve: Function) => void;
     treeProps: {
@@ -436,28 +451,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         hasChildren: string;
     };
     indexText: string;
-    showIndex: boolean | Function;
-    request: (params: Record<string, any>) => Promise<{
-        success: boolean;
-        total?: number;
-        meta: {
-            data: Record<string, any>;
-        };
-    }>;
-    method: "POST" | "GET";
     autoLoadData: boolean;
     currentKey: string;
     pageSizeKey: string;
     defaultCurrentValue: number;
     defaultPageSizeValue: number;
     tableStyle: string;
-    rowKey: string;
-    formatResponse: (res: any, type?: 'reject' | 'resolve') => Promise<{
-        success: boolean;
-        total?: number;
-        meta: {
-            data: Record<string, any>[];
-        };
-    }>;
 }>;
 export default _sfc_main;

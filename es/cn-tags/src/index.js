@@ -1,56 +1,8 @@
+import _sfc_main from "./index.vue_vue_type_script_lang.js";
 import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
-const _sfc_main = {
-  name: "CnTags",
-  model: {
-    prop: "value",
-    event: "change"
-  },
-  props: {
-    showAll: {
-      type: Object,
-      default: void 0
-    },
-    value: {
-      type: [Array, String, Number],
-      default: void 0
-    },
-    options: {
-      type: Array,
-      default: () => []
-    },
-    mode: {
-      type: "checkbox" | "radio",
-      default: "checkbox"
-    }
-  },
-  methods: {
-    onClickAll() {
-      this.$emit("change", [this.showAll.value]);
-    },
-    onClick(val) {
-      if (this.mode === "checkbox") {
-        let newValue = this.value || [];
-        if (this.showAll && newValue.length === 1 && newValue[0] === this.showAll.value) {
-          newValue = [];
-        }
-        if (newValue.indexOf(val) !== -1) {
-          const _newValue = newValue.filter((v) => v !== val);
-          this.$emit(
-            "change",
-            this.showAll && !_newValue.length ? [this.showAll.value] : _newValue
-          );
-        } else {
-          this.$emit("change", [...newValue, val]);
-        }
-      } else {
-        if (val !== this.value)
-          this.$emit("change", val);
-      }
-    }
-  }
-};
 var _sfc_render = function render() {
   var _vm = this, _c = _vm._self._c;
+  _vm._self._setupProxy;
   return _c("div", { staticClass: "cn-tags-container" }, [_vm.showAll && _vm.mode === "checkbox" ? _c("span", { class: [
     "cn-tags-item",
     {

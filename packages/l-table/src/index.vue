@@ -381,15 +381,15 @@ export default defineComponent({
     return{
       dParams: {
         total: 0,
-      },
-      ownDataSource: [],
+      } as Record<string, any>,
+      ownDataSource: [] as any[],
       ownLoading: true,
-      selectedRows: [],
+      selectedRows: [] as any[],
     }
   },
   methods: {
     commonCalcKeyVal(key: string, defaultValue: any){
-      return this[key] !== undefined ? this[key] : this.$CN_V2C_LTABLE_CONFIG[key] !== undefined ? this.$CN_V2C_LTABLE_CONFIG[key] : defaultValue
+      return (this as any)[key] !== undefined ? (this as any)[key] : this.$CN_V2C_LTABLE_CONFIG[key] !== undefined ? this.$CN_V2C_LTABLE_CONFIG[key] : defaultValue
     },
     calcIndex(index: number){
       if (typeof this.showIndex === 'function') {
@@ -410,7 +410,7 @@ export default defineComponent({
     },
     doLayout(){
       this.$nextTick(() => {
-        this.$refs['tableRef']?.doLayout()
+        (this.$refs['tableRef'] as any)?.doLayout()
       })
     },
     selectableFun(record: any, index: number){
@@ -418,9 +418,9 @@ export default defineComponent({
     },
     onSelect(_: any[], row: any){
       if (this.selectType === 'radio') {
-        this.$refs['tableRef']?.clearSelection()
+        (this.$refs['tableRef'] as any)?.clearSelection()
         this.$nextTick(() => {
-          this.$refs['tableRef']?.toggleRowSelection(row, true)
+          (this.$refs['tableRef'] as any)?.toggleRowSelection(row, true)
           // emits('select', row)
         })
       } else {
@@ -442,7 +442,7 @@ export default defineComponent({
     },
     async fetchData(params: Record<any, any>){
       if (this.onSearchClearSelectedRows) {
-        this.$refs['tableRef']?.clearSelection()
+        (this.$refs['tableRef'] as any)?.clearSelection()
       }
       let response: any
       this.ownLoading = true
@@ -453,14 +453,14 @@ export default defineComponent({
             ...this.params,
           },
           method: this.method,
-        }).catch(err => {
+        }).catch((err: any) => {
           console.log(err)
           this.ownLoading = false
         })
       } else if (this.request) {
         response = await this
           .request({ ...params, ...this.params })
-          .catch(eeee => {
+          .catch((eeee: any) => {
             console.log(eeee)
             this.ownLoading = false
           })
@@ -531,7 +531,7 @@ export default defineComponent({
       this.handleCurrentChange(page)
     },
     clearSelectRows(){
-      this.$refs['tableRef']?.clearSelection()
+      (this.$refs['tableRef'] as any)?.clearSelection()
     },
     getParams(){
       return {
@@ -543,7 +543,7 @@ export default defineComponent({
       return [...this.selectedRows]
     },
     toggleRowSelection(row: any){
-      this.$refs['tableRef']?.toggleRowSelection(row, true)
+      (this.$refs['tableRef'] as any)?.toggleRowSelection(row, true)
     },
     getDataSource(){
       return this.ownDataSource

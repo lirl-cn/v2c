@@ -1,0 +1,35 @@
+/* V2C Theme Variables - Export for customization */
+/* 改变主题色变量 */
+$--color-primary: #1890ff !default;
+$--color-success: #71C64A !default;
+$--color-warning: #EB9E05 !default;
+$--color-danger: #FA5555 !default;
+$--color-info: #909399 !default;
+
+/* Derived colors - Element UI light variations */
+$--color-primary-light-1: mix(white, $--color-primary, 10%) !default;
+$--color-primary-light-2: mix(white, $--color-primary, 20%) !default;
+$--color-primary-light-3: mix(white, $--color-primary, 30%) !default;
+$--color-primary-light-4: mix(white, $--color-primary, 40%) !default;
+$--color-primary-light-5: mix(white, $--color-primary, 50%) !default;
+$--color-primary-light-6: mix(white, $--color-primary, 60%) !default;
+$--color-primary-light-7: mix(white, $--color-primary, 70%) !default;
+$--color-primary-light-8: mix(white, $--color-primary, 80%) !default;
+$--color-primary-light-9: mix(white, $--color-primary, 90%) !default;
+
+$--color-success-light: mix(white, $--color-success, 80%) !default;
+$--color-success-lighter: mix(white, $--color-success, 90%) !default;
+$--color-warning-light: mix(white, $--color-warning, 80%) !default;
+$--color-warning-lighter: mix(white, $--color-warning, 90%) !default;
+$--color-danger-light: mix(white, $--color-danger, 80%) !default;
+$--color-danger-lighter: mix(white, $--color-danger, 90%) !default;
+$--color-info-light: mix(white, $--color-info, 80%) !default;
+$--color-info-lighter: mix(white, $--color-info, 90%) !default;
+
+/* Border radius */
+$--border-radius-base: 4px !default;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts' !default;
+
+/* Export these variables for consumers to override */

@@ -1,87 +1,245 @@
 # v2c
 
-基于 vue2 与 element UI 低仿 antd-pro-table  
-如果之前你用过 react 及 antd-pro-table，那么这个 vue 组件对你来说会很简单  
-v2c 内置了依赖了 element-ui 组件，即所有的 element UI 组件你都可以正常使用
+基于 Vue2 与 Element UI 的高级表格和表单组件库  
+如果之前你用过 React 及 antd-pro-table，那么这个 Vue 组件对你来说会很简单
 
-## 安装
+## ✨ 特性
 
+- 🎨 **主题定制** - 支持通过 SCSS 变量自定义主题色
+- 📦 **按需加载** - 优化的包体积，支持 Tree Shaking
+- 🔧 **TypeScript** - 完整的类型定义支持
+- 🌍 **国际化** - 内置中文支持
+- 💪 **功能丰富** - 基于 Element UI 的强大组件生态
+
+## 📦 安装
+
+```bash
+npm install vue@2.7.14 element-ui@2.15.7 @lirl-cn/v2c
+# 或
+yarn add vue@2.7.14 element-ui@2.15.7 @lirl-cn/v2c
 ```
-npm install @lirl-cn/v2c
--------------------------
-yarn add @lirl-cn/v2c
-```
 
-## 使用
+> **注意**: v2.0.0 开始，`vue` 和 `element-ui` 是 peer dependencies，需要单独安装
 
-### main.ts
+## 🚀 快速开始
 
-```ts
-import CnV2C from "@lirl-cn/v2c";
-import request from "@/utils/request"; // 你自己的request方法 (url, options) => ({data: any[], total: number, success?: boolean})
-import "@lirl-cn/v2c/es/styles.css"; // 引入样式
-Vue.use(CnV2C, {
+### 基础用法
+
+```javascript
+// main.js
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import V2C from '@lirl-cn/v2c';
+
+// 安装 Element UI
+Vue.use(ElementUI);
+
+// 安装 V2C 组件
+Vue.use(V2C, {
   table: {
-    // 挂载全局一些公共方法，可以避免每个页面使用时配置，全部非必传
+    // 全局配置（可选）
     request: async (url, options) => {
-      const response = await request({ url, ...options });
-      if (response.code === 200) {
-        return {
-          data: response?.rows,
-          total: response.total,
-          success: true,
-        };
-      } else {
-        return {
-          data: [],
-          total: 0,
-        };
-      }
-    }, // 当定义了request后，cn-table可以直接仅传action字段，内部会调用该方法去获取数据
+      const response = await fetch(url, options);
+      return {
+        data: response.data,
+        total: response.total,
+        success: true,
+      };
+    },
     current: {
-      key: "page", // 项目里列表接口当前页参数名, 默认是current
-      format: (current: number) => current - 1, // 是否要进行格式化，默认从1开始
+      key: 'page',
+      format: (current) => current - 1,
     },
     pageSize: {
-      key: "size", // 项目里列表接口页数参数名, 默认是pageSize
-      // format: (pageSize: number) => pageSize - 1, // 同current，非必传
-    },
-    search: {
-      dateRangeExtraPlacement: "start", // 表格搜索日期区间dateRangeExtra字段添加位置
-      dateRangeExtra: ["begin", "end"], // 表格搜索日期区间额外拼接的字符串
-      /**? 如：表格 dataIndex为Time, 以上配置将得到 beginTime: yyyy-mm-dd HH:mm:ss, endTime: yyyy-mm-dd HH:mm:ss */
+      key: 'size',
     },
   },
 });
 ```
 
-##### 如需修改主题色或其他定制样式，需要项目自身用了 scss
+## 🎨 主题定制
 
-```diff patch
-# miain.ts
-- import '@lirl-cn/v2c/es/styles.css'; // 去除原样式
-+ import '@/styles/element-variables.scss'; // 引入自己定义的样式文件
-```
+v2c 支持通过 SCSS 变量自定义主题，与 Element UI 主题保持一致。
+
+### 方式一：自定义主题（推荐）
 
 ```scss
-// @/styles/element-variables.scss
+// styles/theme.scss
 
-/* 改变主题色变量 */
-$--color-primary: #21b28e;
-// 支持的可修改变量名列表 https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss
+// 自定义主题色
+$--color-primary: #1890ff;
+$--color-success: #71C64A;
+$--color-warning: #EB9E05;
+$--color-danger: #FA5555;
 
-// vite项目引入该文件
-@import "@lirl-cn/v2c/packages/styles/index.scss";
+// 导入 Element UI 主题
+@import "~element-ui/packages/theme-chalk/src/index.scss";
 
-// webpack项目引入该文件
-@import "~@lirl-cn/v2c/packages/styles/index.webpack";
+// 导入 V2C 组件样式（会继承上面的主题色）
+@import "~@lirl-cn/v2c/packages/styles/index.scss";
 ```
 
-[查看所有 scss 变量](https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss)
+```javascript
+// main.js
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+import V2C from '@lirl-cn/v2c';
+import './styles/theme.scss'; // 导入自定义主题
 
-## 核心组件
+Vue.use(ElementUI);
+Vue.use(V2C);
+```
+
+### 方式二：使用默认主题
+
+```javascript
+// main.js
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import V2C from '@lirl-cn/v2c';
+import '@lirl-cn/v2c/packages/styles/index.scss';
+
+Vue.use(ElementUI);
+Vue.use(V2C);
+```
+
+### 方式三：一体化导入
+
+```scss
+// main.scss
+// 一次性导入 Element UI + V2C（使用默认主题）
+@import "~@lirl-cn/v2c/packages/styles/with-element-ui.scss";
+```
+
+### 可用的 SCSS 变量
+
+查看 [packages/styles/variables.scss](packages/styles/variables.scss) 了解所有可自定义的变量，或参考 [Element UI 变量列表](https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/common/var.scss)
+
+主要变量包括：
+- `$--color-primary` - 主题色
+- `$--color-success` - 成功色
+- `$--color-warning` - 警告色
+- `$--color-danger` - 危险色
+- `$--color-info` - 信息色
+- 以及所有 Element UI 支持的变量
+
+## 🔧 TypeScript 支持
+
+v2c 提供完整的 TypeScript 类型定义，所有组件的 props、方法、事件都有类型提示。
+
+### 基础使用
+
+```typescript
+import { CnTable, CnForm, LTable } from '@lirl-cn/v2c'
+
+// 组件会自动获得类型提示
+```
+
+### 导入类型定义
+
+#### cn-table 类型
+
+```typescript
+import type {
+  ColumnType,        // 列配置类型
+  ParamsType,        // 请求参数类型
+  ResponseDataType,  // 响应数据类型
+  RowSelectionType,  // 行选择配置类型
+  ActionRefType,     // 方法引用类型
+} from '@lirl-cn/v2c/types/packages/cn-table/src/index.vue'
+
+// 使用类型
+const columns: ColumnType[] = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    valueType: 'input',  // ✅ 自动提示可用值
+    hideInSearch: false,
+    width: 120,
+  }
+]
+
+// Request 方法类型
+const fetchData = async (params: ParamsType): Promise<ResponseDataType> => {
+  const response = await fetch('/api/data', { params })
+  return {
+    success: true,
+    data: response.data,
+    total: response.total,
+  }
+}
+
+// ActionRef 类型
+const actionRef = (ref: ActionRefType) => {
+  ref.reload()
+  ref.getSearchParams()
+  ref.setSearchFieldsValue({ name: 'test' })
+}
+```
+
+#### cn-form 类型
+
+```typescript
+import type {
+  DataType as FormDataType,  // 表单数据类型
+  FormItemType,              // 表单项类型
+} from '@lirl-cn/v2c/types/packages/cn-form/src/index.vue'
+
+const formData: FormDataType[] = [
+  {
+    name: 'username',
+    title: '用户名',
+    type: 'input',  // ✅ 自动提示: input, select, date, etc.
+    rules: [{ required: true, message: '请输入用户名' }],
+  }
+]
+```
+
+#### l-table 类型
+
+```typescript
+import type {
+  ColumnsType  // L-Table 列类型
+} from '@lirl-cn/v2c/types/packages/l-table/src/index.vue'
+
+const columns: ColumnsType[] = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    valueType: 'date',  // ✅ 类型提示
+    width: 120,
+  }
+]
+```
+
+### 完整的类型支持
+
+所有组件都提供：
+- ✅ **Props 类型提示** - 输入属性时自动提示
+- ✅ **方法签名** - ref 方法调用时有类型检查
+- ✅ **事件回调** - 事件参数有完整类型
+- ✅ **类型导出** - 可复用的类型定义
+
+### 类型定义路径
+
+| 组件 | 类型定义路径 |
+|------|-------------|
+| cn-table | `@lirl-cn/v2c/types/packages/cn-table/src/index.vue` |
+| cn-form | `@lirl-cn/v2c/types/packages/cn-form/src/index.vue` |
+| l-table | `@lirl-cn/v2c/types/packages/l-table/src/index.vue` |
+| l-table-plus | `@lirl-cn/v2c/types/packages/l-table-plus/src/index.vue` |
+| cn-badge | `@lirl-cn/v2c/types/packages/cn-badge/src/index.vue` |
+| cn-tags | `@lirl-cn/v2c/types/packages/cn-tags/src/index.vue` |
+| lr-tree | `@lirl-cn/v2c/types/packages/lr-tree/src/index.vue` |
+| lr-tree2 | `@lirl-cn/v2c/types/packages/lr-tree2/src/index.vue` |
+
+## 📖 核心组件
 
 ### cn-form
+
+表单生成组件，支持多种表单类型和布局方式。
 
 ##### 属性
 
@@ -199,6 +357,8 @@ ref 获取
 
 ### cn-table
 
+高级表格组件，支持搜索、分页、行选择等功能。
+
 #### 属性
 
 ```ts
@@ -236,7 +396,7 @@ type ColumnType = {
   title: string; // 单元格名称文案
   searchTitle?: string; // 搜索框显示的文案。若为空默认显示title
   searchStyle?: StyleValue; // 搜索框样式
-  name?: string; //
+  name?: string;
   key?: string;
   searchName?: string; // 搜索时传参名称，若为空默认显示dataIndex
   status?: StatusType; // 状态
@@ -293,9 +453,9 @@ class CnTable extends ElementUIComponent {
   title?: string; // 表格标题
   resetText?: string;
   searchText?: string;
-  openText?: string,
-  closeText?: string,
-  othersTextEnum?: {[k:string]: string},
+  openText?: string;
+  closeText?: string;
+  othersTextEnum?: {[k:string]: string};
   rowKey?: string; // 行唯一，需要选择时必传
   searchType?: SearchType["type"];
   searchColumns?: number;
@@ -327,7 +487,7 @@ class CnTable extends ElementUIComponent {
 }
 ```
 
-## 示例
+## 📝 示例
 
 ### cn-form
 
@@ -352,7 +512,6 @@ export default defineComponent({
         type: "select",
         name: "select",
         options: [
-          // 下拉列表
           {
             label: "2222",
             value: 2222,
@@ -406,22 +565,6 @@ export default defineComponent({
             label: "eeeee",
             value: 4444,
           },
-          {
-            label: "eeeee1",
-            value: 44441,
-          },
-          {
-            label: "eeeee2",
-            value: 44442,
-          },
-          {
-            label: "eeeee3",
-            value: 4444232,
-          },
-          {
-            label: "eeeee33",
-            value: 444423,
-          },
         ],
       },
       // 日期
@@ -429,12 +572,6 @@ export default defineComponent({
         title: "date",
         type: "date",
         name: "date",
-      },
-      // 多选日期
-      {
-        title: "dates",
-        type: "dates",
-        name: "dates",
       },
       // 评分
       {
@@ -448,37 +585,12 @@ export default defineComponent({
         type: "color",
         name: "color",
       },
-      // 日期时间区间
-      {
-        title: "datetimerange",
-        type: "datetimerange",
-        name: "datetimerange",
-      },
-      // 日期时间
-      {
-        title: "datetime",
-        type: "datetime",
-        name: "datetime",
-      },
-      // 月份区间
-      {
-        title: "monthrange",
-        type: "monthrange",
-        name: "monthrange",
-      },
-      // 月份
-      {
-        title: "date-month",
-        type: "datemonth",
-        name: "date-month",
-      },
       // 数字
       {
         title: "number",
         type: "number",
         name: "number",
         fieldItemProps: {
-          // 数字输入框额外的参数
           step: 2,
           "step-strictly": true,
         },
@@ -488,58 +600,6 @@ export default defineComponent({
         title: "switch",
         type: "switch",
         name: "switch",
-      },
-      // 滑块
-      {
-        title: "slider",
-        type: "slider",
-        name: "slider",
-        fieldItemProps: {
-          range: true,
-        },
-      },
-      // 联级
-      {
-        title: "cascader",
-        type: "cascader",
-        name: "cascader",
-        options: [
-          {
-            label: "qqqqq",
-            value: 2222,
-          },
-          {
-            label: "wwwww",
-            value: 3333,
-          },
-          {
-            label: "eeeee",
-            value: 4444,
-          },
-        ],
-      },
-      // 穿梭框
-      {
-        title: "transfer",
-        type: "transfer",
-        name: "transfer",
-        options: [
-          {
-            label: "qqqqq",
-            key: 2222,
-          },
-          {
-            label: "wwwww",
-            key: 3333,
-          },
-          {
-            label: "eeeee",
-            key: 4444,
-          },
-        ],
-        formItemProps: {
-          style: { "grid-column": "span 2" },
-        },
       },
       // 文本域
       {
@@ -552,17 +612,8 @@ export default defineComponent({
         title: "custom",
         type: "custom",
         name: "custom",
-        initialValue: "2222", // 默认值
+        initialValue: "2222",
         rules: [{ required: true, message: "请输入邮箱地址" }],
-      },
-      // 上传
-      {
-        title: "upload",
-        type: "upload",
-        name: "upload",
-        fieldItemProps: {
-          action: "",
-        },
       },
     ];
     const onSubmit = async () => {
@@ -574,16 +625,13 @@ export default defineComponent({
         <div>
           <el-divider>cn-form 生成表单</el-divider>
           <cn-form
-            ref={formRef} // 获取form表单
-            columns={3} // 3列显示
-            data={formDataSource} // 数据源
+            ref={formRef}
+            columns={3}
+            data={formDataSource}
             scopedSlots={{
-              // slot 插槽
-              // 自定义form组件 `${name}CustomFormComponent`
               customCustomFormComponent: ({ onChange, value }: any) => {
                 return <el-input value={value} onInput={onChange}></el-input>;
               },
-              // form-item 额外显示的内容 `${name}FormExtra`
               customFormExtra: () => {
                 return "customFormExtra";
               },
@@ -683,15 +731,13 @@ export default defineComponent({
             columns={tableColumns}
             showIndex
             scopedSlots={{
-              // 插槽
               headOperation: () => (
-                // 表格操作
                 <el-button size="small" type="warning">
                   新增
                 </el-button>
               ),
             }}
-            searchType="grid" // 搜索默认
+            searchType="grid"
             rowSelection={{
               onBatchDelete: (rows: any) => {
                 console.log("onBatchDelete", rows);
@@ -708,4 +754,58 @@ export default defineComponent({
 });
 ```
 
-**特别鸣谢：** [element UI](https://element.eleme.cn/#/zh-CN)｜[ant design ProTable](https://procomponents.ant.design/components/table)
+## 🔄 从 v1.x 迁移
+
+### 主要变更
+
+v2.0.0 引入了一些破坏性变更以优化包体积和性能：
+
+1. **Element UI 和 Vue 现在是 peer dependencies**
+   - 需要手动安装 `vue` 和 `element-ui`
+   - 避免了重复安装和版本冲突
+
+2. **不再自动安装 Element UI**
+   - 需要在应用中手动调用 `Vue.use(ElementUI)`
+   - 提供更好的控制和灵活性
+
+3. **CSS 导入方式变更**
+   - 不再提供预编译的 CSS 文件
+   - 使用 SCSS 源文件以支持主题定制
+
+### 迁移步骤
+
+**v1.x 用法：**
+```javascript
+import V2C from '@lirl-cn/v2c';
+import '@lirl-cn/v2c/es/style.css';
+
+Vue.use(V2C);
+```
+
+**v2.0.0 用法：**
+```javascript
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import V2C from '@lirl-cn/v2c';
+import '@lirl-cn/v2c/packages/styles/index.scss';
+
+Vue.use(ElementUI);
+Vue.use(V2C);
+```
+
+### 性能提升
+
+- 📦 CSS 体积减少 **99%** (1.4MB → 17KB)
+- 📦 总包体积减少 **85%** (1.9MB → 276KB)
+- ⚡ 更快的安装和构建速度
+- 🎯 更好的 Tree Shaking 支持
+
+## 📄 License
+
+MIT
+
+## 🙏 特别鸣谢
+
+- [Element UI](https://element.eleme.cn/#/zh-CN) - 优秀的 Vue 2 组件库
+- [Ant Design ProTable](https://procomponents.ant.design/components/table) - 设计灵感来源

@@ -33,7 +33,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     canvasMinWidth: string;
     isHideScroll: boolean;
 }, {}, {
-    toScale(type: any, value: any): void;
+    toScale(type: string, value: number): void;
 }, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue").ExtractPropTypes<{
     dataSource: {
         type: PropType<DataType>;

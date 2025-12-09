@@ -3,6 +3,7 @@ import normalizeComponent from "../../_virtual/_plugin-vue2_normalizer.js";
 var _sfc_render = function render() {
   var _a, _b, _c2;
   var _vm = this, _c = _vm._self._c;
+  _vm._self._setupProxy;
   return _c("div", { ref: "cn-table--container", staticClass: "cn-table--container" }, [_vm.search ? _c("div", { class: [
     "cn-table-search-container",
     { "cn-table-search-inline-container": _vm.__searchType === "inline" }
