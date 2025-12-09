@@ -188,7 +188,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         total: number;
     };
     ownDataSource: never[];
-    _loading: boolean;
+    ownLoading: boolean;
     selectedRows: never[];
 }, {
     _emptyText(): any;

@@ -358,8 +358,8 @@ export default defineComponent({
       }
     },
     pageLoading(){
-      console.log('loading', this.loading, '_loading', this._loading)
-      return this.loading !== undefined ? this.loading : this._loading
+      console.log('loading', this.loading, 'ownLoading', this.ownLoading)
+      return this.loading !== undefined ? this.loading : this.ownLoading
     },
     isTableEmpty(){
       return !(this.dataSource || this.ownDataSource)?.length
@@ -383,7 +383,7 @@ export default defineComponent({
         total: 0,
       },
       ownDataSource: [],
-      _loading: true,
+      ownLoading: true,
       selectedRows: [],
     }
   },
@@ -445,7 +445,7 @@ export default defineComponent({
         this.$refs['tableRef']?.clearSelection()
       }
       let response: any
-      this._loading = true
+      this.ownLoading = true
       if (this.action) {
         response = await this.tableFetch(this.action, {
           [this._method === 'GET' ? 'params' : 'data']: {
@@ -455,17 +455,17 @@ export default defineComponent({
           method: this.method,
         }).catch(err => {
           console.log(err)
-          this._loading = false
+          this.ownLoading = false
         })
       } else if (this.request) {
         response = await this
           .request({ ...params, ...this.params })
           .catch(eeee => {
             console.log(eeee)
-            this._loading = false
+            this.ownLoading = false
           })
       }
-      this._loading = false
+      this.ownLoading = false
       if (response?.success) {
         response = this._formatResponse
           ? this._formatResponse(response, 'resolve')
@@ -576,7 +576,7 @@ export default defineComponent({
       this.onParamsActionChange()
     }
     if (this.dataSource) {
-      this._loading = false
+      this.ownLoading = false
     }
     window.addEventListener('resize', this.doLayout)
   },

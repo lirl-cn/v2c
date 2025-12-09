@@ -255,8 +255,8 @@ const _sfc_main = defineComponent({
       };
     },
     pageLoading() {
-      console.log("loading", this.loading, "_loading", this._loading);
-      return this.loading !== void 0 ? this.loading : this._loading;
+      console.log("loading", this.loading, "ownLoading", this.ownLoading);
+      return this.loading !== void 0 ? this.loading : this.ownLoading;
     },
     isTableEmpty() {
       var _a;
@@ -281,7 +281,7 @@ const _sfc_main = defineComponent({
         total: 0
       },
       ownDataSource: [],
-      _loading: true,
+      ownLoading: true,
       selectedRows: []
     };
   },
@@ -340,22 +340,22 @@ const _sfc_main = defineComponent({
           (_a = this.$refs["tableRef"]) == null ? void 0 : _a.clearSelection();
         }
         let response;
-        this._loading = true;
+        this.ownLoading = true;
         if (this.action) {
           response = yield this.tableFetch(this.action, {
             [this._method === "GET" ? "params" : "data"]: __spreadValues(__spreadValues({}, params), this.params),
             method: this.method
           }).catch((err) => {
             console.log(err);
-            this._loading = false;
+            this.ownLoading = false;
           });
         } else if (this.request) {
           response = yield this.request(__spreadValues(__spreadValues({}, params), this.params)).catch((eeee) => {
             console.log(eeee);
-            this._loading = false;
+            this.ownLoading = false;
           });
         }
-        this._loading = false;
+        this.ownLoading = false;
         if (response == null ? void 0 : response.success) {
           response = this._formatResponse ? this._formatResponse(response, "resolve") : response;
           this.$set(this, "ownDataSource", ((_b = response.meta) == null ? void 0 : _b.data) || []);
@@ -454,7 +454,7 @@ const _sfc_main = defineComponent({
       this.onParamsActionChange();
     }
     if (this.dataSource) {
-      this._loading = false;
+      this.ownLoading = false;
     }
     window.addEventListener("resize", this.doLayout);
   },
