@@ -358,7 +358,7 @@ export default defineComponent({
       }
     },
     pageLoading(){
-      console.log('loading', this.loading, 'ownLoading', this.ownLoading)
+      // console.log('loading', this.loading, 'ownLoading', this.ownLoading)
       return this.loading !== undefined ? this.loading : this.ownLoading
     },
     isTableEmpty(){
