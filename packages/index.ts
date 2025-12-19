@@ -22,9 +22,9 @@ export {
   LTablePlus
 };
 
-export * from './cn-form';
-export * from './cn-table';
-export * from './l-table';
+  export * from './cn-form';
+  export * from './cn-table';
+  export * from './l-table';
 
 const components = [
   CnTags,
@@ -36,6 +36,9 @@ const components = [
   LrTree2,
   LTable,
   LTablePlus,
+  CContentContainer,
+  CModal,
+  BEmpty,
 ]
 declare module 'vue/types/vue' {
   // 来声明全局属性

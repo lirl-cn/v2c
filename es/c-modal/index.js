@@ -1,7 +1,7 @@
 import CModal from "./src/index.js";
 import { default as default2 } from "./src/index.js";
 CModal.install = function(Vue) {
-  Vue.component(CModal.name, CModal);
+  Vue.component(CModal.name || "CModal", CModal);
 };
 export {
   default2 as default

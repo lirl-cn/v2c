@@ -37,8 +37,8 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-import { defineComponent } from "vue";
 import { Message } from "element-ui";
+import { defineComponent } from "vue";
 const mapToOptions = (valueEnum) => {
   if (!valueEnum)
     return void 0;
@@ -226,7 +226,9 @@ const _sfc_main = defineComponent({
   emits: ["select"],
   computed: {
     showHeader() {
-      return Boolean(!this.hideSearch || this.createText || this.$slots.searchOperate);
+      return Boolean(
+        !this.hideSearch || this.createText || this.$slots.searchOperate
+      );
     },
     tableParams() {
       return __spreadValues(__spreadValues({}, this.ownParams), this.params);
@@ -241,7 +243,9 @@ const _sfc_main = defineComponent({
       }));
     },
     searchColumns() {
-      return this.columns.filter((item) => item.dataIndex !== "operate" && item.hideInSearch !== true).map((item) => {
+      return this.columns.filter(
+        (item) => item.dataIndex !== "operate" && item.hideInSearch !== true
+      ).map((item) => {
         const options = item.searchOptions || item.options || mapToOptions(item.valueEnum);
         return __spreadProps(__spreadValues({}, item), {
           title: item.searchTitle || item.title,
@@ -252,7 +256,9 @@ const _sfc_main = defineComponent({
       });
     },
     formColumns() {
-      return this.columns.filter((item) => item.dataIndex !== "operate" && item.hideInForm !== true).map((item) => {
+      return this.columns.filter(
+        (item) => item.dataIndex !== "operate" && item.hideInForm !== true
+      ).map((item) => {
         var _a;
         const options = item.formOptions || item.options || mapToOptions(item.valueEnum);
         return __spreadProps(__spreadValues({}, item), {
@@ -358,7 +364,15 @@ const _sfc_main = defineComponent({
       (_a = this.$refs["tableRef"]) == null ? void 0 : _a.toggleRowSelection(row);
     }
   },
-  expose: ["reload", "doLayout", "clearSelectRows", "getSelectedRows", "getParams", "getDataSource", "toggleRowSelection"]
+  expose: [
+    "reload",
+    "doLayout",
+    "clearSelectRows",
+    "getSelectedRows",
+    "getParams",
+    "getDataSource",
+    "toggleRowSelection"
+  ]
 });
 export {
   _sfc_main as default

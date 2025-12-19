@@ -8,7 +8,12 @@ import baseUi from '../es';
 // import '../es/style.css'
 import '@/styles/element-variables.scss';
 import '@/styles/global.scss';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 Vue.config.productionTip = false
+// Element UI must be installed before using the component library
+Vue.use(ElementUI)
 Vue.use(baseUi, {
   table: {
     request,

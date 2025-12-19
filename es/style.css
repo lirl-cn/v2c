@@ -682,7 +682,7 @@ html a:hover {
 .l-table-content {
   height: 0;
   flex: 1;
-  padding: 20px 20px 0;
+  padding: 0px 20px;
 }
 .l-table-content.l-table-content-empty {
   padding: 0;
@@ -723,7 +723,7 @@ html a:hover {
   z-index: 9;
 }
 .lrl-table-plus-container .c-content--header {
-  padding: 20px 20px 0;
+  padding: 20px 20px 8px;
   display: flex;
 }
 .lrl-table-plus-container .lrl-table-search-right-opt {
@@ -734,6 +734,6 @@ html a:hover {
   flex: 1;
 }
 .lrl-table-plus-container .cn-form-inline-container .el-form--inline .el-form-item {
-  margin-bottom: 0;
+  margin-bottom: 12px;
   margin-top: 0px;
 }

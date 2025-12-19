@@ -1,5 +1,5 @@
-import { PropType } from 'vue';
-import type { ColumnsType } from '../../l-table/src/index.vue';
+import { PropType } from "vue";
+import type { ColumnsType } from "../../l-table/src/index.vue";
 export declare type ColumnsT = ColumnsType & {
     dataIndex: string;
     title: string;
@@ -137,7 +137,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: undefined;
     };
     formatResponse: {
-        type: PropType<(res: any, type?: 'reject' | 'resolve') => Promise<{
+        type: PropType<(res: any, type?: "reject" | "resolve") => Promise<{
             success: boolean;
             total?: number;
             meta: {
@@ -430,7 +430,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: undefined;
     };
     formatResponse: {
-        type: PropType<(res: any, type?: 'reject' | 'resolve') => Promise<{
+        type: PropType<(res: any, type?: "reject" | "resolve") => Promise<{
             success: boolean;
             total?: number;
             meta: {
@@ -503,7 +503,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     rowKey: string;
     showIndex: boolean | Function;
     method: "POST" | "GET";
-    formatResponse: (res: any, type?: 'reject' | 'resolve') => Promise<{
+    formatResponse: (res: any, type?: "reject" | "resolve") => Promise<{
         success: boolean;
         total?: number;
         meta: {
