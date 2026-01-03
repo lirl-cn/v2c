@@ -47,6 +47,10 @@
     "dayjs": "^1.11.13"
   },
   "author": "lirl",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "vue",
     "vue2",
