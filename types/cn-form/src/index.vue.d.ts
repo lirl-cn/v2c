@@ -1,5 +1,15 @@
 import { FormItemType, OptionsType } from '../../common';
-import type { PropType } from 'vue';
+import type { PropType } from "vue";
+export interface FormActionRef {
+    validateFields: (fields?: string[]) => Promise<any>;
+    getFieldsValue: () => any;
+    getFieldValue: (key: string) => any;
+    setFieldValue: (key: string, value: any) => void;
+    setFieldsValue: (fields: {
+        [k: string]: any;
+    }) => void;
+    resetFields: () => void;
+}
 export declare type DataType = {
     name: string;
     title: string;
@@ -39,7 +49,7 @@ declare const _sfc_main: {
             default: number;
         };
         actionRef: {
-            type: FunctionConstructor;
+            type: PropType<(ref: FormActionRef) => void>;
             default: undefined;
         };
         layout: {

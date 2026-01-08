@@ -1,6 +1,6 @@
 {
   "name": "@lirl-cn/v2c",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "es/index.js",
   "types": "types/packages/index.d.ts",
   "files": [

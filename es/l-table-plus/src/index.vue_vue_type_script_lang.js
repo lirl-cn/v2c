@@ -291,6 +291,12 @@ const _sfc_main = defineComponent({
     };
   },
   methods: {
+    setSearchRef(ref) {
+      this.searchRef = ref;
+    },
+    setFormRef(ref) {
+      this.formRef = ref;
+    },
     search() {
       return __async(this, null, function* () {
         var _a, _b;

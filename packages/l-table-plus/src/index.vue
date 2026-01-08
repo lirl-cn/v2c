@@ -5,7 +5,7 @@
         v-if="!hideSearch"
         :layout="searchLayout"
         :data="searchColumns"
-        :actionRef="(node: FormActionRef) => (searchRef = node)"
+        :actionRef="setSearchRef"
         :columns="searchGrid"
       >
         <el-button :size="searchBtnSize" type="primary" @click="search"
@@ -88,7 +88,7 @@
         <cn-form
           :key="String(detail) + addVisible"
           :data="formColumns"
-          :actionRef="(node: FormActionRef) => (formRef = node)"
+          :actionRef="setFormRef"
         >
           <template
             v-for="{ name } in formColumns.filter(
@@ -436,6 +436,12 @@ export default defineComponent({
     };
   },
   methods: {
+    setSearchRef(ref: FormActionRef) {
+      this.searchRef = ref;
+    },
+    setFormRef(ref: FormActionRef) {
+      this.formRef = ref;
+    },
     async search() {
       const values = await this.searchRef.getFieldsValue();
       for (let key in values) {

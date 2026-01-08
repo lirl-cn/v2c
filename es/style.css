@@ -682,7 +682,7 @@ html a:hover {
 .l-table-content {
   height: 0;
   flex: 1;
-  padding: 0px 20px;
+  padding: 20px 20px 0;
 }
 .l-table-content.l-table-content-empty {
   padding: 0;
@@ -736,4 +736,10 @@ html a:hover {
 .lrl-table-plus-container .cn-form-inline-container .el-form--inline .el-form-item {
   margin-bottom: 12px;
   margin-top: 0px;
+}
+.lrl-table-plus-container .l-table-content {
+  padding: 0 20px;
+}
+.lrl-table-plus-container .l-table-container:not(.no-header) .l-table-content {
+  padding-top: 0;
 }

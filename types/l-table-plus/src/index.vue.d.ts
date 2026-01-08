@@ -1,4 +1,5 @@
 import { PropType } from "vue";
+import type { FormActionRef } from "../../cn-form";
 import type { ColumnsType } from "../../l-table/src/index.vue";
 export declare type ColumnsT = ColumnsType & {
     dataIndex: string;
@@ -297,6 +298,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }[];
     searchDateRange(): Set<unknown>;
 }, {
+    setSearchRef(ref: FormActionRef): void;
+    setFormRef(ref: FormActionRef): void;
     search(): Promise<void>;
     reset(): Promise<void>;
     edit(record: any): void;
