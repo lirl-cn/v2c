@@ -5,7 +5,7 @@
         v-if="!hideSearch"
         :layout="searchLayout"
         :data="searchColumns"
-        :actionRef="(node) => (searchRef = node)"
+        :actionRef="(node: FormActionRef) => (searchRef = node)"
         :columns="searchGrid"
       >
         <el-button :size="searchBtnSize" type="primary" @click="search"
@@ -42,6 +42,7 @@
     <template #body>
       <l-table
         ref="tableRef"
+        :class="{ 'no-header': !showHeader }"
         :action="action"
         :request="request"
         :method="method"
@@ -87,7 +88,7 @@
         <cn-form
           :key="String(detail) + addVisible"
           :data="formColumns"
-          :actionRef="(node) => (formRef = node)"
+          :actionRef="(node: FormActionRef) => (formRef = node)"
         >
           <template
             v-for="{ name } in formColumns.filter(
@@ -116,6 +117,7 @@
 <script lang="ts">
 import { Message } from "element-ui";
 import { defineComponent, PropType } from "vue";
+import type { FormActionRef } from "../../cn-form";
 import type { ColumnsType } from "../../l-table/src/index.vue";
 
 export type ColumnsT = ColumnsType & {

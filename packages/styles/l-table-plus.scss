@@ -17,4 +17,11 @@
       margin-top: 0px;
     }
   }
+  .l-table-content {
+    padding: 0 20px;
+  }
+  // When showHeader is true, override padding-top to 0
+  .l-table-container:not(.no-header) .l-table-content {
+    padding-top: 0;
+  }
 }

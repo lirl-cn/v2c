@@ -6,8 +6,8 @@
         'cn-form-inline-container': layout === 'inline',
         'cn-form-grid-container': layout === 'grid',
         'cn-form-block-container': layout === 'block',
-        [`cn-form-grid-columns-${columns}`]: layout === 'grid'
-      }
+        [`cn-form-grid-columns-${columns}`]: layout === 'grid',
+      },
     ]"
   >
     <el-form
@@ -32,7 +32,7 @@
           options,
           formItemProps,
           hide,
-          fieldItemProps
+          fieldItemProps,
         } in data"
         :key="name"
         :hide="hide"
@@ -50,8 +50,21 @@
         <template v-slot:[`${name}FormExtra`]>
           <slot :name="`${name}FormExtra`"></slot>
         </template>
-        <template v-slot:[`${name}CustomFormComponent`]="{fieldItemProps, formModel, onChange, value}">
-          <slot :name="`${name}CustomFormComponent`" v-bind:fieldItemProps="fieldItemProps" v-bind:formModel="formModel" v-bind:onChange="onChange" v-bind:value="value"></slot>
+        <template
+          v-slot:[`${name}CustomFormComponent`]="{
+            fieldItemProps,
+            formModel,
+            onChange,
+            value,
+          }"
+        >
+          <slot
+            :name="`${name}CustomFormComponent`"
+            v-bind:fieldItemProps="fieldItemProps"
+            v-bind:formModel="formModel"
+            v-bind:onChange="onChange"
+            v-bind:value="value"
+          ></slot>
         </template>
       </form-item>
       <slot name="default"></slot>
@@ -59,29 +72,39 @@
   </div>
 </template>
 <script lang="ts">
-import { FormItemType, OptionsType } from '#/common';
-import type { PropType } from 'vue';
-export type DataType = {
-  name: string,
-  title: string,
-  type: FormItemType,
-  hide?: boolean
-  clearable?: boolean,
-  options?: OptionsType
-  placeholder?: string,
-  formItemProps?: {[k:string]: any}
-  fieldItemProps?: {[k:string]: any}
-  initialValue?: any
+import { FormItemType, OptionsType } from "#/common";
+import type { PropType } from "vue";
+
+export interface FormActionRef {
+  validateFields: (fields?: string[]) => Promise<any>;
+  getFieldsValue: () => any;
+  getFieldValue: (key: string) => any;
+  setFieldValue: (key: string, value: any) => void;
+  setFieldsValue: (fields: { [k: string]: any }) => void;
+  resetFields: () => void;
 }
+
+export type DataType = {
+  name: string;
+  title: string;
+  type: FormItemType;
+  hide?: boolean;
+  clearable?: boolean;
+  options?: OptionsType;
+  placeholder?: string;
+  formItemProps?: { [k: string]: any };
+  fieldItemProps?: { [k: string]: any };
+  initialValue?: any;
+};
 export default {
-  name: 'cn-form',
+  name: "cn-form",
   components: {
-    FormItem: () => import("./form-item.vue")
-   },
+    FormItem: () => import("./form-item.vue"),
+  },
   props: {
     labelSuffix: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     hideRequiredAsterisk: {
       type: Boolean,
@@ -93,80 +116,81 @@ export default {
     },
     columns: {
       type: Number,
-      default: 1
+      default: 1,
     },
     actionRef: {
-      type: Function,
-      default: undefined
+      type: Function as PropType<(ref: FormActionRef) => void>,
+      default: undefined,
     },
     // 搜索类型： inline行内显示，gird分列显示默认为3，block全部独占一行 默认为gird
     layout: {
       type: String,
-      default: "grid"
+      default: "grid",
     },
     data: {
       type: Array as PropType<DataType[]>,
-      default: () => []
+      default: () => [],
     },
     // 初始值
     initialValues: {
-      type: Object as PropType<{[k:string]: any}>,
-      default: () => ({})
+      type: Object as PropType<{ [k: string]: any }>,
+      default: () => ({}),
     },
     // 大小
     size: {
       type: String,
-      default: "small"
+      default: "small",
     },
     labelWidth: {
       type: Number,
       default: 120,
-    }
+    },
   },
   data() {
     return {
-      needDefaultValueArrayTypes: ['date-months', 'checkbox'],
+      needDefaultValueArrayTypes: ["date-months", "checkbox"],
       formModel: {},
-      rules: {}
+      rules: {},
     } as {
-      formModel: {[k:string]: any}
-      needDefaultValueArrayTypes: string[]
-      rules: {[k:string]: any}
+      formModel: { [k: string]: any };
+      needDefaultValueArrayTypes: string[];
+      rules: { [k: string]: any };
     };
   },
   watch: {
     data: {
       handler(val: any) {
-        const initialValues:any = (this as any).getFieldsValue();
+        const initialValues: any = (this as any).getFieldsValue();
         // const rules = {};
-        const rules = val.reduce((pre:any, cur:any) => {
+        const rules = val.reduce((pre: any, cur: any) => {
           // 初始化默认值
-          const key = cur.name || cur.dataIndex || cur.key
-          
-          const needDefaultValueArrayTypes = (this as any).needDefaultValueArrayTypes || [];
-          const isArrayType = needDefaultValueArrayTypes.indexOf(cur.type) !== -1;
+          const key = cur.name || cur.dataIndex || cur.key;
+
+          const needDefaultValueArrayTypes =
+            (this as any).needDefaultValueArrayTypes || [];
+          const isArrayType =
+            needDefaultValueArrayTypes.indexOf(cur.type) !== -1;
           const defaultValue = isArrayType ? [] : undefined;
-          const value = key in initialValues ? initialValues[key] : (cur.initialValue ?? defaultValue);
-          
-          (this as any).$set(
-            (this as any).formModel,
-              key,
-              value
-          );
+          const value =
+            key in initialValues
+              ? initialValues[key]
+              : cur.initialValue ?? defaultValue;
+
+          (this as any).$set((this as any).formModel, key, value);
           pre[cur.name || cur.dataIndex || cur.key] = cur.rules;
           return pre;
         }, {});
         (this as any).rules = rules;
       },
       immediate: true,
-      deep: true
+      deep: true,
     },
     actionRef: {
-      handler(val: any){
-        val && val((this as any).ownActionRef)
+      handler(val: any) {
+        val && val((this as any).ownActionRef);
       },
       immediate: true,
-      deep: true
+      deep: true,
     },
   },
   computed: {
@@ -178,41 +202,46 @@ export default {
         setFieldValue: (this as any).setFieldValue,
         setFieldsValue: (this as any).setFieldsValue,
         resetFields: (this as any).resetFields,
-      }
-    }
+      };
+    },
   },
   methods: {
     async _validate() {
       return new Promise((resolve, reject) => {
         (this.$refs["formRef"] as any).validate((valid: boolean) => {
           if (valid) {
-            resolve({...(this as any).formModel});
+            resolve({ ...(this as any).formModel });
           } else {
             reject(false);
           }
         });
       });
     },
-    async _validateField(fields:string[] = []) {
+    async _validateField(fields: string[] = []) {
       return new Promise((resolve, reject) => {
-        (this.$refs["formRef"] as any).validateField(fields, (valid:boolean) => {
-          if (valid) {
-            if (fields.length === 1) {
-              resolve((this as any).formModel[fields[0]]);
+        (this.$refs["formRef"] as any).validateField(
+          fields,
+          (valid: boolean) => {
+            if (valid) {
+              if (fields.length === 1) {
+                resolve((this as any).formModel[fields[0]]);
+              } else {
+                resolve(
+                  fields.reduce((pre: any, cur: any) => {
+                    pre[cur] = (this as any).formModel[cur];
+                    return pre;
+                  }, {})
+                );
+              }
             } else {
-              resolve(fields.reduce((pre: any, cur: any) => {
-                pre[cur] = (this as any).formModel[cur];
-                return pre;
-              }, {}));
+              reject(false);
             }
-          } else {
-            reject(false);
           }
-        });
+        );
       });
     },
     // 检验并获取所有值
-    validateFields(fields:string[]) {
+    validateFields(fields: string[]) {
       if (fields) {
         return this._validateField(fields);
       } else {
@@ -221,7 +250,7 @@ export default {
     },
     // 获取所有值
     getFieldsValue(): any {
-      return {...(this as any).formModel};
+      return { ...(this as any).formModel };
     },
     // 基于key获取单个值
     getFieldValue(key: string): any {
@@ -229,24 +258,20 @@ export default {
     },
     // 基于key设置单个值
     setFieldValue(key: string, value: any) {
-      (this as any).$set(
-        (this as any).formModel,
-        key,
-        value
-      );
+      (this as any).$set((this as any).formModel, key, value);
     },
     // 设置表单的值
-    setFieldsValue(fields: {[k:string]: any}) {
-      if(typeof fields === 'object'){
-        Object.keys(fields).forEach(key => {
-          this.setFieldValue(key, fields[key])
-        })
+    setFieldsValue(fields: { [k: string]: any }) {
+      if (typeof fields === "object") {
+        Object.keys(fields).forEach((key) => {
+          this.setFieldValue(key, fields[key]);
+        });
       }
     },
     // 重置表单
     resetFields() {
       (this.$refs["formRef"] as any).resetFields();
-    }
-  }
+    },
+  },
 };
 </script>
